@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>雅思哥 · 雅思</title>
+<script src="assets/api.js?v=1"></script>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/ielts.css?v=35">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="ielts.html">← 雅思</a>
+    <div class="crumb"><b>模块三 · 雅思哥</b></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
+
+<main class="i-wrap">
+
+  <div class="ybro">
+    <button class="ybtn" id="open" type="button">
+      <img src="assets/yasige.png" alt="雅思哥" width="88" height="88">
+      <b>雅思哥</b>
+    </button>
+    <p class="yhint" id="yhint">点图标打开，剑桥真题和机经都在里面</p>
+  </div>
+
+  <p class="yfoot">
+    登录用手机号 + 验证码，别点「本机号码」（那是给手机用的）。<br>
+    窗口跑到后面去了就再点一次图标，它会回到最前。
+  </p>
+
+</main>
+
+<script>
+(function () {
+  var hint = document.getElementById('yhint');
+  var btn = document.getElementById('open');
+  var installed = null;
+  var busy = false;
+  var HOME = '点图标打开，剑桥真题和机经都在里面';
+
+  function say(t) { hint.textContent = t; }
+  function back(t, ms) {
+    clearTimeout(say._t);
+    say._t = setTimeout(function () { say(t); }, ms);
+  }
+
+  fetch('/api/apps', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+    var apps = (j && j.apps) || [];
+    for (var i = 0; i < apps.length; i++) {
+      if (apps[i].key === 'ieltsbro') installed = !!apps[i].installed;
+    }
+    if (installed === false) say('没找到「雅思哥机考软件」，把它拖进「应用程序」就行');
+  }).catch(function () { });
+
+  btn.addEventListener('click', function () {
+    if (busy) return;
+    if (installed === false) { say('没找到「雅思哥机考软件」，把它拖进「应用程序」就行'); return; }
+    busy = true;
+    say('正在打开…');
+    fetch('/api/open', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ app: 'ieltsbro' })
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      busy = false;
+      if (d && d.ok) say('已打开，窗口在浏览器旁边');
+      else say((d && d.err) ? ('没打开成：' + d.err) : '没打开成，双击「启动.command」再点');
+      back(HOME, 4000);
+    }).catch(function () {
+      busy = false;
+      say('本地服务没响应，双击「启动.command」再点');
+      back(HOME, 5000);
+    });
+  });
+})();
+</script>
+</body>
+</html>

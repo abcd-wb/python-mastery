@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>做题记录 · 雅思</title>
+<script src="assets/api.js?v=1"></script>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/ielts.css?v=35">
+<link rel="stylesheet" href="assets/records.css?v=35">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="ielts.html">← 雅思</a>
+    <div class="crumb"><b>模块四 · 做题记录</b></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
+
+<main class="i-wrap">
+
+  <div class="rtabs" id="tabs">
+    <button class="rtab on" data-s="听力">听力 <i>0</i></button>
+    <button class="rtab" data-s="阅读">阅读 <i>0</i></button>
+    <button class="rtab" data-s="写作">写作 <i>0</i></button>
+    <button class="rtab" data-s="口语">口语 <i>0</i></button>
+  </div>
+
+  <div class="box rbox" id="box">
+    <textarea id="sink" class="sink" spellcheck="false" autocomplete="off" aria-label="放截图"></textarea>
+    <div class="box-ph" id="boxPh">
+      <span class="box-ic">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="14" rx="2.5"/>
+          <circle cx="8.5" cy="10" r="1.4"/>
+          <path d="M4 17l5-4.5 4 3.2 3-2.4 4 3.7"/>
+        </svg>
+      </span>
+      <b>把成绩页截图拖进来</b>
+      <span>做完题在雅思哥里截一张结果页（⌘⇧4 框选），回来按 ⌘V 就行<br>自动认出科目、分数、答对几题、错哪几题</span>
+    </div>
+    <ul class="stage-list" id="stageList" contenteditable="false"></ul>
+  </div>
+
+  <div class="up-act">
+    <button class="btn btn-primary" id="pickBtn2" type="button">选截图</button>
+    <span class="up-note" id="note">识别在本机做，不联网、不上传别处</span>
+    <input id="pick" type="file" accept="image/*" hidden>
+  </div>
+
+  <div class="rdraft" id="draft" hidden></div>
+
+  <div class="lib-hd">
+    <b id="listTitle">听力</b>
+    <span id="listCnt"></span>
+  </div>
+
+  <ul class="rlist" id="list"></ul>
+
+  <p class="lib-empty" id="empty">这一科还没有记录。做完一套题，截个图贴上面就行。</p>
+  <p class="lib-foot" id="foot"></p>
+
+</main>
+
+<script src="assets/records.js?v=35"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+/* ===== 课堂 & 口语笔记 ===== */
+
+.ntabs{display:flex;gap:8px;margin:0 0 14px}
+.ntab{font-size:13.5px;padding:7px 16px;border-radius:10px;border:1px solid var(--line2);
+  background:#fff;color:var(--ink2);cursor:pointer;transition:.14s;font-weight:600}
+.ntab:hover{border-color:#b9c9e4}
+.ntab.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+.nbox{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff;margin-bottom:18px}
+.nrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.nlabel{font-size:12.5px;color:var(--ink3);white-space:nowrap}
+.nrow input{flex:1;min-width:160px;border:1px solid var(--line2);border-radius:8px;
+  padding:8px 12px;font:inherit;font-size:13.5px;outline:none}
+.nrow input:focus{border-color:#9dbcf3}
+.nstat{font-size:13px;color:var(--blue);font-weight:600}
+.nrec-dot{display:flex;align-items:center;gap:8px;margin:4px 0 8px;font-size:14px;color:#d44a1a;font-weight:700}
+.pulse{width:12px;height:12px;border-radius:50%;background:#ef4444;animation:nrec 1s infinite}
+@keyframes nrec{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.nhint{font-size:12.5px;color:var(--ink3);margin:0;line-height:1.6}
+
+.nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.nitem{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.nhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.nwhen{font-size:12px;color:#9aa7b8}
+.ntitle{font-size:15px;font-weight:700}
+.nkind{font-size:11px;color:#3b6fd0;background:#eef4ff;border-radius:6px;padding:1px 7px}
+.nacts{margin-left:auto;display:flex;gap:6px}
+.nacts button{border:0;background:none;color:#8a97a8;font-size:12.5px;cursor:pointer;padding:0 3px}
+.nacts button:hover{color:var(--blue)}
+.nsum{font-size:12.8px;color:var(--ink2);margin:6px 0 0;line-height:1.6}
+.nmeta{display:inline-block;font-size:11px;color:#0d9488;background:#e6f7f4;border-radius:6px;padding:1px 7px;margin:6px 6px 0 0}
+
+/* 查看弹窗 */
+.nview{background:#fff;border-radius:18px;width:min(720px,100%);max-height:86vh;
+  display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(10,18,32,.35)}
+.nv-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f1f5fb}
+.nv-top b{font-size:16px}
+.nv-top span{font-size:12px;color:#9aa7b8}
+.nv-body{padding:18px;overflow:auto}
+.nv-sec{margin-bottom:18px}
+.nv-sec b{font-size:13px;color:var(--ink);display:block;margin-bottom:8px}
+.nv-text{font-size:13px;color:var(--ink2);background:#f8fafc;border-radius:10px;padding:12px;line-height:1.7;
+  white-space:pre-wrap;word-break:break-word;margin:0;font-family:inherit}
+.nv-sum{font-size:13.5px;color:var(--ink2);line-height:1.7;margin:0}
+.nv-hl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.nv-hl li{font-size:13.5px;line-height:1.6;padding:10px 12px;background:#fff7ed;border-left:3px solid #f59e0b;
+  border-radius:8px;color:#7c4a12}
+.nv-an p{font-size:13px;line-height:1.75;margin:0 0 10px;padding:10px 12px;background:#f0f7ff;border-radius:8px;
+  white-space:pre-wrap;word-break:break-word}
+.nv-an p:nth-child(odd){background:#f8fafc}
+.nv-empty{font-size:13px;color:#9aa7b8;text-align:center;padding:30px 0}

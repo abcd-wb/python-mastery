@@ -1,0 +1,1301 @@
+{
+ "library": {
+  "cn": "n. 图书馆，藏书楼；（书、激光唱片等的）私人收藏；书房，书斋；文库，系列丛书（激光唱片集，成套录像等）；软件库",
+  "en_def": "a room where books are kept",
+  "ex": "The new library is close to completion."
+ },
+ "intersection": {
+  "cn": "n. 交接（点或线），相交；交汇点（尤指道路）；（动作）交接，交叉",
+  "en_def": "a point where lines intersect",
+  "ex": "Turn left at the intersection."
+ },
+ "side path": {
+  "cn": "侧边小路：指与主要道路平行或相邻的较小的道路，通常用于行人或自行车通行。",
+  "ex": "Take a side path."
+ },
+ "farmland": {
+  "cn": "n. 农田，耕地",
+  "en_def": "a rural area where farming is practiced",
+  "ex": "It is surrounded by 62 acres of farmland."
+ },
+ "auditorium": {
+  "cn": "n. 观众席；礼堂，会堂",
+  "en_def": "the area of a theater or concert hall where the audience sits",
+  "ex": "The auditorium pulsed with excitement."
+ },
+ "basement": {
+  "cn": "n. 地下室，地库",
+  "en_def": "the lowermost portion of a structure partly or wholly below ground level; often used for storage",
+  "ex": "Kitchen goods are sold in the basement."
+ },
+ "corridor": {
+  "cn": "n. （建筑物或火车内的）通道，过道；（一国领土通过他国境内的）走廊；狭长地带",
+  "en_def": "an enclosed passageway; rooms usually open onto it",
+  "ex": "She ran out into the corridor."
+ },
+ "foyer": {
+  "cn": "n. （剧场、酒店等的）门厅，休息室，大厅；（住宅入口处的）门厅，玄关；（Foyer）人名；（法）富瓦耶；（瑞典）福伊尔",
+  "en_def": "a large entrance or reception room or area",
+  "ex": "I went and waited in the foyer."
+ },
+ "class": {
+  "cn": "n. 班级；（一节）课，上课时间；（某一科目的）课程；阶级，阶层；等级划分，等级制度；（货物、服务或人的）等级，类别；（飞机、火车等的）舱位等级，车厢等级；品味",
+  "en_def": "people having the same social or economic status",
+  "ex": "We think he'll turn into a top-class player."
+ },
+ "campus": {
+  "cn": "n. （大学或学院的）校园；大学生活；大学（学校、医院等机构的）场地",
+  "en_def": "a field on which the buildings of a university are situated",
+  "ex": "Students can gain valuable experience by working on the campus radio or magazine."
+ },
+ "playground": {
+  "cn": "n. （尤指学校或公园中的儿童）操场，游乐场；（某一群体的）游憩胜地，度假场所",
+  "en_def": "an area where many people go for recreation",
+  "ex": "The girls were skipping in the playground."
+ },
+ "n": {
+  "cn": "n. 英语字母的第十四个字母",
+  "en_def": "(of a solution) concentration expressed in gram equivalents of solute per liter",
+  "ex": "The U. N. World Food Programme confirmed the abduction of eight of its workers in northern Darfur."
+ },
+ "kindergarten": {
+  "cn": "n. 幼儿园",
+  "en_def": "a preschool for children age 4 to 6 to prepare them for primary school",
+  "ex": "She's in kindergarten now."
+ },
+ "pra": {
+  "cn": "abbr. 涂料研究协会（Paint Research Association）；初级速率存取（Primary Rate Access）；脉冲张弛放大器（pul",
+  "en_def": "PRA is an abbreviation for:",
+  "ex": "The calculated results show that the model is suitable and useful to the engineering pra..."
+ },
+ "pupil": {
+  "cn": "n. 学生，（尤指）小学生；弟子，门生；瞳孔；见习律师；未成年人",
+  "en_def": "a learner who is enrolled in an educational institution",
+  "ex": "These complex formulae are beyond the grasp of the average pupil."
+ },
+ "junior": {
+  "cn": "adj. 年龄较小的；地位（或级别）低的，资历较浅的；（体育运动）青少年的；（7-11岁的）学童的；（学校或学校的一部分) 为11或13岁以下儿童设立的；（四年",
+  "en_def": "term of address for a disrespectful and annoying male",
+  "ex": "She's his junior by four years."
+ },
+ "university": {
+  "cn": "n. 大学，综合性大学；大学校舍",
+  "en_def": "the body of faculty and students at a university",
+  "ex": "The university is highly rated for its research."
+ },
+ "college": {
+  "cn": "n. 大学，专科学校；学院，分院；公学；学会，社团；学院的全体师生",
+  "en_def": "the body of faculty and students of a college",
+  "ex": "Her family founded the college in 1895."
+ },
+ "course description": {
+  "cn": "课程描述：对一门课程的详细介绍，包括课程目标、内容、教学方法等信息。",
+  "ex": "We have reviewed and understood the course description of the Summer Camp, payment terms and refund policy."
+ },
+ "beginning": {
+  "cn": "n. 开始，开端；序曲，开始部分；早期，初期；发端，起源",
+  "en_def": "the event consisting of the start of something",
+  "ex": "The economy is at last beginning to recover."
+ },
+ "basic": {
+  "cn": "adj. 最重要的，基本的；最简单的，初级的；（产品和服务）必需的；（化）碱性的；含碱的",
+  "en_def": "a popular programming language that is relatively easy to learn; an acronym for beginner's all-purpose symbolic instruction code; no longer in general use",
+  "ex": "The basic unit of society is the family."
+ },
+ "elective": {
+  "cn": "adj. 选举的，由选举产生的；可选择的；有选举权的",
+  "en_def": "a course that the student can select from among alternatives",
+  "ex": "Buchanan has never held elective office."
+ },
+ "p": {
+  "cn": "symb. 磷（phosphorus）",
+  "en_def": "a multivalent nonmetallic element of the nitrogen family that occurs commonly in inorganic phosphate rocks and as organic phosphates in all living cells; is hig",
+  "ex": "Q comes between P and R in the English alphabet."
+ },
+ "lecture": {
+  "cn": "n. 讲座，讲课，演讲；训斥，告诫",
+  "en_def": "a speech that is open to the public",
+  "ex": "She recast her lecture as a radio talk."
+ },
+ "tutorial": {
+  "cn": "adj. 导师的，辅导的",
+  "en_def": "a session of intensive tuition given by a tutor to an individual or to a small number of students",
+  "ex": "There is an excellent tutorial section, which carefully walks you through how to play."
+ },
+ "sem": {
+  "cn": "abbr. 扫描式电子显微镜（scanning electron microscope）；标准电子组件（Standard Electronic Modules）",
+  "ex": "All are slowly moving because the plates float on a denser sem-iliquid mantle, the layer between the crust and Earth's core."
+ },
+ "w": {
+  "cn": "n. 英语字母中的第二十三个字母",
+  "en_def": "a heavy grey-white metallic element; the pure form is used mainly in electrical applications; it is found in several ores including wolframite and scheelite",
+  "ex": "More than 100 years ago, American sociologist W. E. B. Du Bois was concerned that race was being used as a biological explanation for what he understood to be social and cultural differences between d"
+ },
+ "subject": {
+  "cn": "n. 主题，话题；学科，科目，课程；主语；（绘画、摄影等的）主题，题材；实验对象；（批评、学习、调查的）对象；国民；起因；（逻）主词，主项，主概念；（乐）主旋律",
+  "en_def": "the subject matter of a conversation or discussion",
+  "ex": "Biology is my favourite subject."
+ },
+ "arts": {
+  "cn": "n. 技艺（art 的复数）；艺术，艺术活动（通常用 the arts）；人文科学，文科",
+  "en_def": "studies intended to provide general knowledge and intellectual skills (rather than occupational or professional skills)",
+  "ex": "In his old age he became a benefactor of the arts."
+ },
+ "humanities": {
+  "cn": "n. 人文学科，人文科学（humanity 的复数）",
+  "en_def": "studies intended to provide general knowledge and intellectual skills (rather than occupational or professional skills)",
+  "ex": "The term 'Arts' usually refers to humanities and social sciences."
+ },
+ "literature": {
+  "cn": "n. 文学，文学作品；（某一学科的）文献，著述；印刷品，宣传品",
+  "en_def": "creative writing of recognized artistic value",
+  "ex": "He was passionate about all literature."
+ },
+ "sociology": {
+  "cn": "n. 社会学，社会关系研究",
+  "en_def": "the study and classification of human societies",
+  "ex": "He has been appointed to the chair of sociology."
+ },
+ "linguistics": {
+  "cn": "n. 语言学",
+  "en_def": "the scientific study of language",
+  "ex": "These ideas rapidly became the new orthodoxy in linguistics."
+ },
+ "psychology": {
+  "cn": "n. 心理学；心理特点，心理状态；心理影响；心计，善解人意",
+  "en_def": "the science of mental life",
+  "ex": "The study of psychology has recently been widely cross-fertilized by new discoveries in genetics."
+ },
+ "psychological": {
+  "cn": "adj. 心理的，精神的；心理学的，关于心理学的；由焦虑（或悲伤）引起的，存在于心理上的",
+  "en_def": "mental or emotional as opposed to physical in nature",
+  "ex": "Victory in the last game gave them a psychological advantage over their opponents."
+ },
+ "archaeology": {
+  "cn": "n. 考古学",
+  "en_def": "the branch of anthropology that studies prehistoric people and their cultures",
+  "ex": "Aerial photography has revolutionized the study of archaeology."
+ },
+ "philosophy": {
+  "cn": "n. 哲学；哲学体系，思想体系；人生哲学，生活（工作）准则；（某一知识或经验领域的）理论基础研究，基本原理",
+  "en_def": "a belief (or system of beliefs) accepted as authoritative by some group or school",
+  "ex": "That's a philosophy I could live by."
+ },
+ "accounting": {
+  "cn": "n. 会计，会计学；会计工作，会计职业（=accountancy）；账单",
+  "en_def": "a convincing explanation that reveals basic causes",
+  "ex": "August registrations have gone ballistic, accounting now for a quarter of the annual total."
+ },
+ "law": {
+  "cn": "n. 法律（体系）；法令，法规；规律，法则，定律；法学，法律学；司法界，律师业；（道德或宗教上的）准则，守则；警方，警察",
+  "en_def": "legal document setting forth rules governing a particular kind of activity",
+  "ex": "She wrote a textbook on international law."
+ },
+ "history": {
+  "cn": "n. 历史；沿革，发展过程；历史课，历史学；史书，历史记载；个人经历，履历",
+  "en_def": "the aggregate of past events",
+  "ex": "The castle is steeped in history and legend."
+ },
+ "historian": {
+  "cn": "n. 历史学家，史学工作者",
+  "en_def": "a person who is an authority on history and who studies it and writes about it",
+  "ex": "Although not formally trained as an art historian, he is widely respected for his knowledge of the period."
+ },
+ "historical": {
+  "cn": "adj. （有关）历史的；历史学的；（书籍、电影或图片）描述历史的，基于史实的；按历史顺序排列的",
+  "en_def": "of or relating to the study of history",
+  "ex": "The building is of historical importance."
+ },
+ "sculpture": {
+  "cn": "n. 雕像，雕塑作品；雕刻艺术，雕塑艺术；（动，植）（贝壳、花粉粒、角质层或其他生物体表面凸起或凹陷的）雕饰，雕纹",
+  "en_def": "a three-dimensional work of plastic art",
+  "ex": "He collects modern sculpture."
+ },
+ "sciences": {
+  "cn": "n. 科学（science 的复数，指各门科学）",
+  "en_def": "a particular branch of scientific knowledge",
+  "ex": "Her husband taught Earth sciences."
+ },
+ "statistics": {
+  "cn": "n. 统计学；统计数字（statistic 的复数形式）",
+  "en_def": "a branch of applied mathematics concerned with the collection and interpretation of quantitative data and the use of probability theory to estimate population p",
+  "ex": "The statistics offer further support for our theory."
+ },
+ "chemistry": {
+  "cn": "n. 化学；化学成分，化学反应；（彼此间的）吸引",
+  "en_def": "the science of matter; the branch of the natural sciences dealing with the composition of substances and their properties and reactions",
+  "ex": "I'm hoping to do a chemistry degree."
+ },
+ "chemical": {
+  "cn": "adj. 化学的，与化学有关的",
+  "en_def": "produced by or used in a reaction involving changes in atoms or molecules",
+  "ex": "The chemical companies had amalgamated into a vast conglomerate."
+ },
+ "geography": {
+  "cn": "n. 地理，地理学；地形，地貌；地理环境",
+  "en_def": "study of the earth's surface; includes people's responses to topography and climate and soil and vegetation",
+  "ex": "I'm afraid geography is not my strong suit."
+ },
+ "geographical": {
+  "cn": "adj. 地理的，地理学的",
+  "en_def": "of or relating to the science of geography",
+  "ex": "The survey covers a wide geographical area."
+ },
+ "biology": {
+  "cn": "n. 生物学；生命机理，作用方式；生理习性；（某个地区的）生物",
+  "en_def": "the science that studies living organisms",
+  "ex": "This is one of the most exciting developments in biology in recent years."
+ },
+ "biologist": {
+  "cn": "n. 生物学家",
+  "en_def": "(biology) a scientist who studies living organisms",
+  "ex": "Dingle is an evolutionary biologist who studies insects."
+ },
+ "biological": {
+  "cn": "adj. 生物的，生物学的，生命的；亲生的；含酶的；生化武器的",
+  "en_def": "pertaining to biology or to life and living things",
+  "ex": "Darwin eventually put forward a model of biological evolution."
+ },
+ "maths": {
+  "cn": "n. 数学（等于 mathematics）；（Maths）人名；（瑞典）马茨",
+  "en_def": "a science (or group of related sciences) dealing with the logic of quantity and shape and arrangement",
+  "ex": "He studied maths at college."
+ },
+ "physics": {
+  "cn": "n. 物理学；物理特性，物理现象",
+  "en_def": "the science of matter and energy and their interactions",
+  "ex": "He was the top student in physics."
+ },
+ "ma": {
+  "cn": "n. 妈",
+  "en_def": "informal terms for a mother",
+  "ex": "'I want my ma,' sobbed the little girl."
+ },
+ "astronomy": {
+  "cn": "n. 天文学",
+  "en_def": "the branch of physics that studies celestial bodies and the universe as a whole",
+  "ex": "We are on the threshold of a new era in astronomy."
+ },
+ "astrology": {
+  "cn": "n. 占星术；占星学（通过观察和解释行星、太阳、月亮及恒星的位置与运行来推断人间事务、性格或命运的一种学说，常被视为伪科学或非科学体系）",
+  "en_def": "a pseudoscience claiming divination by the positions of the planets and sun and moon",
+  "ex": "This discovery seems to validate the claims of popular astrology."
+ },
+ "computing": {
+  "cn": "n. 计算机应用，计算机编程，计算机使用；计算，计算过程",
+  "en_def": "the branch of engineering science that studies (with the aid of computers) computable processes and structures",
+  "ex": "Never before has computing been so versatile."
+ },
+ "engineering": {
+  "cn": "n. 工程，工程学；控制，引导，管理；筹划，出谋划策",
+  "en_def": "the practical application of science to commerce or industry",
+  "ex": "The bridge is a triumph of modern engineering."
+ },
+ "architecture": {
+  "cn": "n. 建筑设计，建筑风格；建筑学；结构；计算机的体系结构，架构",
+  "en_def": "an architectural product or work",
+  "ex": "He began a new magazine on post-war architecture."
+ },
+ "economics": {
+  "cn": "n. 经济学；经济情况；经济体制",
+  "en_def": "the branch of social science that deals with the production and distribution and consumption of goods and services and their management",
+  "ex": "He studied politics and economics at Yale."
+ },
+ "finance": {
+  "cn": "n. 财政，金融；资金，财源；财务事务，经济情况",
+  "en_def": "the commercial activity of providing funds and capital",
+  "ex": "He majored in finance at university and is now working in a bank."
+ },
+ "banking": {
+  "cn": "n. 银行业；银行业务；银行家的职业；筑堤",
+  "en_def": "engaging in the business of keeping money for savings and checking accounts or for exchange or for issuing loans and credit etc.",
+  "ex": "She's thinking about a career in banking."
+ },
+ "m": {
+  "cn": "abbr. 米；模；毫；兆",
+  "en_def": "the basic unit of length adopted under the Systeme International d'Unites (approximately 1.094 yards)",
+  "ex": "Humans, says Edward M. Hallowell, have the ability to call up images of bad things that happened in the past and to anticipate future events."
+ },
+ "forestry": {
+  "cn": "n. 林学，林业；林地",
+  "en_def": "the science of planting and caring for forests and the management of growing timber",
+  "ex": "They had no idea about scientific forestry."
+ },
+ "journal": {
+  "cn": "n. 杂志，期刊，报纸；日记，日志；（会计）日记账",
+  "en_def": "a daily written record of (usually personal) experiences and observations",
+  "ex": "Sara confided to her journal."
+ },
+ "pr": {
+  "cn": "abbr. 公共关系（public relations）；性能要求（Performance Requirement）",
+  "en_def": "a soft yellowish-white trivalent metallic element of the rare earth group; can be recovered from bastnasite or monazite by an ion-exchange process",
+  "ex": "PR is ''the organising principle'' behind many business decisions."
+ },
+ "a": {
+  "cn": "art. 一；任一；每一",
+  "en_def": "a metric unit of length equal to one ten billionth of a meter (or 0.0001 micron); used to specify wavelengths of electromagnetic radiation",
+  "ex": "It's not a thing. It's a human being!"
+ },
+ "background": {
+  "cn": "n. 出身背景，学历，经历；（事件或情况的）背景；背景声音；（画等的）后景；底色",
+  "en_def": "a person's social heritage: previous experience or training",
+  "ex": "A piano tinkled gently in the background."
+ },
+ "me": {
+  "cn": "pron. 我（宾格）",
+  "en_def": "a state in New England",
+  "ex": "That sounds great. Deal me in!"
+ },
+ "body": {
+  "cn": "n. 身体，躯体；躯干；尸体；（与灵魂或精神相对的）肉体；（尤指某种类型或性格的）人；（建筑物、文件等的）主体，主要部分；车身，机身；衣身；器身，（球拍的）拍身",
+  "en_def": "the entire structure of an organism (especially an animal or human being)",
+  "ex": "A cool shower wakes up the body and boosts circulation."
+ },
+ "conclusion": {
+  "cn": "n. 结论，推论；结局，结尾；缔结，商定；（根据所给前提得出的）命题",
+  "en_def": "a position or opinion or judgment reached after consideration",
+  "ex": "Few will argue with this conclusion."
+ },
+ "presentation": {
+  "cn": "n. （颁奖等）仪式，典礼；授予，颁发；（在仪式上接受的）奖项，赠予物；展示会，介绍会，发布会；陈述，报告，说明；（事物的）呈现方式；（证件等的）出示；（证物的",
+  "en_def": "the activity of formally presenting something (as a prize or reward)",
+  "ex": "Computer graphics will give your presentation the professional touch."
+ },
+ "content": {
+  "cn": "adj. 满足的，满意的，甘愿的",
+  "en_def": "everything that is included in a collection",
+  "ex": "I'm perfectly content just to lie in the sun."
+ },
+ "problem-solving": {
+  "cn": "adj. 问题解决的",
+  "en_def": "the area of cognitive psychology that studies the processes involved in solving problems",
+  "ex": "In fact, collaborative problem-solving conversations require skills."
+ },
+ "e": {
+  "cn": "n. 英语字母中的第五个字母; E 音；成绩第五等；电子",
+  "en_def": "a fat-soluble vitamin that is essential for normal reproduction; an important antioxidant that neutralizes free radicals in the body",
+  "ex": "Nuts and seeds are good sources of vitamin E."
+ },
+ "thesis": {
+  "cn": "n. 论文，毕业（或学位）论文；论题，论点；（文章的）主题；（黑格尔哲学用语）正题；（诗韵）扬音节",
+  "en_def": "an unproved statement put forward as a premise in an argument",
+  "ex": "This thesis does not stand up to close inspection."
+ },
+ "abstract": {
+  "cn": "adj. 抽象的，纯概念的；（艺术）抽象派的；理论上的，不切实际的",
+  "en_def": "a concept or idea not associated with any specific instance",
+  "ex": "A modern abstract painting takes over one complete wall."
+ },
+ "interpretation": {
+  "cn": "n. 解释，理解；表演，演奏，艺术处理；口译",
+  "en_def": "a mental representation of the meaning or significance of something",
+  "ex": "History is always a matter of interpretation."
+ },
+ "procedure": {
+  "cn": "n. 手续，步骤；（商业、法律或政治上的）程序；外科手术；（电脑的）应用程式",
+  "en_def": "a particular course of action intended to achieve a result",
+  "ex": "The next day I repeated the procedure."
+ },
+ "hypothesis": {
+  "cn": "n. 假说，假设；（凭空的）猜想，猜测；前提",
+  "en_def": "a proposal intended to explain certain facts or observations",
+  "ex": "Work will now begin to test the hypothesis in rats."
+ },
+ "data": {
+  "cn": "n. 数据，资料；（储存在计算机中的）数据资料",
+  "en_def": "a collection of facts from which conclusions may be drawn",
+  "ex": "That's fantastic! The work is just helping out with data input."
+ },
+ "database": {
+  "cn": "n. （计算机）数据库，资料库",
+  "en_def": "an organized body of related information",
+  "ex": "The database could be used as a teaching resource in colleges."
+ },
+ "survey": {
+  "cn": "n. 民意调查，民意测验；考察，调查；（对课题或情况的）全面考察，概述；测量，勘测；测绘图，勘测记录；测量部门； （尤指为欲购房者所做的）房屋鉴定；查勘报告",
+  "en_def": "a detailed critical inspection",
+  "ex": "We would welcome your views about the survey."
+ },
+ "poll": {
+  "cn": "n. 民意调查，民意测验；选举投票，计票；投票数；投票点（the polls）；头顶，头皮；无角动物（尤指无角牛）",
+  "en_def": "an inquiry into public opinion conducted by interviewing a random sample of people",
+  "ex": "The final result of the poll will be known tomorrow."
+ },
+ "fieldwork": {
+  "cn": "n. 实地考察，田野调查，野外研究；野外工作，现场工作；（军事）野战工事",
+  "en_def": "a temporary fortification built by troops in the field",
+  "ex": "Most of the fieldwork consisted of making tape recordings."
+ },
+ "interview": {
+  "cn": "v. 面试，面谈；采访，访问；讯问，审问；接见，会见",
+  "en_def": "the questioning of a person (or a conversation in which information is elicited); often conducted by journalists",
+  "ex": "The interview went smoothly."
+ },
+ "direct": {
+  "cn": "adj. 径直的，笔直的；坦率的；直射的；直接的，亲身的；正好的；直系的",
+  "en_def": "command with authority",
+  "ex": "Regular exercise has a direct bearing on fitness and health."
+ },
+ "elastic": {
+  "cn": "adj. 有弹性的；灵活的",
+  "en_def": "a narrow band of elastic rubber used to hold things (such as papers) together",
+  "ex": "Beat it until the dough is slightly elastic."
+ },
+ "observation": {
+  "cn": "n. 观察，监视；观察力；观察资料，观察结果；言论，评论；遵守，奉行；测天",
+  "en_def": "the act of making and recording a measurement",
+  "ex": "She has good powers of observation."
+ },
+ "case study": {
+  "cn": "n. 案例研究：一种研究方法，通过深入分析特定个案或实例来获取详细的信息和理解；个案研究报告：关于某个人、群体或事物在一段时间内发展情况的详细书面记述或报告；典",
+  "en_def": "a careful study of some social unit (as a corporation or division within a corporation) that attempts to determine what factors led to its success or failure",
+  "ex": "Lastly, I identified the analysis mechanisms for this little case study."
+ },
+ "truthful": {
+  "cn": "adj. 诚实的，讲真话的；真实的，如实的；（电影、戏剧、书籍等）真实再现的，现实主义的",
+  "en_def": "expressing or given to expressing the truth",
+  "ex": "Most religions teach you to be truthful."
+ },
+ "respondent": {
+  "cn": "n. （调查表、问卷调查的）答卷人，调查对象；（尤指上诉案或离婚案的）被告",
+  "en_def": "the codefendant (especially in a divorce proceeding) who is accused of adultery with the corespondent",
+  "ex": "60% of respondent felt compelled to press ahead with getting the reform started inside their organizations by the end of 2007, without a clear idea of strategy ."
+ },
+ "feedback": {
+  "cn": "n. 反馈意见；（信号返回电子音响系统所致的）噪声；（返回机器、系统或者程序的）返回信息，返回电流",
+  "en_def": "the process in which part of the output of a system is returned to its input in order to regulate its further output",
+  "ex": "Positive feedback is important for anyone to hear."
+ },
+ "data analysis": {
+  "cn": "n. 数据分析：对数据进行检查、清理、转换和建模，以便发现有用信息、得出结论或支持决策的过程。",
+  "en_def": "Analysis of data is a process of inspecting, cleaning, transforming, and modeling data with the goal of discovering useful information, suggesting conclusions, ",
+  "ex": "Some of this data analysis can yield unexpected results."
+ },
+ "quality": {
+  "cn": "n. 质量，品质；优质，上乘；素质，品德；特征，特质；（语音）音质，音色；（供有品位者阅读的）高质量报纸（=quality newspaper）；（占星）黄道宫",
+  "en_def": "an essential and distinguishing attribute of something or someone",
+  "ex": "We sell good quality food at reasonable prices."
+ },
+ "quantity": {
+  "cn": "n. 量，数目；大量，大批；（尤指和质量相对的）数量；（语音）音量；值，参量；代表数量（或参量）的数（或符号）",
+  "en_def": "how much there is of something that you can quantify",
+  "ex": "The sheer quantity of detail would bemuse even the most clear-headed author."
+ },
+ "true or false": {
+  "cn": "真或假：在逻辑中，真值（truth value），又称逻辑值（logical value），是指示一个陈述在什么程度上是真的。在计算机编程上多称做布林值、布尔值",
+  "ex": "You do not know whether what you're told is true or false."
+ },
+ "unanswered": {
+  "cn": "adj. （问题、信件、电话等）未答复的，未回答的；（爱情等）未得到回报的，没有回应的",
+  "en_def": "not returned in kind",
+  "ex": "Some of the most important questions remain unanswered."
+ },
+ "reference": {
+  "cn": "n. 提及，谈到；参考，查阅；（引自书或诗歌的）引言，引文；引文的作者，参考书目；（帮助或意见的）征求，征询； (为方便查询所用的）标记，编号；推荐信，介绍信；",
+  "en_def": "a remark that calls attention to something or someone",
+  "ex": "He made only a veiled reference to international concerns over human rights issues."
+ },
+ "quotation": {
+  "cn": "n. 引语，引文；音乐（或艺术品）片段的引用；引用，引述；报价单，估价；（股票）报价，牌价；（股票）上市许可登记",
+  "en_def": "a short note recognizing a source of information or of a quoted passage",
+  "ex": "You need to get a written quotation before they start work."
+ },
+ "appendix": {
+  "cn": "n. 阑尾；附录",
+  "en_def": "supplementary material that is collected and appended at the back of a book",
+  "ex": "We are not certain whether the appendix had already burst or not."
+ },
+ "first draft": {
+  "cn": "n. 初稿",
+  "ex": "This is only the first draft of my speech."
+ },
+ "suggestion": {
+  "cn": "n. 建议，意见；提议；微量；征兆，细微的迹象；联想，启示；暗示；（尤指催眠术等疗法中的）心理暗示；（心理）心理暗示（或提示）；",
+  "en_def": "an idea that is suggested",
+  "ex": "Ahem, can I make a suggestion?"
+ },
+ "italics": {
+  "cn": "n. （通常作复数）（印刷）斜体字，斜体",
+  "en_def": "a style of handwriting with the letters slanting to the right",
+  "ex": "The title is printed in italics."
+ },
+ "underline": {
+  "cn": "v. 在……下面画线；强调，突出",
+  "en_def": "a line drawn underneath (especially under written matter)",
+  "ex": "Some readers would underline the page as they read."
+ },
+ "typo": {
+  "cn": "n. 排印错误",
+  "en_def": "a mistake in printed matter resulting from mechanical failures of some kind",
+  "ex": "Is this a typo, or did the interview take place last year?"
+ },
+ "highlight": {
+  "cn": "v. 突出，强调；用亮色突出；挑染",
+  "en_def": "the most interesting or memorable part",
+  "ex": "At the same time, a group of influencers have begun to upload to social media photos of themselves without makeup, and even photos in which they highlight supposed flaws."
+ },
+ "well-organised": {
+  "cn": "adj. 有条理的，组织良好的",
+  "ex": "It looks as if the exhibition's well-organised."
+ },
+ "extension": {
+  "cn": "n. 延伸，扩展；展期，延长期；扩建部分，延伸部分；（电话）分机；扩展名；（为非全日制学生开设的）进修部；牵伸（术）；外延；广延（性）",
+  "en_def": "a mutually agreed delay in the date set for the completion of a job or payment of a debt",
+  "ex": "Test takers with disabilities may request a time extension."
+ },
+ "print": {
+  "cn": "v. 打印；印刷，出版；（在报纸或杂志上）刊登，刊载；用印刷体书写；冲印（照片）；印花样于（尤指织物或衣服上）；印上（印痕）；（用模子）印；铭记，铭刻",
+  "en_def": "the result of the printing process",
+  "ex": "I got a kick out of seeing my name in print."
+ },
+ "credit": {
+  "cn": "n. 信用，信贷，赊购；赞扬，信誉，声望；存款金额，余额；补助；退税，抵免；学分；带来荣耀的人（或事）；作品（指影片、电视节目、戏剧等）；信任，相信",
+  "en_def": "approval",
+  "ex": "It is very convenient to pay by credit card."
+ },
+ "test": {
+  "cn": "n. （书面或口头的）测验，考试；（医疗上的）检查，化验，检验；（对机器或武器等的）试验，检验；（对水、土壤、空气等的）检测，检验；（衡量能力或技能等的）测试，",
+  "en_def": "any standardized procedure for measuring sensitivity or memory or intelligence or aptitude or personality etc",
+  "ex": "The marathon is a severe test of stamina."
+ },
+ "quiz": {
+  "cn": "n. 问答比赛，智力竞赛；小测验；（尤指警方调查或正式调查中的）询问，审问；恶作剧，戏弄；戏弄他人者，恶作剧者；（性格、相貌）古怪的人",
+  "en_def": "an examination consisting of a few short questions",
+  "ex": "Have you entered your name for the quiz yet?"
+ },
+ "mark": {
+  "cn": "n. 痕迹，污点；标识，记号；印记，特征；（品质或情感的）标志，迹象；分数；水平，标准点；（后接数词）型号；燃气挡，温度刻度；（代替签名的）画押；目标，靶子；（",
+  "en_def": "a number or letter indicating quality (especially of a student's performance)",
+  "ex": "This is the mark of her real genius as a designer."
+ },
+ "grade": {
+  "cn": "n. 等级，品级；（工作岗位，官衔等的）级别，职别；成绩，分数；（美国学制）年级；斜坡，坡度；（疾病的）程度，阶段；与纯种杂交改良的牛",
+  "en_def": "a body of students who are taught together",
+  "ex": "Liu Xing, why do you always get such bad grades?"
+ },
+ "pass": {
+  "cn": "v. 经过，穿过；传递，传送；传（球）；（所有权）转移，转让；（状态）转变；（数量上）超过，突破；（时间）流逝；度过，消磨；通过（考试、课程等）；批准（法律或议",
+  "en_def": "(baseball) an advance to first base by a batter who receives four balls",
+  "ex": "She timed the pass perfectly."
+ },
+ "failure": {
+  "cn": "n. 失败；失败的人（或企业、事物）；未做到；缺乏，不足；故障，衰退；公司倒闭；歉收；突然失去",
+  "en_def": "an act that fails",
+  "ex": "Don't be frightened by failure, son."
+ },
+ "plagiarism": {
+  "cn": "n. 剽窃，抄袭；剽窃作品",
+  "en_def": "a piece of writing that has been copied from someone else and is presented as being your own work",
+  "ex": "There were accusations of plagiarism."
+ },
+ "cheat": {
+  "cn": "v. 欺骗，行骗；侥幸逃脱，逃避；作弊；对配偶（或伴侣）不忠",
+  "ex": "He was a liar and a cheat."
+ },
+ "discipline": {
+  "cn": "n. 纪律，风纪；惩罚，处分；训导，管教；训练，锻炼；自制力，自律能力；（尤指大学的）科目，学科",
+  "en_def": "a branch of knowledge",
+  "ex": "It takes a lot of self-discipline to go jogging in winter."
+ },
+ "quit": {
+  "cn": "v. 停止，戒掉；离开（工作岗位、学校等），离任；搬离（租住的房子），离开（某地）；关闭，退出（计算机程序等）；使解除，使摆脱",
+  "en_def": "put an end to a state or an activity",
+  "ex": "I've quit smoking."
+ },
+ "dropout": {
+  "cn": "n. 辍学者；隐士，遁世者；（英橄）以踢抛踢球重新开始开赛；信息漏失，信息失落；U形槽",
+  "en_def": "someone who quits school before graduation",
+  "ex": "The dropout rate among students is currently one in three."
+ },
+ "concentration": {
+  "cn": "n. 专心，专注；关注，重视；集中，聚集；含量，浓度",
+  "en_def": "(chemistry) the strength of a solution; number of molecules of a substance in a given volume (expressed as moles/cubic meter)",
+  "ex": "You cannot afford to relax your concentration for a moment."
+ },
+ "concentrated": {
+  "cn": "adj. 集中的；全神贯注的，全力以赴的；浓缩的",
+  "en_def": "gathered together or made less diffuse",
+  "ex": "Fighting was concentrated around the towns to the north."
+ },
+ "concentrate": {
+  "cn": "v. 集中注意力，聚精会神；使集中，聚集；浓缩",
+  "en_def": "the desired mineral that is left after impurities have been removed from mined ore",
+  "ex": "It was up to him to concentrate on his studies and make something of himself."
+ },
+ "participation": {
+  "cn": "n. 参加，参与",
+  "en_def": "the act of sharing in the activities of a group",
+  "ex": "The term \"industrial democracy\" is often used as a synonym for worker participation."
+ },
+ "participants": {
+  "cn": "n. 参与者，参加者（participant 的复数）",
+  "en_def": "someone who takes part in an activity",
+  "ex": "He urged the participants to set aside minor differences for the sake of achieving peace."
+ },
+ "attendance": {
+  "cn": "n. 出席人数；出席，出勤；考勤情况；提供帮助（in attendance）",
+  "en_def": "the act of being present (at a meeting or event etc.)",
+  "ex": "His attendance record was spotty."
+ },
+ "schedule": {
+  "cn": "n. 计划（表），进度表；（公共汽车、火车等的）时间表；（价目、费用等的）清单，一览表；（电视或电台的）节目表；（学校的）课程表； 附件（尤指表格、单据等）；（",
+  "en_def": "a temporally organized plan for matters to be attended to",
+  "ex": "The jet arrived in Johannesburg two minutes ahead of schedule."
+ },
+ "timetable": {
+  "cn": "n. （公共汽车、火车、飞机等的）时刻表；（学校的）课程表；日程表，时间表",
+  "en_def": "a schedule listing events and the times at which they will take place",
+  "ex": "The timetable was hopelessly optimistic."
+ },
+ "calendar": {
+  "cn": "n. 日历；日程表；记事录，大事记；历法",
+  "en_def": "a system of timekeeping that defines the beginning and length and divisions of the year",
+  "ex": "It is one of the hottest tickets on Washington's social calendar."
+ },
+ "diploma": {
+  "cn": "n. 毕业文凭，学位证书；文凭课程，职业课程；公文，文书",
+  "en_def": "a document certifying the successful completion of a course of study",
+  "ex": "She is taking a diploma in management studies."
+ },
+ "certificate": {
+  "cn": "n. 证明，证书；文凭，成绩合格证书；电影放映许可证",
+  "en_def": "a document attesting to the truth of certain stated facts",
+  "ex": "He was shown a photocopy of the certificate."
+ },
+ "bachelor’s": {
+  "cn": "n. 学士学位（等于 bachelor's degree）",
+  "ex": "He is a civil servant, with a bachelor's degree."
+ },
+ "confusion": {
+  "cn": "n. 困惑，不明确；混淆，混同；慌乱，窘迫；混乱局面，乱成一团",
+  "en_def": "disorder resulting from a failure to behave predictably",
+  "ex": "Mandy's predominant emotion was confusion."
+ },
+ "teacher": {
+  "cn": "n. 教师，老师，教员；给人教益的事物",
+  "en_def": "a person whose occupation is teaching",
+  "ex": "He worked as a teacher for 50 years."
+ },
+ "su": {
+  "cn": "n. （Su）苏（中文姓氏，亦为土耳其人名）",
+  "en_def": "Su is the pinyin romanization of the common Chinese surname written }} in simplified characters and }} traditionally.",
+  "ex": "Login as the instance owner with su - db2inst1."
+ },
+ "professor": {
+  "cn": "n. 教授；（大学的）讲师，教员；信仰表示者，宣称信仰者",
+  "en_def": "someone who is a member of the faculty at a college or university",
+  "ex": "Wouldn't you appreciate positive feedback if you were a professor?"
+ },
+ "lecturer": {
+  "cn": "n. 讲授者，讲演者；（大学的）讲师",
+  "en_def": "a public lecturer at certain universities",
+  "ex": "She's a superb lecturer."
+ },
+ "expert": {
+  "cn": "n. 专家，能手，权威",
+  "en_def": "a person with special knowledge or ability who performs skillfully",
+  "ex": "He earned a reputation as an expert on tax law."
+ },
+ "chancellor": {
+  "cn": "n. （英国）财政大臣；（德国或奥地利）总理；（英国大学）名誉校长，（美国大学）校长；法官",
+  "en_def": "the person who is head of state (in several countries)",
+  "ex": "They submitted their reports to the chancellor yesterday."
+ },
+ "coordinator": {
+  "cn": "n. 协调人，统筹者",
+  "en_def": "someone whose task is to see that work goes harmoniously",
+  "ex": "Ask your company benefits coordinator for a copy of the benefits handbook."
+ },
+ "counselor": {
+  "cn": "n. 顾问，咨询师；律师，法律顾问；（学校或夏令营的）辅导员（counsellor 的美式拼写）；（使馆的）参赞，参事",
+  "en_def": "someone who gives advice about problems",
+  "ex": "For some people, a paid career counselor or coach is the best approach."
+ },
+ "school": {
+  "cn": "n. （中、小）学校；全校师生；上学时间；上学期间；专科学校；大学，大学期间；（大学的）系，学院；学派，流派；（鱼、鲸、海豚等的）群；（牛津大学的）期末考试大厅",
+  "en_def": "an educational institution",
+  "ex": "She knows every student in the school."
+ },
+ "faculty": {
+  "cn": "n. 机能；天赋，才能；（高等院校的）系，院； 全体教员；（某行业，尤指医学行业的）全体从业人员；（尤指来自教会当权者的）特许证，许可证",
+  "en_def": "one of the inherent cognitive or perceptual powers of the mind",
+  "ex": "He had a faculty for seeing his own mistakes."
+ },
+ "director": {
+  "cn": "n. 导演；管理者，负责人；董事，理事",
+  "en_def": "someone who controls resources and expenditures",
+  "ex": "We could write a letter to the director."
+ },
+ "department": {
+  "cn": "n. （组织或机构中的）部，司，系，处，科；（商场里的）部；专长，专责；（法国等国的）省",
+  "en_def": "a specialized division of a large organization",
+  "ex": "The department led the world in cancer research."
+ },
+ "tuition": {
+  "cn": "n. （尤指对个人或小组的）教学，指导；（尤指学院、大学或私立学校的）学费",
+  "en_def": "a fee paid for instruction (especially for higher education)",
+  "ex": "Exceptional students are given free tuition."
+ },
+ "scholarship": {
+  "cn": "n. 奖学金；学问，学术",
+  "en_def": "financial aid provided to a student on the basis of academic merit",
+  "ex": "He went to drama school on a scholarship."
+ },
+ "grant": {
+  "cn": "v. 授予，给予；承认",
+  "en_def": "any monetary aid",
+  "ex": "They'd got a special grant to encourage research."
+ },
+ "applicant": {
+  "cn": "n. 申请人",
+  "en_def": "a person who requests or seeks something such as assistance or employment or admission",
+  "ex": "The applicant has experience in teaching and, more relevantly, in industry."
+ },
+ "lecture hall": {
+  "cn": "n. 讲堂，演讲厅，报告厅。用于讲座、讲课或学术活动的房间或大厅，常配有讲台，较大型的设有阶梯式座位。",
+  "en_def": "A lecture hall at [[Baruch College, New York City, USA]]",
+  "ex": "Is it true that someone yelled \"10 points to Gryffindor\" after you answered a question correctly in a lecture hall at Brown University?"
+ },
+ "cafeteria": {
+  "cn": "n. 自助食堂，自助餐馆",
+  "en_def": "a restaurant where you serve yourself and pay a cashier",
+  "ex": "Hot and cold food is available in the cafeteria."
+ },
+ "locker": {
+  "cn": "n. 锁柜，寄物柜；冷藏间；锁具；（衣服、杂物、器械、军火的）存放室，箱",
+  "en_def": "a storage compartment for clothes and valuables; usually it has a lock",
+  "ex": "In the locker room, Amanda changed quickly."
+ },
+ "laboratory": {
+  "cn": "n. 实验室，实验大楼",
+  "en_def": "a workplace for the conduct of scientific research",
+  "ex": "Chemistry was par excellence the laboratory science of the early nineteenth century."
+ },
+ "laptop": {
+  "cn": "n. 膝上型计算机，便携式电脑（=laptop computer）",
+  "en_def": "a portable computer small enough to use in your lap",
+  "ex": "It is significantly more compact than any comparable laptop, with no loss in functionality."
+ },
+ "network": {
+  "cn": "n. 网络，网状系统；人际关系网，联络网；计算机网络，互联网；广播网，电视网",
+  "en_def": "an interconnected system of things or people",
+  "ex": "The network will provide the gamut of computer services to your home."
+ },
+ "copier": {
+  "cn": "n. 复印机，影印机（等于 copying machine）；抄写员；模仿者，抄袭者",
+  "en_def": "apparatus that makes copies of typed, written or drawn material",
+  "ex": "What about my copier? Can you get it going again?"
+ },
+ "speaker": {
+  "cn": "n. 发言者，演讲者；说话者；讲某种语言的人；扬声器，喇叭；（议会或立法机构的）议长（Speaker）",
+  "en_def": "someone who expresses in language; someone who talks (especially someone who delivers a public speech or someone especially garrulous)",
+  "ex": "They rose to applaud the speaker."
+ },
+ "loudspeaker": {
+  "cn": "n. 扩音器，喇叭；（收音机或乐器的）扬声器，喇叭",
+  "en_def": "electro-acoustic transducer that converts electrical signals into sounds loud enough to be heard at a distance",
+  "ex": "The loudspeaker seemed to distort his voice."
+ },
+ "newsletter": {
+  "cn": "n. （机构定期寄发给成员的）通讯，简报",
+  "en_def": "report or open letter giving informal or confidential news of interest to a special group",
+  "ex": "We issue a monthly newsletter."
+ },
+ "stadium": {
+  "cn": "n. 体育场，运动场；（古希腊或古罗马的）竞走跑道，战车赛道；斯塔德（古希腊或古罗马长度单位，约185米）",
+  "en_def": "a large structure for open-air sports or entertainments",
+  "ex": "The new sports stadium is the pride of the town."
+ },
+ "aerobics": {
+  "cn": "n. 有氧运动，增氧健身法，有氧操（复数形式，常作不可数名词；可用作定语）",
+  "en_def": "exercise that increases the need for oxygen",
+  "ex": "I've joined an aerobics class."
+ },
+ "ru": {
+  "cn": "abbr. （英）橄榄球协会（Rugby Union）",
+  "en_def": "a rare polyvalent metallic element of the platinum group; it is found associated with platinum",
+  "ex": "When content of Ru is lower, the structure of coat is Sn-base sosoloid."
+ },
+ "arena": {
+  "cn": "n. 竞技场，圆形剧场；斗争场所，活动舞台",
+  "en_def": "a particular environment or walk of life",
+  "ex": "The arena was scarred by deep muddy ruts."
+ },
+ "wheelchair": {
+  "cn": "n. 轮椅，一种装有轮子的可移动座椅，供因残疾、患病或行走不便的人使用",
+  "en_def": "a movable chair mounted on large wheels; for invalids or those who cannot walk; frequently propelled by the occupant",
+  "ex": "Paul struggled out of his wheelchair."
+ },
+ "guitar": {
+  "cn": "n. 吉他，六弦琴",
+  "en_def": "a stringed instrument usually having six strings; played by strumming or plucking",
+  "ex": "She's no slouch on the guitar."
+ },
+ "drum": {
+  "cn": "n. 鼓；大桶；敲击声；鼓状物；军鼓手；一套房间，（公寓）套间；（可靠的）内部消息；（18世纪末、19世纪初流行的）傍晚茶会，下午茶会",
+  "en_def": "a musical percussion instrument; usually consists of a hollow cylinder with a membrane stretched across each end",
+  "ex": "Someone was beating a drum."
+ },
+ "flute": {
+  "cn": "n. 长笛；细长酒杯，高脚玻璃酒杯；长笛音栓；（柱上的）凹槽；（裙子等衣物的）褶子，圆凹褶",
+  "en_def": "a high-pitched woodwind instrument; a slender tube closed at one end with finger holes on one end and an opening near the closed end across which the breath is ",
+  "ex": "She plays the flute in the school orchestra."
+ },
+ "piano": {
+  "cn": "n. 钢琴（pianoforte 的简称）；（Piano）人名，法、意、葡译作皮亚诺",
+  "en_def": "a stringed instrument that is played by depressing keys that cause hammers to strike tuned strings and produce sounds",
+  "ex": "Did you play the piano as a child?"
+ },
+ "violin": {
+  "cn": "n. 小提琴（一种弓弦乐器，为提琴家族中音区最高的成员，通常有四根弦，以琴弓擦弦发声）；小提琴手；(Violin)（意）维奥林（人名）",
+  "en_def": "bowed stringed instrument that is the highest member of the violin family; this instrument has four strings and a hollow body and an unfretted fingerboard and i",
+  "ex": "He taught himself to play the violin."
+ },
+ "mat": {
+  "cn": "n. 地垫，垫子；团，簇",
+  "en_def": "a thick flat pad used as a floor covering",
+  "ex": "Wipe your feet on the mat before you come in, please."
+ },
+ "r": {
+  "cn": "n. 英语字母中的第十八个字母",
+  "en_def": "a unit of radiation exposure; the dose of ionizing radiation that will produce 1 electrostatic unit of electricity in 1 cc of dry air",
+  "ex": "Businesses need to train their workers better, and spend more on R & D."
+ },
+ "dye": {
+  "cn": "v. 给……染色",
+  "en_def": "a usually soluble substance for staining or coloring e.g. fabrics or hair",
+  "ex": "I want to dye this thing green."
+ },
+ "pencils": {
+  "cn": "n. 铅笔（pencil 的复数）",
+  "en_def": "a thin cylindrical pointed writing implement; a rod of marking substance encased in wood",
+  "ex": "They pause and chew their pencils."
+ },
+ "glue": {
+  "cn": "n. 胶水；凝聚力",
+  "en_def": "cement consisting of a sticky substance that is used as an adhesive",
+  "ex": "I made a model out of paper and glue."
+ },
+ "procedures": {
+  "cn": "n. 程序，规程，手续；（医学）外科手术，医疗操作",
+  "en_def": "a particular course of action intended to achieve a result",
+  "ex": "You need to become fully conversant with the company's procedures."
+ },
+ "cut": {
+  "cn": "v. 切，割，剪；削减，缩减；删节，删减；停止，切断；抄近路，穿过；切（牌），倒（牌）；灌制（唱片），录制（讲话）；划伤，割伤；剪裁；开始长（新牙）；逃学，逃课",
+  "en_def": "the act of reducing the amount or number",
+  "ex": "You've had your hair cut!"
+ },
+ "overlap": {
+  "cn": "v. （与……）互搭，（与……）复叠；（在关注的问题、承担的责任等方面）部分地重叠，部分相同；（与……）同时发生",
+  "en_def": "a representation of common ground between theories or phenomena",
+  "ex": "A fish's scales overlap each other."
+ },
+ "fold": {
+  "cn": "v. 折叠，对折；倒闭，垮掉；交叉，交叠；包，裹；拥抱；拌入；认输；抽筋，双腿发软；使（岩石层）形成褶皱；（尤指运动员或运动队）突然不在状态（或发挥失常）；把（",
+  "en_def": "an angular or rounded shape made by folding",
+  "ex": "The cost of a loaf of bread has increased five-fold."
+ },
+ "stick": {
+  "cn": "v. 粘，贴；刺，戳，插；（随便）摆放，放置；伸出，突出；卡住，钉住；容忍，忍受；被接受，被众人采用；（牌戏中）不再要牌；停顿下来，没有进展；（生气地）放弃（和",
+  "en_def": "an implement consisting of a length of wood",
+  "ex": "I managed to stick to the diet and keep off sweet foods."
+ },
+ "prizes": {
+  "cn": "n. 奖品，奖金，奖项，奖励（prize 的复数）",
+  "en_def": "something given for victory or superiority in a contest or competition or for winning a lottery",
+  "ex": "You'll be able to win prizes galore."
+ },
+ "orientation": {
+  "cn": "n. 目标，定位；方向，朝向；（基本的）态度，倾向；（岗前、学前、课前等的）情况介绍，培训；适应，熟悉",
+  "en_def": "the act of orienting",
+  "ex": "The orientation of the planet's orbit is changing continuously."
+ },
+ "uniform": {
+  "cn": "n. 制服，校服；穿制服的警官；（某一群体的人穿的）典型服装，特有服装；（无线电通讯）字母 U 的代码",
+  "en_def": "clothing of distinctive design worn by members of a particular group as a means of identification",
+  "ex": "He cut quite a dash in his uniform."
+ },
+ "achievements": {
+  "cn": "n. 成就，业绩，成绩，成果（achievement 的复数）",
+  "en_def": "the action of accomplishing something",
+  "ex": "He was justifiably proud of his achievements."
+ },
+ "surroundings": {
+  "cn": "n. 周围环境，周围事物",
+  "en_def": "the environmental condition",
+  "ex": "We dined in sumptuous surroundings."
+ },
+ "society": {
+  "cn": "n. 社会（以群体形式生活在一起的人的总称）；社群（某国家、地区、时期等的群体组织）；社团，协会；上层社会；交往，相伴；阶层，界；植物的群落，动物的群体",
+  "en_def": "an extended social group having a distinctive cultural and economic organization",
+  "ex": "The family is a microcosm of society."
+ },
+ "recommended": {
+  "cn": "adj. 被推荐的",
+  "en_def": "mentioned as worthy of acceptance",
+  "ex": "Warm clothing is recommended as the wind can be piercing."
+ },
+ "register": {
+  "cn": "n. 登记表，注册簿；注册员；（人或乐器的）声区，音区；（适合特定场合使用的）语体风格，语域；（印刷，摄影）套准，叠合；现金出纳机；（电子设备的）寄存器；（供暖",
+  "en_def": "an official written record of names or events or transactions",
+  "ex": "Thousands lined up to register to vote."
+ },
+ "unregistered": {
+  "cn": "adj. 未登记的，未注册的",
+  "en_def": "(of animals) not recorded with or certified by an official breed association",
+  "ex": "A file system can also be unregistered."
+ },
+ "self-funded": {
+  "cn": "adj. 自筹资金的，自费的",
+  "ex": "They do 60 per cent of those operations for free, and yet they’re still completely self-funded."
+ },
+ "semester": {
+  "cn": "n. 学期，半学年",
+  "en_def": "one of two divisions of an academic year",
+  "ex": "Do you think you'll pledge this semester?"
+ },
+ "term": {
+  "cn": "n. 词语，术语；措辞（terms）；学期，开庭期；期限，任期；到期，期满；方面，角度（terms）；条件，条款（terms）；（人们之间的）关系（terms）",
+  "en_def": "a word or expression used for some particular thing",
+  "ex": "You need to set yourself some long-term goals."
+ },
+ "freshman": {
+  "cn": "n. （中学或大学的）一年级学生； 新手；新手",
+  "en_def": "a first-year undergraduate",
+  "ex": "He transferred to UCLA after his freshman year."
+ },
+ "senior": {
+  "cn": "adj. 年龄大些的；（用在家庭内姓名相同的人名后表示）老，年长的；老年人的；（地位、水平或级别）较高的，高级的；（比赛）成人的，高水平的；大于一定年龄（通常为",
+  "en_def": "an undergraduate student during the year preceding graduation",
+  "ex": "She'll be racing for the senior team next year."
+ },
+ "rez": {
+  "cn": "n. 资源文件格式",
+  "en_def": "\"Rez\" is a non-album track by Underworld, originally released in 1993 in the UK. It became one of their biggest club/live anthems despite the fact it could not ",
+  "ex": "It comes from a paper by Arizona State University physics professor Peter Rez that is scheduled to appear in a journal called Radiation Protection and Dosimetry."
+ },
+ "international": {
+  "cn": "adj. 国际的，国际上的",
+  "en_def": "any of several international socialist organizations",
+  "ex": "The film earned him international fame."
+ },
+ "homesick": {
+  "cn": "adj. 想家的，思乡病的",
+  "en_def": "unhappy at being away and longing for familiar things or persons",
+  "ex": "He felt homesick, but made a brave attempt to appear cheerful."
+ },
+ "lonely": {
+  "cn": "adj. 孤单的，寂寞的；在孤单中度过的；偏僻的，人迹罕至的",
+  "en_def": "lacking companions or companionship",
+  "ex": "I don't get lonely now because I make the effort to see people."
+ },
+ "borrow": {
+  "cn": "v. 借，借入；（向……）借贷；采用，借用；（演算减法时）借（位）",
+  "en_def": "get temporarily",
+  "ex": "Can I borrow your calculator?"
+ },
+ "librarian": {
+  "cn": "n. 图书馆馆长，图书馆管理员",
+  "en_def": "a professional person trained in library science and engaged in library services",
+  "ex": "The new librarian is a friend of mine."
+ },
+ "consultation": {
+  "cn": "n. 商讨，磋商，磋商会议；咨询，就诊；查找，查阅",
+  "en_def": "a conference (usually with someone important)",
+  "ex": "David gives the first consultation gratis."
+ },
+ "bookshelf": {
+  "cn": "n. 书架",
+  "en_def": "a shelf on which to keep books",
+  "ex": "This is my father's bookshelf."
+ },
+ "scanner": {
+  "cn": "n. 扫描器，扫描设备；（信息或图像）扫描仪；（医用）扫描器；信号扫掠天线；（声呐或雷达）扫描器",
+  "en_def": "someone who scans verse to determine the number and prosodic value of the syllables",
+  "ex": "The picture is digitized by a scanner."
+ },
+ "index": {
+  "cn": "n. 索引；（物价和工资等）指数；指标，量度；幂，根指数；指针",
+  "en_def": "a numerical scale used to compare variables with one another or with some reference number",
+  "ex": "I riffled through the pages until I reached the index."
+ },
+ "open": {
+  "cn": "adj. 开放的，营业的；开着的，敞开的；（身体部位）张开的；露天的，无遮盖的；开阔的，未围上的；可通行的，畅通的；伸开的，展开的；坦率的；不保密的，公开的；易",
+  "en_def": "a clear or unobstructed space or expanse of land or water",
+  "ex": "She turned the key and the lid sprang open."
+ },
+ "closed reserve": {
+  "cn": "封闭储备：指由政府或组织保留的资源或资金，只能在特定情况下使用或访问。"
+ },
+ "in circulation": {
+  "cn": "流通中：从一个人传到另一个人，或从一个地方传到另一个地方。",
+  "ex": "A number of forged tickets are in circulation."
+ },
+ "deadline": {
+  "cn": "n. 最后期限，截止日期；（监狱周围的）死线",
+  "en_def": "the point in time at which something must be completed",
+  "ex": "I prefer to work to a deadline."
+ },
+ "available": {
+  "cn": "adj. 可用的，可获得的；有空的，有闲暇的；未婚的，单身的",
+  "en_def": "obtainable or accessible and ready for use or service",
+  "ex": "Plants burgeon from every available space."
+ },
+ "reserve": {
+  "cn": "v. 预订；保留，预留；拥有，保留（某种权利）；留作，用于（特定场合）；保留（意见），推迟作出（决定或判断）；贮存，贮藏；（教会用语）弥撒仪式后保留部分圣餐",
+  "en_def": "formality and propriety of manner",
+  "ex": "I'll reserve a table for five."
+ },
+ "renewal": {
+  "cn": "n. 恢复，重新开始；（有效期的）延长，续订；更新，改建；（有神授超凡能力基督徒的）精神重生",
+  "en_def": "the conversion of wasteland into land suitable for use of habitation or cultivation",
+  "ex": "They will discuss the possible renewal of diplomatic relations."
+ },
+ "category": {
+  "cn": "n. 种类，范畴",
+  "en_def": "a collection of things sharing a common attribute",
+  "ex": "His pictures don't fit into any category."
+ },
+ "catalogue": {
+  "cn": "n. 目录，目录册；一系列，一连串（坏事情）；大学情况一览",
+  "en_def": "a complete list of things; usually arranged systematically",
+  "ex": "I've written off for the catalogue."
+ },
+ "textbook": {
+  "cn": "n. 教科书，课本",
+  "en_def": "a book prepared for use in schools or colleges",
+  "ex": "I gave the textbook back to him."
+ },
+ "disk": {
+  "cn": "n. （计算机的）磁盘，磁碟；（计算机的）磁盘，磁碟（=disc）",
+  "en_def": "something with a round shape like a flat circular plate",
+  "ex": "The hard disk is dead."
+ },
+ "handout": {
+  "cn": "n. （尤指发给学生或听报告的人的）讲义；施舍物，救济品；传单，宣传材料；政府拨款（为促进商业活动）；不劳而获的钱",
+  "en_def": "an announcement distributed to members of the press in order to supplement or replace an oral presentation",
+  "ex": "Explaining the difference between each is beyond the scope of this handout and unnecessary to know in order to answer the questions."
+ },
+ "current": {
+  "cn": "adj. 现行的，当前的；通用的，流行的；最近的",
+  "en_def": "a flow of electricity through a conductor",
+  "ex": "We were rowing against the current."
+ },
+ "fiction": {
+  "cn": "n. 小说；虚构的事，谎言；杜撰，编造",
+  "en_def": "a literary work based on the imagination and not necessarily on fact",
+  "ex": "He loves science fiction in particular."
+ },
+ "atlas": {
+  "cn": "n. 地图册；第一颈椎，寰椎；（希腊式建筑中支撑柱楣的）男像柱（复数atlantes）",
+  "en_def": "(Greek mythology) a Titan who was forced by Zeus to bear the sky on his shoulders",
+  "ex": "Provided you have not cheated by consulting an atlas, you will notice something rather surprising."
+ },
+ "due": {
+  "cn": "adj. 到期的，预期的；应有的，应得的；应付的，应给的；适当的",
+  "en_def": "that which is deserved or owed",
+  "ex": "The village lies five miles due north of York."
+ },
+ "recall": {
+  "cn": "v. 记起，回想起；使想起，使想到；召回，叫回（某人）；召回（运动员），使归队； 收回（有问题的产品）；检索，调用（计算机储存的数据）； 罢免；使重新集中注意力",
+  "en_def": "a request by the manufacturer of a defective product to return the product (as for replacement or repair)",
+  "ex": "He had a good memory, and total recall of her spoken words."
+ },
+ "overdue and": {
+  "ex": "I can then use built-in aggregate functions on the array to get the size and sum of those days overdue and compute an average."
+ },
+ "serendipity": {
+  "cn": "n. 意外发现美好事物的运气，机缘巧合",
+  "en_def": "good luck in making unexpected and fortunate discoveries",
+  "ex": "The word \"serendipity\" was coined by Horace Walpole in an 1754 letter, from a tale of three princes who \"were always making discoveries, by accident, of things they were not in search of\"."
+ },
+ "eloquent": {
+  "cn": "adj. 雄辩的，口才流利的；传神的，明确表示的",
+  "en_def": "expressing yourself readily, clearly, effectively",
+  "ex": "I heard him make a very eloquent speech at that dinner.",
+  "phon": "ˈeləkwənt"
+ },
+ "se": {
+  "cn": "abbr. 东南，东南方（southeast，通常写作 SE）；瑞典的国家或地区代码（SE）及互联网域名 .se（Sweden）",
+  "en_def": "a toxic nonmetallic element related to sulfur and tellurium; occurs in several allotropic forms; a stable grey metallike allotrope conducts electricity better i",
+  "ex": "The drug is not harmful per se, but is dangerous when taken with alcohol.",
+  "phon": "ˌesˈi:"
+ },
+ "s": {
+  "cn": "n. 字母 s, 英语字母表中第十九个字母",
+  "en_def": "1/60 of a minute; the basic unit of time adopted under the Systeme International d'Unites",
+  "ex": "1988's My Neighbor Totoro was a pristine, nostalgic childhood fantasy.",
+  "phon": "es"
+ },
+ "primary": {
+  "cn": "adj. 主要的，首要的；小学教育的，初级教育的；初级的，原发性的；最基本的，最根本的；第一手的，直接的；（有机化合物）连上一个碳原子的；（多指胺）（氨基酸顺序",
+  "en_def": "a preliminary election where delegates or nominees are chosen",
+  "ex": "It comes in bright primary colours that kids will love.",
+  "phon": "ˈpraɪməri"
+ },
+ "sa": {
+  "cn": "abbr. 救世军（Salvation Army）；性感；需经批准，有待批准（Subject to Approval）；半自动的（Semi-Automatic）",
+  "en_def": "Nazi militia created by Hitler in 1921 that helped him to power but was eclipsed by the SS after 1943",
+  "ex": "Agri SA, the white farmers' biggest union, says 600-800 of its members are already operating in other African countries."
+ },
+ "curriculum": {
+  "cn": "n. 课程",
+  "en_def": "an integrated course of academic studies",
+  "ex": "Spanish is on the curriculum.",
+  "phon": "kəˈrɪkjələm"
+ },
+ "level": {
+  "cn": "n. 数量，程度；标准，水平；层次，级别；看待（或应对、理解）事物的方式；水平高度，相对高度；楼层；平地；水平仪",
+  "en_def": "a position on a scale of intensity or amount or quality",
+  "ex": "I want to get to the next level!",
+  "phon": "ˈlev(ə)l"
+ },
+ "v": {
+  "cn": "n. 英语字母中的第二十二个字母；罗马数字5；V 字形物",
+  "en_def": "a unit of potential equal to the potential difference between two points on a conductor carrying a current of 1 ampere when the power dissipated between the two",
+  "ex": "Are you still doing the \"V\" for victory sign?",
+  "phon": "viː"
+ },
+ "compulsory": {
+  "cn": "adj. 必须做的，义务的，强制的",
+  "en_def": "required by rule",
+  "ex": "There is a compulsory course in statistics.",
+  "phon": "kəmˈpʌlsəri"
+ },
+ "spe": {
+  "cn": "abbr. 美国石油工程师协会（Society of Petroleum Engineers）；固相萃取（Solid Phase Extraction）；专用设",
+  "ex": "The mailboxes, even for the PPE, are named according to the perspective of the SPE."
+ },
+ "note-taking": {
+  "cn": "n. 记笔记，随手记",
+  "en_def": "President Jimmy Carter’s Notes from his private meeting with Pope John Paul II, October 6, 1979.",
+  "ex": "They listened to the same lectures and were told to use their usual note-taking skills."
+ },
+ "seminar": {
+  "cn": "n. 研讨会，培训会；（大学的）专题讨论课，研讨班",
+  "en_def": "any meeting for an exchange of ideas",
+  "ex": "The seminar was to discuss diversification of agriculture.",
+  "phon": "ˈsemɪnɑː(r)"
+ },
+ "workshop": {
+  "cn": "n. 车间，工场，作坊；研讨会，讲习班",
+  "en_def": "small workplace where handcrafts or manufacturing are done",
+  "ex": "This workshop helps young unemployed people.",
+  "phon": "ˈwɜːkʃɒp"
+ },
+ "major": {
+  "cn": "adj. 重大的，主要的；严重的；大调的，大音阶的； （公立学校中置于学生姓氏后，表示两兄弟中）大的，年长的；主修的；大（项）的",
+  "en_def": "a commissioned military officer in the United States Army or Air Force or Marines; below lieutenant colonel and above captain",
+  "ex": "The agreement is a major step toward peace.",
+  "phon": "ˈmeɪdʒə(r)"
+ },
+ "anthropology": {
+  "cn": "n. 人类学",
+  "en_def": "the social science that studies the origins and social relationships of human beings",
+  "ex": "Listen to part of a lecture in an anthropology class.",
+  "phon": "ˌænθrəˈpɒlədʒi"
+ },
+ "politics": {
+  "cn": "n. 政治，政治活动（事务）；政治事业；政治学；(某团体、组织等内的）争权活动，权术；政治信仰，政治观点；（尤指跟社会权力和地位有关的领域、理论或活动的）主张，",
+  "en_def": "social relations involving authority or power",
+  "ex": "Japanese politics are sui generis.",
+  "phon": "ˈpɒlətɪks"
+ },
+ "i": {
+  "cn": "n. 英语字母 i（大写 I）；数学虚数单位（满足 i² = −1）；罗马数字 1；美国州际公路编号前缀（如 I-95）；碘（化学元素符号 I）；（哲学）自我，",
+  "en_def": "a nonmetallic element belonging to the halogens; used especially in medicine and photography and in dyes; occurs naturally only in combination in small quantiti",
+  "ex": "I enjoyed this film immensely.",
+  "phon": "aɪ"
+ },
+ "d": {
+  "cn": "n. 字母 D",
+  "en_def": "a fat-soluble vitamin that prevents rickets",
+  "ex": "Foods such as eggs and oily fish are all rich in vitamin D.",
+  "phon": "diː"
+ },
+ "physiology": {
+  "cn": "n. 生理学；生理机能",
+  "en_def": "the branch of the biological sciences dealing with the functioning of organisms",
+  "ex": "Some of it remains in the brain, where it influences mood, behavior and physiology.",
+  "phon": "ˌfɪziˈɒlədʒi"
+ },
+ "f": {
+  "cn": "n. F 级（不及格）；字母 F; 氟",
+  "en_def": "a degree on the Fahrenheit scale of temperature",
+  "ex": "A solitary viola plucks a lonely, soft F sharp.",
+  "phon": "ef"
+ },
+ "microbiology": {
+  "cn": "n. 微生物学（研究微生物（如细菌等微小生物）及其与人类、环境等关系的生物学分支学科）",
+  "en_def": "the branch of biology that studies microorganisms and their effects on humans",
+  "ex": "His work advanced the science of microbiology.",
+  "phon": "ˌmaɪkrəʊbaɪˈɒlədʒi"
+ },
+ "nursing": {
+  "cn": "n. 护理，看护；哺乳，母乳喂养；养育",
+  "en_def": "the work of caring for the sick or injured or infirm",
+  "ex": "She had no aptitude for nursing.",
+  "phon": "ˈnɜːsɪŋ"
+ },
+ "essay": {
+  "cn": "n. （学生为某门课程所写的）短文，论说文； （用来刊登的）散文，随笔；企图，尝试；尚未采用的邮票设计图案",
+  "en_def": "an analytic or interpretive literary composition",
+  "ex": "She got top marks for her essay.",
+  "phon": "ˈeseɪ"
+ },
+ "ese": {
+  "cn": "n. （Ese）（美）埃塞（人名）",
+  "en_def": "the compass point midway between east and southeast",
+  "ex": "Entrepreneur is one of the most scarce and most valuable human resources in Chin ese enterprises.",
+  "phon": "iːz"
+ },
+ "pe": {
+  "cn": "abbr. 体育课，体能训练（physical education）；聚乙烯（polyethylene）；私募股权投资（private equity）；爱德华王",
+  "en_def": "the 17th letter of the Hebrew alphabet",
+  "ex": "The basic script is called db2.pe. It comes in two versions",
+  "phon": "peɪ"
+ },
+ "ra": {
+  "cn": "abbr. 皇家学院（Royal Academy）；随机存取（Random Access）；研究协会（Research Association）；赤经（Righ",
+  "en_def": "an intensely radioactive metallic element that occurs in minute amounts in uranium ores",
+  "ex": "So if the symbol were Coptic, the first symbol would be \"ra\".",
+  "phon": "ˈrɑː"
+ },
+ "abandon": {
+  "cn": "v. 抛弃，遗弃；（因危险）离开，舍弃；中止，不再有；放弃（信念、信仰或看法）；陷入，沉湎于（某种情感）",
+  "en_def": "the trait of lacking restraint or control; reckless freedom from inhibition or worry",
+  "ex": "The storm got worse and worse. Finally, I was obliged to abandon the car and continue on foot.",
+  "phon": "əˈbændən"
+ },
+ "curious": {
+  "cn": "adj. 好奇的，求知欲强的；稀奇的，不寻常的；爱挑剔的",
+  "en_def": "beyond or deviating from the usual or expected",
+  "ex": "Steve was intensely curious about the world I came from.",
+  "phon": "ˈkjʊəriəs"
+ },
+ "hello": {
+  "cn": "int. 喂，你好（用于问候或打招呼）；喂，你好（打电话时的招呼语）；喂，你好（引起别人注意的招呼语）；喂，嘿 (认为别人说了蠢话或分心)；嘿（表示惊讶）",
+  "en_def": "\"Hello\" is a song by American pop recording duo Karmin. The song is the second official single from their debut EP of the same name, Hello.",
+  "ex": "'Oh, hello,' he said, with a smile.",
+  "phon": "həˈləʊ"
+ },
+ "apple": {
+  "cn": "n. 苹果；苹果树；苹果公司（Apple Inc.）",
+  "en_def": "fruit with red or yellow or green skin and sweet to tart crisp whitish flesh",
+  "ex": "He ate the apple, stalk and all.",
+  "phon": "ˈæp(ə)l"
+ },
+ "zebra": {
+  "cn": "n. 斑马；斑马纹蝶；斑马鱼，重牙鲷",
+  "en_def": "any of several fleet black-and-white striped African equines",
+  "ex": "The lion was stalking a zebra.",
+  "phon": "ˈzebrə"
+ },
+ "mango": {
+  "cn": "n. 芒果；芒果树（=mango tree）；芒果蜂鸟",
+  "en_def": "large evergreen tropical tree cultivated for its large oval fruit",
+  "ex": "The monkey is eating a mango.",
+  "phon": "ˈmæŋɡəʊ"
+ }
+}

@@ -1,6 +1,7 @@
 /* 全站守护：按课表里排的「开始 / 结束时间」自动开始 / 结束课堂笔记录音。
    - 平台任意一个标签页开着即可，不用点课程块、不用点「开始录音」
-   - 课程来源：课表页空白处排的课（localStorage: ielts_plan_v5），改时间即时生效
+   - 一个平台页都没开也没关系：本地服务会按课表时间后台拉起笔记页（桌面应用上课同样有效）
+   - 课程来源：课表页排的课，统一存本机文件 data/ielts-plan.json，再同步到 localStorage: ielts_plan_v5
    - 优先通过 localStorage 广播给已经开着的笔记页（不弹窗，不受弹窗拦截影响）
    - start 指令带结束时间戳，笔记页自己也会到下课时间停录（双保险）
    - 笔记页没开着时才尝试 window.open；被浏览器拦了就显示浮动提示条 */
@@ -141,13 +142,41 @@
     }
   }
 
+  /* 别的窗口（后侧预览 / 另一台浏览器）排的课也在服务端，定时同步回来 */
+  function syncServerPlan() {
+    if (typeof fetch !== 'function') return;
+    fetch(BASE + '/api/plan/get', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (!r || !r.data || !(r.ts > 0)) return;
+        var cur = null;
+        try { cur = JSON.parse(ls(PLAN_KEY) || '{}') || {}; } catch (e) { }
+        if ((r.ts || 0) <= (cur.ts || 0)) return;
+        var d = r.data; d.ts = r.ts;
+        try { localStorage.setItem(PLAN_KEY, JSON.stringify(d)); } catch (e) { }
+        check();
+      }).catch(function () { });
+  }
+
+  /* 告诉本地服务「平台页还活着」；只有所有平台页都关了，服务端守护才接管 */
+  function heartbeatPing() {
+    if (typeof fetch !== 'function') return;
+    try {
+      fetch(BASE + '/api/note/heartbeat', { cache: 'no-store' }).catch(function () { });
+    } catch (e) { }
+  }
+
   function boot() {
     heartbeat();
     /* 课表页刚改了开始 / 结束时间：别的标签页立刻按新时间重算 */
     window.addEventListener('storage', function (e) {
       if (e.key === PLAN_KEY) check();
     });
+    heartbeatPing();
+    syncServerPlan();
     check();
+    setInterval(heartbeatPing, CHECK_MS);
+    setInterval(syncServerPlan, 20000);
     setInterval(check, CHECK_MS);
   }
 

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>高分积累 · 雅思</title>
+<script src="assets/api.js?v=1"></script>
+<script src="assets/auto-note.js?v=53"></script>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/ielts.css?v=53">
+<link rel="stylesheet" href="assets/collect.css?v=49">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="ielts.html">← 雅思</a>
+    <div class="crumb"><b>模块五 · 高分积累</b></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
+
+<main class="i-wrap">
+
+  <section class="hero" style="--c:#0d9488">
+    <h1 style="margin:0 0 6px;font-size:22px">高分积累 · 按场景整理</h1>
+    <p class="desc">粘一段文字、拖进文件或图片（不是文字会自动识别）、或写一句话指定场景，系统会自动分类放进对应场景。点场景图标就能看到里面攒了什么。</p>
+    <div class="chips">
+      <span class="chip">共 <b id="cTotal">0</b> 条</span>
+      <span class="chip"><b id="cScenes">0</b> 个场景</span>
+      <span class="chip">占用 <b id="cBytes">0 B</b>（只存文字）</span>
+    </div>
+  </section>
+
+  <div class="c-acts">
+    <button class="btn btn-primary" id="addBtn" type="button">＋ 添加积累</button>
+    <button class="btn" id="newBtn" type="button">＋ 新场景</button>
+    <span class="c-tip">一句话示例：把 however 记到写作句型，意思是「然而」</span>
+  </div>
+
+  <!-- 场景网格 -->
+  <section id="gridView">
+    <div class="sc-grid" id="sceneGrid"></div>
+  </section>
+
+  <!-- 某个场景里的积累 -->
+  <section id="sceneView" hidden>
+    <div class="sc-head">
+      <button class="btn btn-sm" id="backBtn" type="button">← 全部场景</button>
+      <h2 id="scTitle">场景</h2>
+      <span class="c-tip" id="scCount"></span>
+      <button class="btn btn-sm" id="copyScene" type="button">复制全部</button>
+      <button class="btn btn-sm" id="clearScene" type="button">清空这个场景</button>
+      <button class="btn btn-sm" id="delScene" type="button">删除场景</button>
+    </div>
+    <input class="txt c-search" id="scQuery" placeholder="在这个场景里搜关键词">
+    <ul class="ci-list" id="itemList"></ul>
+    <p class="c-empty" id="scEmpty" hidden>这个场景还没有积累。点上面「＋ 添加积累」粘点东西进来。</p>
+  </section>
+
+</main>
+
+<!-- 添加积累 -->
+<div class="mask" id="addMask">
+  <div class="modal wide">
+    <h3>添加积累</h3>
+    <p class="sub">粘文字、拖文件 / 图片（不是文字会自动识别成文字）、或写一句话让系统按你这句话归到某个场景。默认自动分类，也能在下面手动指定。</p>
+
+    <div class="af-row">
+      <label>一句话添加</label>
+      <input id="oneLine" placeholder="例：把 however 记到写作句型，意思是然而">
+      <button class="btn btn-sm btn-primary" id="oneGo" type="button">按这句话添加</button>
+    </div>
+
+    <textarea class="c-text" id="addText" rows="6" placeholder="粘贴文字 / 识别出来的内容，一行一条；空行会分开"></textarea>
+
+    <div class="c-drop" id="dropBox">
+      <textarea id="dropSink" class="c-sink" spellcheck="false" autocomplete="off" aria-label="放图片或文件进来"></textarea>
+      <div class="c-drop-ph">
+        <b>点一下这个框，右键 →「粘贴」，或按 ⌘V 贴图片</b>
+        <span>图片、PDF、Word、txt 都能拖进来 / 选进来，自动识别成文字</span>
+      </div>
+    </div>
+    <div class="af-act">
+      <button class="lnk" id="pickFile" type="button">选文件</button>
+      <input type="file" id="fileInput" multiple hidden>
+      <span id="extractMsg" class="c-tip">还没收到文件</span>
+    </div>
+
+    <div class="af-row">
+      <label>归到场景</label>
+      <select id="addScene"><option value="auto">自动分类</option></select>
+      <span class="c-tip">一句话里写了「记到…」就以那句为准</span>
+    </div>
+    <div class="af-row">
+      <button class="btn btn-sm" id="smartBtn" type="button">✨ AI 智能整理（可选）</button>
+      <span id="smartMsg" class="c-tip">大段文字可以交给 AI 拆条 + 分场景；没配 AI 也会按本地规则整理</span>
+    </div>
+
+    <div class="mfoot">
+      <span class="mfoot-note" id="addFoot">确认后自动分类进场景</span>
+      <button class="btn" id="addCancel" type="button">取消</button>
+      <button class="btn btn-primary" id="addOk" type="button">添加到积累</button>
+    </div>
+  </div>
+</div>
+
+<!-- 新场景 -->
+<div class="mask" id="sceneMask">
+  <div class="modal">
+    <h3>新场景</h3>
+    <p class="sub">起个名字、选个小图标，以后积累就能归到这里；也可以直接在一句话里写「记到 XXX」自动建。</p>
+    <div class="af-row"><label>名字</label><input id="scName" maxlength="12" placeholder="如：机场 / 咖啡馆 / 图表题"></div>
+    <div class="af-row"><label>图标</label><span class="ico-chips" id="iconChips"></span></div>
+    <div class="mfoot">
+      <span class="mfoot-note">场景可以随时删，里面的内容会移到「未分类」</span>
+      <button class="btn" id="scCancel" type="button">取消</button>
+      <button class="btn btn-primary" id="scOk" type="button">创建场景</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/core.js"></script>
+<script src="data/ielts-phrases.js"></script>
+<script src="assets/collect.js?v=49"></script>
+</body>
+</html>

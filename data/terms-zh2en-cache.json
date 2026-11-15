@@ -1,0 +1,18 @@
+{
+ "行列式": {
+  "en": "determinant",
+  "pos": "n.",
+  "zh": "行列式",
+  "def": "A scalar quantity computed from a square matrix, used to solve linear systems and characterize linear transformations.",
+  "eg": "The determinant of a diagonal matrix equals the product of all its diagonal entries.",
+  "source": "ai"
+ },
+ "协方差": {
+  "en": "covariance",
+  "pos": "n.",
+  "zh": "协方差",
+  "def": "A statistical measure that quantifies the joint variability of two random variables relative to their respective means",
+  "eg": "The covariance matrix of asset returns is a critical input for mean-variance portfolio optimization models.",
+  "source": "ai"
+ }
+}

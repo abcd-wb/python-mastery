@@ -1047,7 +1047,12 @@ audio{max-width:100%;height:36px;margin-top:10px}
   font:inherit;font-size:12.5px;background:#fff;color:var(--ink);outline:none;min-width:0}
 .cf-row input[type=date],.cf-row input[type=time]{width:132px}
 .cf-row #cfName{width:160px}
-.cf-row #cfLink{flex:1 1 250px}
+/* 会议链接只读展示；会议号是从链接里自动识别出来的标注，不是独立输入框 */
+.cf-link{flex:1 1 250px;min-width:0;font-size:12px;color:var(--blue);word-break:break-all;
+  background:#f7faff;border:1px solid #e6efff;border-radius:8px;padding:6px 9px;line-height:1.5}
+.cf-no{font-size:11.6px;color:#0f766e;background:#eafaf5;border:1px solid #c7efe2;
+  border-radius:20px;padding:3px 9px;white-space:nowrap}
+.cf-no:empty{display:none}
 .cf-row textarea{flex:1 1 250px;resize:vertical;line-height:1.6;min-height:56px}
 .cf-row input:focus,.cf-row textarea:focus{border-color:#9dbcff;box-shadow:0 0 0 3px rgba(37,99,235,.09)}
 .cf-chips{display:flex;gap:6px;flex-wrap:wrap}
@@ -1061,19 +1066,23 @@ audio{max-width:100%;height:36px;margin-top:10px}
 
 /* 上课教室 / 批量管理 / 右键菜单 */
 .room-list{display:flex;flex-direction:column;gap:8px;margin:14px 0;max-height:250px;overflow:auto}
-.room-row{display:grid;grid-template-columns:150px minmax(0,1fr) 110px 24px;gap:6px;align-items:center;
+.room-row{display:grid;grid-template-columns:150px minmax(0,1fr) 132px 24px;gap:6px;align-items:center;
   background:#fbfcff;border:1px solid var(--line);border-radius:9px;padding:6px 8px}
 .room-row input{border:1px solid var(--line2);border-radius:7px;padding:5px 8px;font:inherit;font-size:12px;
   background:#fff;color:var(--ink);min-width:0;width:100%;box-sizing:border-box;outline:none}
 .room-row input:focus{border-color:#9dbcff}
+/* 只读：会议号从会议链接自动识别，不能手填 */
+.rm-no-tag{font-size:11.2px;color:#0f766e;background:#eafaf5;border:1px solid #c7efe2;
+  border-radius:7px;padding:5px 6px;text-align:center;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;box-sizing:border-box}
+.rm-no-tag.none{color:var(--ink3);background:#f4f6fa;border-color:var(--line2)}
 .rm-del{border:0;background:none;color:#c02a3a;font-size:16px;cursor:pointer}
 .room-empty{margin:0;font-size:12px;color:var(--ink3)}
 .room-add{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .room-add input{border:1px solid var(--line2);border-radius:8px;padding:6px 9px;font:inherit;font-size:12px;
   background:#fff;color:var(--ink);outline:none;min-width:0}
 .room-add #rmName{width:150px}
-.room-add #rmLink{flex:1 1 220px}
-.room-add #rmNo{width:110px}
+.room-add #rmLink{flex:1 1 320px}
 .room-h4{margin:16px 0 8px;font-size:13px;color:var(--ink)}
 .room-bind{display:flex;flex-wrap:wrap;gap:8px}
 .room-bind label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2);
@@ -1085,6 +1094,12 @@ audio{max-width:100%;height:36px;margin-top:10px}
   padding:3px 9px;font:inherit;font-size:11.5px;cursor:pointer}
 .cf-tip{font-size:11.5px;color:var(--ink3)}
 .cf-room{font-size:12px;color:var(--ink2)}
+/* 课表历史快照列表：只增不删，任何一次改动前都能找回 */
+.hist-list{display:flex;flex-direction:column;gap:7px;margin:14px 0;max-height:300px;overflow:auto}
+.hist-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fbfcff;
+  border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12.5px;color:var(--ink2)}
+.hist-row b{color:var(--ink);font-weight:600}
+.hist-row .btn{margin-left:auto;flex:none}
 .ctxmenu{position:fixed;z-index:99998;min-width:172px;background:#fff;border:1px solid var(--line);
   border-radius:10px;box-shadow:0 10px 30px rgba(22,36,64,.18);padding:5px;display:flex;flex-direction:column}
 .ctxmenu[hidden]{display:none}
@@ -1100,7 +1115,8 @@ audio{max-width:100%;height:36px;margin-top:10px}
 .mgrbar span{color:var(--ink3)}
 .wev.sel{box-shadow:0 0 0 3px #2563eb inset,0 6px 18px rgba(37,99,235,.25);transform:translateY(-1px)}
 @media (max-width:620px){
-  .room-row{grid-template-columns:1fr 1fr 24px}
-  .room-row .rm-link{grid-column:1 / 3}
+  .room-row{grid-template-columns:minmax(0,1fr) 24px}
+  .room-row .rm-link,.room-row .rm-no-tag{grid-column:1 / 2}
+  .room-row .rm-del{grid-column:2;grid-row:1 / 4}
   .mgrbar{left:8px;right:8px;transform:none}
 }

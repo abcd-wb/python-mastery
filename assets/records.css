@@ -1,0 +1,57 @@
+/* ===== 模块四 · 做题记录 ===== */
+
+.rtabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 16px}
+.rtab{display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1px solid var(--line);
+  border-radius:12px;padding:10px 8px;font:inherit;font-size:14px;font-weight:700;color:var(--ink3);cursor:pointer;transition:.14s}
+.rtab i{font-style:normal;font-size:11px;font-weight:700;background:#eef2f8;color:#8b98ad;border-radius:20px;padding:1px 7px;min-width:18px;text-align:center}
+.rtab:hover{border-color:#cddcf3}
+.rtab.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.rtab.on i{background:rgba(255,255,255,.24);color:#fff}
+
+.rbox{min-height:150px}
+
+/* 识别结果 */
+.rdraft{margin:14px 0 0;background:#f7fbff;border:1px solid #cfe0fb;border-radius:16px;padding:14px 16px}
+.dhd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.dhd b{font-size:14px;font-weight:800}
+.dhd span{font-size:12.3px;color:var(--ink3)}
+.drow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:7px 0;font-size:13px}
+.drow label{font-size:12.3px;color:var(--ink3);flex:none}
+.drow input{width:64px;border:1px solid #dfe7f3;border-radius:8px;padding:4px 8px;font:inherit;font-size:13px;outline:none;background:#fff}
+.drow input:focus{border-color:#9dbcf3}
+.dsec{display:flex;gap:6px;flex-wrap:wrap}
+.dchip{border:1px solid #dfe7f3;background:#fff;border-radius:8px;padding:3px 11px;font:inherit;font-size:12.5px;color:var(--ink3);cursor:pointer}
+.dchip.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700}
+.dslash{color:#a3aebd}
+.dpct{font-size:12px;color:#0d9488;background:#e6f7f4;border-radius:6px;padding:1px 7px}
+.dwrong{display:flex;gap:5px;flex-wrap:wrap}
+.dwrong i{font-style:normal;font-size:11.5px;font-weight:700;color:#b45309;background:#fff5e6;border-radius:6px;padding:1px 7px}
+.dacts{display:flex;align-items:center;gap:14px;margin-top:12px}
+.dtext{margin:12px 0 0;max-height:130px;overflow:auto;background:#fff;border:1px solid #e8eef7;border-radius:10px;
+  padding:10px 12px;font-size:12px;line-height:1.75;color:#7b8798;white-space:pre-wrap;word-break:break-word}
+
+/* 记录列表 */
+.rlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.ritem{background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 15px 12px;
+  box-shadow:0 2px 8px rgba(22,36,64,.03)}
+.rhd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rwhen{font-size:12.2px;color:#9aa7b8}
+.rmeta{display:flex;gap:7px;flex-wrap:wrap}
+.rb{font-size:12px;font-weight:800;color:#2563eb;background:#e8f0ff;border-radius:6px;padding:1px 8px}
+.rr{font-size:12px;color:var(--ink2);background:#f4f7fc;border-radius:6px;padding:1px 8px}
+.racts{margin-left:auto;display:flex;gap:12px}
+.racts button{border:0;background:none;padding:0;font:inherit;font-size:12.2px;color:#9aa7b8;cursor:pointer}
+.racts button:hover{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
+.rtitle{margin:7px 0 0;font-size:13.8px;font-weight:700;color:var(--ink)}
+.rwrong{margin:6px 0 0;display:flex;gap:5px;flex-wrap:wrap;align-items:center;font-size:12px;color:#9aa7b8}
+.rwrong i{font-style:normal;font-size:11.5px;font-weight:700;color:#b45309;background:#fff5e6;border-radius:6px;padding:1px 7px}
+.rtext{margin:9px 0 0;max-height:220px;overflow:auto;background:#fbfcfe;border:1px solid #eef2f8;border-radius:10px;
+  padding:10px 12px;font-size:12px;line-height:1.7;color:#7b8798;white-space:pre-wrap;word-break:break-word}
+
+@media (max-width:620px){
+  .rtab{font-size:13px;padding:9px 4px;gap:4px}
+  .rtab i{display:none}
+  .rdraft{padding:12px}
+  .drow input{width:56px}
+  .rtext{max-height:160px}
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>课程目录 · Python 学习平台</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in" id="bar"></div>
+</header>
+
+<main class="wrap" id="app"></main>
+<div class="toast" id="toast"></div>
+
+<!-- 最后防线：数据文件/脚本引用出问题时，不再白屏，改成明确提示 + 一键重试。必须放在所有 <script src> 之前 -->
+<script>
+(function () {
+  var TARGETS = ['app', 'colToc', 'colLesson'];
+  function show(msg) {
+    if (document.getElementById('failsafeBox')) return;
+    var box = document.createElement('div');
+    box.id = 'failsafeBox';
+    box.style.cssText = 'position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:99999;max-width:min(680px,92vw);background:#fff7ed;border:2px solid #f97316;border-radius:14px;padding:16px 20px;box-shadow:0 12px 40px rgba(0,0,0,.25);color:#7c2d12;font:14px/1.7 -apple-system,system-ui,sans-serif';
+    box.innerHTML = '<b style="font-size:15px">⚠️ 课程数据没加载出来</b><br>' + msg +
+      '<div style="margin-top:6px;color:#9a3412">这不是你的操作问题，是课程数据文件的引用失效了。</div>' +
+      '<button id="failsafeRetry" style="margin-top:10px;padding:7px 16px;border:0;border-radius:8px;background:#ea580c;color:#fff;font-weight:600;cursor:pointer">清缓存重试</button>';
+    document.body.appendChild(box);
+    document.getElementById('failsafeRetry').onclick = function () {
+      location.href = location.pathname + '?fresh=' + Date.now() + location.hash;
+    };
+  }
+  window.addEventListener('error', function (e) {
+    if (e.target && e.target.tagName === 'SCRIPT') {
+      show('脚本加载失败：<code>' + (e.target.src || '').split('/').pop() + '</code>');
+    }
+  }, true);
+  setTimeout(function () {
+    var empty = false;
+    TARGETS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && !el.innerHTML.trim()) empty = true;
+    });
+    if (empty) show('页面内容为空，课程数据可能没读到。');
+    if (!window.COURSES || Object.keys(window.COURSES).length < 2) {
+      show('课程数据是空的。');
+    }
+  }, 1500);
+})();
+</script>
+
+<!-- 课程数据已合并到 videos/math/ai/modules 四个文件；旧的 wm164-*.js 全部删掉了 -->
+<script src="data/videos.js?v=54"></script>
+<script src="data/math.js?v=54"></script>
+<script src="data/modules.js?v=54"></script>
+<script src="data/ai.js?v=54"></script>
+<script src="assets/core.js?v=54"></script>
+<script src="assets/module.js?v=54"></script>
+</body>
+</html>

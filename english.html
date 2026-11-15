@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>纯英文课程 · Python 学习平台</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<a class="home-back" href="index.html">← Python 平台</a>
+
+<main class="home">
+  <nav class="modules c1" aria-label="纯英文课程">
+
+    <a class="module-card soon" href="#" style="--c:#475569;--tint:#eef2f8;--tint2:#dbe3ee">
+      <span class="ico" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 5.5h16v10.5H9.5L4.5 20.5V5.5Z"/>
+          <text x="12" y="13.6" font-size="6.6" font-weight="700" font-family="Helvetica,Arial" text-anchor="middle" fill="currentColor" stroke="none">EN</text>
+        </svg>
+      </span>
+      <span class="nm">纯英文课程</span>
+      <span class="ds">还没排课</span>
+      <span class="tagx">待开发</span>
+      <span class="go">进入 →</span>
+    </a>
+
+  </nav>
+
+  <p class="home-foot">
+    这块先占位：等你把中文课走完、能独立做项目了，再上纯英文课。<br>
+    到时候你告诉我选哪几门，我按同一套做法做——<b>左目录点进去直接播</b>、<b>中间讲义与练习</b>、<b>右栏英文术语带美音</b>、<b>听完自动标绿</b>。
+  </p>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/core.js"></script>
+<script>
+(function () {
+  var c = document.querySelector('.module-card.soon');
+  if (c) c.addEventListener('click', function (e) {
+    e.preventDefault();
+    PY.toast('这块还没排课，等你中文课走完再开');
+  });
+})();
+</script>
+</body>
+</html>

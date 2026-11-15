@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>错题本 · 雅思</title>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/ielts.css?v=21">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="ielts.html">← 雅思</a>
+    <div class="crumb"><b>模块四 · 错题本</b></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
+
+<main class="i-wrap">
+
+  <div class="ebox">
+    <textarea id="txt" class="eta" rows="3" spellcheck="false"
+      placeholder="把错的句子抄进来，比如：He go to school every day.　说错的口语就把那句话打出来"></textarea>
+
+    <div class="ecats" id="cats"></div>
+
+    <div class="eact">
+      <button class="btn btn-primary" id="save" disabled>记下来</button>
+      <span class="enote" id="note">贴进来就会自动判断是语法还是发音问题</span>
+      <span class="ecnt" id="cnt"></span>
+    </div>
+  </div>
+
+  <div class="eprev" id="prev" hidden></div>
+
+  <div class="lib-hd">
+    <b>待改</b>
+    <span id="hdCnt"></span>
+    <span class="lib-acts">
+      <button class="lnk" id="doneBtn" hidden>已改好</button>
+      <button class="lnk" id="clearAll" hidden>清空</button>
+    </span>
+  </div>
+
+  <ul class="elist" id="list"></ul>
+  <ul class="elist elist-done" id="doneList" hidden></ul>
+
+  <p class="lib-empty" id="empty">还没有记录。做错一题、说错一句，就贴进来。</p>
+  <p class="lib-foot" id="foot"></p>
+
+</main>
+
+<script src="assets/ielts-hints.js?v=21"></script>
+<script src="assets/ielts-errors.js?v=21"></script>
+</body>
+</html>

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>课程与计划 · 雅思</title>
 <script src="assets/api.js?v=1"></script>
-<script src="assets/auto-note.js?v=48"></script>
+<script src="assets/auto-note.js?v=53"></script>
 <link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/ielts.css?v=48">
+<link rel="stylesheet" href="assets/ielts.css?v=53">
 </head>
 <body>
 
@@ -164,7 +164,7 @@
 <div class="mask" id="cellMask">
   <div class="modal wide">
     <h3>在这一格排课 / 排计划</h3>
-    <p class="sub">点的是周几、几点就先填好了。选类型会自动带上对应教室的会议链接和会议号，点课块就直接进教室；除「自定义学习计划」外，到开始时间自动录音、到结束时间自动停并生成 AI 笔记。</p>
+    <p class="sub">点的是周几、几点就先填好了。选类型会自动带上对应教室的会议链接，链接里自带的会议号会自动识别（不用单独填），点课块就直接进教室；除「自定义学习计划」外，到开始时间自动录音、到结束时间自动停并生成 AI 笔记。</p>
     <div class="cell-form">
       <div class="cf-row"><label>哪几天</label>
         <span class="cf-chips" id="cfModes">
@@ -199,8 +199,9 @@
         </span>
       </div>
       <div class="cf-row" id="cfNameRow"><label>名称</label><input id="cfName" maxlength="12" placeholder="课表上显示的名字"></div>
-      <div class="cf-row" id="cfLinkRow"><label>会议链接</label><input id="cfLink" placeholder="选类型自动填，可改"></div>
-      <div class="cf-row" id="cfNoRow"><label>会议号</label><input id="cfNo" placeholder="选类型自动填，可改"></div>
+      <div class="cf-row" id="cfLinkRow"><label>会议链接</label>
+        <span class="cf-link" id="cfLink"></span><span class="cf-no" id="cfNo"></span>
+      </div>
       <div class="cf-row" id="cfRoomRow"><label>教室</label><span class="cf-room" id="cfRoom"></span></div>
       <div class="cf-row" id="cfTextRow" hidden><label>计划内容</label><textarea id="cfText" rows="2" placeholder="比如：背 50 个单词 + 精听一篇 Section 3"></textarea></div>
       <p class="cf-note" id="cfNote"></p>
@@ -213,23 +214,22 @@
   </div>
 </div>
 
-<!-- 上课教室：多个会议链接 + 会议号 -->
+<!-- 上课教室：会议链接里自带会议号，不用单独填 -->
 <div class="mask" id="roomMask">
   <div class="modal wide">
-    <h3>上课教室 · 会议链接与会议号</h3>
-    <p class="sub">可以添加多个教室。给每种课指定用哪个教室：排课时自动带上链接和会议号，点课块就直接跳转进教室。雅阅 / 雅听 / 雅写默认共用一个教室。</p>
+    <h3>上课教室 · 会议链接</h3>
+    <p class="sub">可以添加多个教室。把腾讯会议复制的整段邀请文字直接粘进「会议链接」就行 —— 链接和里面的会议号会自动拆出来，不用再单独填会议号。给每种课指定用哪个教室，排课时自动带上，点课块就直接进教室。雅阅 / 雅听 / 雅写默认共用一个教室。</p>
     <div class="room-list" id="roomList"></div>
     <div class="room-add">
       <input id="rmName" placeholder="教室名，如 雅思口语">
-      <input id="rmLink" placeholder="会议链接 https://…">
-      <input id="rmNo" placeholder="会议号">
+      <input id="rmLink" placeholder="会议链接（可粘整段邀请文字，会议号自动识别）">
       <button class="btn btn-sm btn-primary" id="rmAdd" type="button">＋ 添加教室</button>
     </div>
     <h4 class="room-h4">每种课用哪个教室</h4>
     <div class="room-bind" id="roomBind"></div>
     <p class="hint" id="roomMsg"></p>
     <div class="mfoot">
-      <span class="mfoot-note">改动即时保存；已排好的课保留排课当时的链接</span>
+      <span class="mfoot-note">改动即时保存；会议号一律从链接自动识别，已排好的课保留排课当时的链接</span>
       <button class="btn btn-primary" id="roomOk" type="button">好</button>
     </div>
   </div>
@@ -255,7 +255,7 @@
       <span class="vname">晓晓 · 真人女声</span>
       <button class="lnk" id="vtest">试听</button>
     </div>
-    <p class="hint">会议链接和会议号在顶部「🏫 上课教室」里统一管理：可添加多个教室，并给每种课指定用哪个。<br>「上课自动记笔记」按课表里排的<b>开始 / 结束时间</b>走：除「自定义学习计划」外，到开始时间自动开录、到结束时间自动停并生成 AI 笔记；自定义计划只占课表、不录音。要在这台 Mac 的 Chrome 里上课（声音外放），并留着平台标签页开着。</p>
+    <p class="hint">会议链接在顶部「🏫 上课教室」里统一管理：可添加多个教室，链接里自带的会议号自动识别，并给每种课指定用哪个。<br>「上课自动记笔记」只按课表里的<b>开始 / 结束时间</b>走：点课块、点桌面应用、或直接开腾讯会议都一样，到点自动开录、下课自动停并生成 AI 笔记；自定义计划只占课表、不录音。就算 Chrome 一个平台页都没开，本地服务也会到点后台拉起笔记页（需本地服务在运行）。<br>录音走这台 Mac 的麦克风：桌面应用上课请<b>声音外放</b>，戴耳机只录得到自己说话；AmazingTalker 没有开放接口，<b>只有排进课表的课</b>才会触发。</p>
     <div class="mfoot"><button class="btn btn-primary" id="setOk">好</button></div>
   </div>
 </div>
@@ -271,10 +271,23 @@
   </div>
 </div>
 
+<!-- 课表历史版本：改动前的快照只增不删，任何一次都能找回 -->
+<div class="mask" id="histMask">
+  <div class="modal wide">
+    <h3>课表历史版本</h3>
+    <p class="sub">每次改课表之前都会自动留一份快照，只增不删。以后完善平台也不会弄丢你排好的课；万一误删，在这里选一份恢复。</p>
+    <div class="hist-list" id="histList"></div>
+    <div class="mfoot">
+      <span class="mfoot-note" id="histMsg"></span>
+      <button class="btn btn-primary" id="histOk" type="button">关闭</button>
+    </div>
+  </div>
+</div>
+
 <!-- 课块右键菜单 -->
 <div class="ctxmenu" id="ctxMenu" hidden>
   <button type="button" data-act="open">进入教室</button>
-  <button type="button" data-act="copy">复制会议链接 / 会议号</button>
+  <button type="button" data-act="copy">复制会议链接（含会议号）</button>
   <button type="button" data-act="del">删除这一节</button>
   <button type="button" data-act="delbatch">删除这一批</button>
   <button type="button" data-act="cancel">取消</button>
@@ -287,6 +300,8 @@
   <button class="btn btn-sm" id="mgrAll" type="button">全选本周</button>
   <button class="btn btn-sm" id="mgrDel" type="button">删除选中</button>
   <button class="btn btn-sm" id="mgrClear" type="button">清空课表</button>
+  <button class="btn btn-sm" id="mgrRestore" type="button">恢复上一版</button>
+  <button class="btn btn-sm" id="mgrHistory" type="button">历史版本</button>
   <button class="btn btn-sm btn-primary" id="mgrCancel" type="button">取消 / 退出</button>
 </div>
 
@@ -294,6 +309,6 @@
 
 <script src="assets/core.js"></script>
 <script src="data/ielts-schedule.js"></script>
-<script src="assets/ielts-plan.js?v=48"></script>
+<script src="assets/ielts-plan.js?v=53"></script>
 </body>
 </html>

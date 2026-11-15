@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>识别你念的单词，自动加入单词表</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>录下你念的单词</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.ielts.speechtool</string>
+</dict>
+</plist>

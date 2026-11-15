@@ -20,13 +20,53 @@
     for (var i = 0; i < TYPES.length; i++) if (TYPES[i].id === id) return TYPES[i];
     return TYPES[0];
   }
+  /* 会议号不再单独填 / 单独存：教室只存「会议链接原文」raw，
+     纯跳转链接与会议号都从 raw 实时解析出来 */
   function defRooms() {
     return [
-      { id: 'r1', name: '雅阅 / 雅听 / 雅写', link: DEF_AT, no: '505-242-923' },
-      { id: 'r2', name: '雅思口语', link: '', no: '' },
-      { id: 'r3', name: '雅思外教', link: '', no: '' }
+      { id: 'r1', name: '雅阅 / 雅听 / 雅写',
+        raw: DEF_AT + '\n#腾讯会议：505-242-923', link: DEF_AT },
+      { id: 'r2', name: '雅思口语', raw: '', link: '' },
+      { id: 'r3', name: '雅思外教', raw: '', link: '' }
     ];
   }
+  /* 腾讯会议复制出来常是一整段邀请文字：链接 + #腾讯会议：505-242-923。
+     一次拆出「纯链接（跳转用）」「会议号（只读展示 / 复制用）」「完整邀请文本」 */
+  function meetingInfo(raw) {
+    var txt = String(raw == null ? '' : raw).trim();
+    if (!txt) return { link: '', no: '', invite: '' };
+    var m = txt.match(/https?:\/\/[^\s"'<>，,；;）)】]+/i);
+    var link = m ? m[0].replace(/[.,;:，。；、]+$/, '') : '';
+    if (!link && /^www\./i.test(txt)) link = 'https://' + txt.split(/\s+/)[0];
+    var no = '';
+    var marked = txt.match(/(?:腾讯会议|会议号|会议编号|会议\s*ID|Meeting\s*ID|Meeting\s*(?:No|Number)\.?)\s*[:：]?\s*([0-9][0-9\s\-]{5,24}[0-9])/i);
+    if (marked) no = marked[1];
+    if (!no && link) {
+      var q = link.match(/[?&](?:meeting_?id|meeting_?code|meetingNo|meeting_number|conf_?id|code|mid)=([0-9][0-9\-]{5,23})/i);
+      if (q) no = q[1];
+      if (!no) {
+        var seg = link.match(/\/(?:j|dm|s|meeting|m)\/([0-9][0-9\-]{7,15})(?:[/?#]|$)/i);
+        if (seg) no = seg[1];
+      }
+    }
+    if (!no) {
+      /* 去掉链接后，在说明文字里找 505-242-923 / 505 242 923 / 1234567890 */
+      var plain = txt.replace(/https?:\/\/\S+/gi, ' ');
+      var num = plain.match(/(?:^|[^\dA-Za-z])(\d{3}[- ]?\d{3,4}[- ]?\d{3,4})(?!\d)/);
+      if (num) no = num[1];
+      if (!no) {
+        var long = plain.match(/(?:^|[^\dA-Za-z])(\d{9,12})(?!\d)/);
+        if (long) no = long[1];
+      }
+    }
+    if (!no && link) {
+      var inUrl = link.match(/(?:^|[^\dA-Za-z])(\d{3}[- ]?\d{3,4}[- ]?\d{3,4})(?!\d)/);
+      if (inUrl) no = inUrl[1];
+    }
+    no = String(no).replace(/\s+/g, ' ').trim();
+    return { link: link, no: no, invite: link + (no ? '\n#腾讯会议：' + no : '') };
+  }
+  function roomInfo(r) { return meetingInfo(r && (r.raw != null ? r.raw : r.link) || ''); }
   function defBindings() {
     return { oral: 'r2', read: 'r1', listen: 'r1', write: 'r1', foreign: 'r3', plan: '' };
   }
@@ -65,26 +105,117 @@
   var S = load();
   var viewMon = mondayOf(new Date());
 
+  function defSet() {
+    return { lead: 5, voiceName: 'sandy', speak: 1, music: 1, notify: 0,
+             linkAT: DEF_AT, linkLocal: '', autoNote: 1 };
+  }
   function load() {
-    var base = {
-      local: [], alerted: {}, removed: [],
-      rooms: defRooms(), bindings: defBindings(),
-      set: { lead: 5, voiceName: 'sandy', speak: 1, music: 1, notify: 0,
-             linkAT: DEF_AT, linkLocal: '', autoNote: 1 }
-    };
+    var base = { local: [], alerted: {}, removed: [],
+      rooms: defRooms(), bindings: defBindings(), set: defSet(), ts: 0 };
     try {
       var o = JSON.parse(localStorage.getItem(KEY));
       if (o && o.set) {
-        o.local = o.local || []; o.alerted = o.alerted || {}; o.removed = o.removed || [];
-        o.rooms = (o.rooms && o.rooms.length) ? o.rooms : defRooms();
-        o.bindings = o.bindings || defBindings();
+        o = normalize(o);
+        try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) { }
         return o;
       }
     } catch (e) { }
-    /* 全新开始：不读旧键、不读已清空的内置课表；旧数据仍留在浏览器里可备查 */
+    /* 全新开始：不读旧键、不读已清空的内置课表 */
     return base;
   }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }
+  /* 兼容旧结构：单独存的会议号合并进链接原文；服务端拉回来的数据也走这里 */
+  function normalize(o) {
+    o.local = o.local || []; o.alerted = o.alerted || {}; o.removed = o.removed || [];
+    o.rooms = (o.rooms && o.rooms.length) ? o.rooms : defRooms();
+    o.bindings = o.bindings || defBindings();
+    o.set = o.set || defSet();
+    o.ts = o.ts || 0;
+    o.rooms.forEach(function (r) {
+      if (r.raw == null) {
+        var t = String(r.link || '').trim();
+        if (r.no && t.indexOf(r.no) < 0) t += (t ? '\n' : '') + '#腾讯会议：' + r.no;
+        r.raw = t;
+      }
+      r.link = meetingInfo(r.raw).link;
+      delete r.no;
+    });
+    o.local.forEach(function (c) {
+      if (c.invite == null) {
+        var t = String(c.link || '').trim();
+        if (c.no && t.indexOf(c.no) < 0) t += (t ? '\n' : '') + '#腾讯会议：' + c.no;
+        c.invite = t;
+      }
+      c.link = meetingInfo(c.invite).link;
+      delete c.no;
+    });
+    return o;
+  }
+
+  /* ---------- 课表存本机文件：Chrome / 后侧预览 / 任何窗口读同一份 ---------- */
+  var API = window.API_BASE || '';
+  /* 铁律：课表数据不许被任何平台改动清空。只有用户主动点「清空课表」
+     才带 allowClear，服务端才接受空课表；否则一律拦下并自动恢复。 */
+  function save(opts) {
+    S.ts = Date.now();
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { }
+    try {
+      fetch(API + '/api/plan/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: S, ts: S.ts, allowClear: !!(opts && opts.allowClear) })
+      }).then(function (r) {
+        if (r.ok) return null;
+        return r.json().then(function (j) {
+          if (j && j.blocked) {
+            toast('课表已保护：不能清空已排好的课，已自动恢复');
+            pullPlanForce();
+          }
+        }).catch(function () { });
+      }).catch(function () { });
+    } catch (e) { }
+  }
+  function pullPlanForce() {
+    fetch(API + '/api/plan/get', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (r) { applyServer(r, true, true); })
+      .catch(function () { });
+  }
+  function applyServer(r, quiet, force) {
+    if (!r || !r.data || (!force && (r.ts || 0) <= (S.ts || 0))) return false;
+    S = normalize(r.data);
+    S.ts = r.ts || 0;
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { }
+    renderAll();
+    jumpToLessons();
+    if (!quiet) toast('已从本机课表文件同步 ' + (S.local || []).length + ' 节课（换窗口也不会丢）');
+    return true;
+  }
+  function pullPlan(quiet) {
+    if (typeof fetch !== 'function') return;
+    /* 有弹窗开着时别把正在编辑的内容刷掉，下一轮再同步 */
+    if (quiet && document.querySelector('.mask.on')) return;
+    fetch(API + '/api/plan/get', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (!r || !r.data) { if (!quiet && (S.local || []).length) save(); return; }
+        if (!applyServer(r, quiet) && !quiet && (r.ts || 0) < (S.ts || 0)) save();
+      }).catch(function () { });
+  }
+  /* 本周没课、但后面排了课：直接跳到最近有课的一周 */
+  function jumpToLessons() {
+    var list = allLessons(), now = Date.now();
+    var a = viewMon.getTime(), b = addDays(viewMon, 7).getTime(), inView = false;
+    list.forEach(function (l) { if (l.start >= a && l.start < b) inView = true; });
+    if (inView) return;
+    var nx = null;
+    list.forEach(function (l) { if (!nx && l.end > now) nx = l; });
+    if (!nx) return;
+    var m = mondayOf(new Date(nx.start));
+    if (m.getTime() === viewMon.getTime()) return;
+    viewMon = m;
+    renderAll();
+    toast('本周没课，已跳到最近有课的一周（' + (m.getMonth() + 1) + '/' + m.getDate() + '）· 点「回到本周」可切回');
+  }
   function $(id) { return document.getElementById(id); }
   function pad(n) { return n < 10 ? '0' + n : '' + n; }
   function toast(m) { if (window.PY && PY.toast) PY.toast(m); }
@@ -118,6 +249,10 @@
     return s || '雅思';
   }
   function norm(o, defSrc) {
+    /* 课程只存链接原文 invite；纯链接、会议号都是运行时解析出来的 */
+    var raw = o.invite != null ? o.invite
+      : (String(o.link || '') + (o.no ? '\n#腾讯会议：' + o.no : ''));
+    var mi = meetingInfo(raw);
     var iso = o.d || o.date;
     var k = cleanKind(o.k);
     var start = at(iso, o.h, o.m);
@@ -134,7 +269,8 @@
       key: iso + ' ' + clock(o.h, o.m),
       iso: iso, h: o.h, m: o.m, dur: dur, k: k, t: o.t || '',
       eh: ed.getHours(), em: ed.getMinutes(),
-      src: o.src || defSrc || 'local', link: o.link || '', no: o.no || '',
+      src: o.src || defSrc || 'local',
+      link: mi.link || o.link || '', no: mi.no || '', invite: mi.invite || '',
       roomId: o.roomId || '', batch: o.batch || '',
       type: o.type || '', note: (o.note === 0 || o.noNote || o.type === 'plan') ? 0 : 1,
       text: o.text || '',
@@ -162,7 +298,7 @@
   /* ---------- 渲染 ---------- */
   function renderSub() {
     var list = allLessons();
-    $('ttSub').textContent = '共 ' + list.length + ' 节 · 点课表空白处排课 · 点课块进教室 · 右键单删 / 「批量管理」多选删除';
+    $('ttSub').textContent = '共 ' + list.length + ' 节 · 课表已存到本机文件（换窗口 / 浏览器都不丢）· 点空白处排课 · 点课块进教室 · 右键单删 / 「批量管理」多选删除';
   }
 
   function renderNav() {
@@ -266,7 +402,7 @@
     /* 录音由全站守护脚本按课表时间自动开始，不需要点、也不需要会议室链接 */
   }
 
-  /* ---------- 教室：多个会议链接 + 会议号 ---------- */
+  /* ---------- 教室：多个会议链接（会议号从链接自动识别） ---------- */
   function roomOf(id) {
     for (var i = 0; i < S.rooms.length; i++) if (S.rooms[i].id === id) return S.rooms[i];
     return null;
@@ -286,22 +422,29 @@
   }
   function renderRooms() {
     $('roomList').innerHTML = S.rooms.length ? S.rooms.map(function (r) {
+      var mi = roomInfo(r);
+      var raw = String(r.raw != null ? r.raw : (r.link || '')).replace(/\s*\n\s*/g, ' ');
+      var tag = mi.no ? '会议号 ' + esc(mi.no) : (mi.link ? '未识别到会议号' : '');
       return '<div class="room-row" data-id="' + esc(r.id) + '">' +
         '<input class="rm-name" data-f="name" value="' + esc(r.name) + '" placeholder="教室名">' +
-        '<input class="rm-link" data-f="link" value="' + esc(r.link) + '" placeholder="会议链接">' +
-        '<input class="rm-no" data-f="no" value="' + esc(r.no) + '" placeholder="会议号">' +
+        '<input class="rm-link" data-f="raw" value="' + esc(raw) + '" placeholder="会议链接（可粘整段邀请文字）">' +
+        '<span class="rm-no-tag' + (mi.no ? '' : ' none') + '" title="从会议链接自动识别，不用手填">' +
+          tag + '</span>' +
         '<button class="rm-del" type="button" title="删掉这个教室">×</button></div>';
     }).join('') : '<p class="room-empty">还没有教室，在下面加一个。</p>';
     renderRoomBind();
   }
   function addRoom() {
-    var name = $('rmName').value.trim(), link = $('rmLink').value.trim(), no = $('rmNo').value.trim();
-    if (!name && !link) { $('roomMsg').textContent = '至少填个教室名或会议链接'; return; }
+    var name = $('rmName').value.trim(), raw = $('rmLink').value.trim();
+    if (!name && !raw) { $('roomMsg').textContent = '至少填个教室名或会议链接'; return; }
+    var mi = meetingInfo(raw);
     S.rooms.push({ id: 'r' + Date.now().toString(36) + Math.floor(Math.random() * 1000),
-      name: name || '新教室', link: link, no: no });
-    $('rmName').value = ''; $('rmLink').value = ''; $('rmNo').value = '';
+      name: name || '新教室', raw: raw, link: mi.link });
+    $('rmName').value = ''; $('rmLink').value = '';
     save(); renderRooms();
-    $('roomMsg').textContent = '已添加教室，在下面给课程类型选上它。';
+    $('roomMsg').textContent = mi.no
+      ? '已添加教室 · 自动从链接里识别到会议号 ' + mi.no + '，在下面给课程类型选上它。'
+      : '已添加教室，在下面给课程类型选上它。';
   }
   function delRoom(id) {
     S.rooms = S.rooms.filter(function (r) { return r.id !== id; });
@@ -317,7 +460,7 @@
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(u).then(function () {
-          if (!quiet) toast('会议链接 / 会议号已复制');
+          if (!quiet) toast('会议链接（含会议号）已复制');
         }).catch(function () { });
       }
     } catch (e) { }
@@ -329,21 +472,24 @@
       b.classList.toggle('on', b.getAttribute('data-type') === t);
     });
     var ty = typeOf(t), isPlan = t === 'plan', r = roomForType(t);
+    var mi = isPlan ? { link: '', no: '' } : roomInfo(r);
     $('cfName').value = ty.k;
     $('cfLinkRow').hidden = isPlan;
-    $('cfNoRow').hidden = isPlan;
     $('cfRoomRow').hidden = isPlan;
     $('cfTextRow').hidden = !isPlan;
-    $('cfLink').value = isPlan ? '' : (r && r.link ? r.link : '');
-    $('cfNo').value = isPlan ? '' : (r && r.no ? r.no : '');
+    $('cfLink').textContent = isPlan ? ''
+      : (mi.link || '这个教室还没填会议链接，去「🏫 上课教室」粘一个');
+    /* 会议号是从链接里读出来的标注，只读，不是输入框 */
+    $('cfNo').textContent = mi.no ? '· 会议号 ' + mi.no + '（链接里自动识别）' : '';
     $('cfRoom').textContent = isPlan ? '' : (r
-      ? (r.name || '未命名教室') + (r.no ? ' · 会议号 ' + r.no : '')
+      ? (r.name || '未命名教室')
       : '还没给这种课指定教室，去「🏫 上课教室」选一个');
     $('cfNote').textContent = isPlan
       ? '自定义学习计划：只占课表提醒你，不进教室、也不自动录音。内容随便写，比如背单词、做题、复盘。'
       : '到「开始」自动录音、到「结束」自动停并生成 AI 笔记；点课块直接进「' +
         (r ? (r.name || '会议教室') : '会议教室') + '」。录的是这台 Mac 麦克风的声音，所以要在这台 Mac 的 Chrome 里上课（声音外放、别戴耳机）。';
-    $('cfFoot').textContent = isPlan ? '计划不录音' : '自动录音 + 自动生成笔记，链接 / 会议号已带好';
+    $('cfFoot').textContent = isPlan ? '计划不录音'
+      : '自动录音 + 自动生成笔记，会议链接已带好' + (mi.no ? '（会议号 ' + mi.no + '）' : '');
   }
 
   function cfSetMode(m) {
@@ -402,9 +548,10 @@
     if (dur <= 0) dur += 1440;
     if (dur > 360) { toast('结束时间要在开始之后，且不超过 6 小时'); return; }
     var isPlan = cfType === 'plan', ty = typeOf(cfType), r = roomForType(cfType);
+    /* 会议号全部来自教室的会议链接，不再读任何会议号输入框 */
+    var mi = isPlan ? { link: '', no: '', invite: '' } : roomInfo(r);
     var name = cleanKind($('cfName').value || ty.k);
-    var link = isPlan ? '' : $('cfLink').value.trim();
-    var no = isPlan ? '' : $('cfNo').value.trim();
+    var link = mi.link, no = mi.no, invite = mi.invite;
     var batch = 'b' + Date.now().toString(36);
     var added = 0, skipped = 0;
     dates.forEach(function (d) {
@@ -412,7 +559,7 @@
       if (find(key)) { skipped++; return; }
       S.local.push({
         d: d, h: h, m: mm, dur: dur, eh: eh, em: em,
-        k: name, t: '', src: 'local', link: link, no: no,
+        k: name, t: '', src: 'local', link: link, invite: invite,
         roomId: r ? r.id : '', batch: batch,
         type: cfType, note: isPlan ? 0 : 1,
         text: isPlan ? $('cfText').value.trim() : ''
@@ -422,9 +569,10 @@
     if (!added) { toast('这些日期在这个时间都已排了课，没有新增'); return; }
     save(); renderAll();
     $('cellMask').classList.remove('on');
-    if (link) copyMeetingLink(link + (no ? '\n会议号：' + no : ''), true);
+    if (invite) copyMeetingLink(invite, true);
     toast('排好 ' + added + ' 节' + (skipped ? '（' + skipped + ' 个日期已有课，跳过）' : '') +
-      (isPlan ? '，计划不录音' : '，到点自动录音、下课生成笔记'));
+      (isPlan ? '，计划不录音' : '，到点自动录音、下课生成笔记' +
+        (no ? '；已复制会议链接和会议号 ' + no : '')));
   }
 
   /* ---------- 删除：单个 / 整批 / 多选 ---------- */
@@ -1421,7 +1569,7 @@
       $('ctxMenu').hidden = true;
       if (act === 'cancel' || !l) return;
       if (act === 'open') openLesson(ctxKey);
-      else if (act === 'copy') copyMeetingLink(l.link + (l.no ? '\n会议号：' + l.no : ''), false);
+      else if (act === 'copy') copyMeetingLink(l.invite || meetingInfo(l.link).invite, false);
       else if (act === 'del') delLesson(ctxKey);
       else if (act === 'delbatch') delBatch(l.batch);
     });
@@ -1451,9 +1599,74 @@
         return;
       }
       clearArm = 0; this.textContent = '清空课表';
-      S.local = []; save(); renderAll(); mgrToggle(false);
-      toast('课表已清空，可以重新排了');
+      S.local = []; save({ allowClear: true }); renderAll(); mgrToggle(false);
+      toast('课表已清空，可以重新排了 · 误清了点「恢复上一版」或「历史版本」找回');
     });
+    /* 误删 / 误清空后，把服务端自动留的上一版找回来 */
+    var restoreArm = 0;
+    $('mgrRestore').addEventListener('click', function () {
+      if (Date.now() - restoreArm > 5000) {
+        restoreArm = Date.now(); this.textContent = '再点一次恢复';
+        toast('恢复上一版课表：5 秒内再点一次确认（不弹窗）');
+        return;
+      }
+      restoreArm = 0; this.textContent = '恢复上一版';
+      fetch(API + '/api/plan/backup', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          if (!r || !r.data) { toast('还没有上一版备份'); return; }
+          S = normalize(r.data);
+          save(); renderAll(); jumpToLessons(); mgrToggle(false);
+          toast('已恢复上一版：' + (S.local || []).length + ' 节课');
+        }).catch(function () { toast('恢复失败：本地服务没响应'); });
+    });
+    /* 历史版本：每次改动前的快照只增不删，可从任意一份找回课表 */
+    var histArm = '';
+    $('mgrHistory').addEventListener('click', function () {
+      $('histMsg').textContent = '';
+      $('histList').innerHTML = '<p class="room-empty">读取中…</p>';
+      $('histMask').classList.add('on');
+      fetch(API + '/api/plan/history', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          var items = (r && r.items) || [];
+          if (!items.length) {
+            $('histList').innerHTML = '<p class="room-empty">还没有历史快照；改动一次课表后会自动留一份。</p>';
+            return;
+          }
+          $('histList').innerHTML = items.map(function (x) {
+            return '<div class="hist-row" data-f="' + esc(x.file) + '">' +
+              '<b>' + esc(x.savedAt || x.file) + '</b>' +
+              '<span>' + x.courses + ' 节课 · ' + bytes(x.bytes) + '</span>' +
+              '<button class="btn btn-sm" type="button" data-act="restore">恢复这版</button></div>';
+          }).join('');
+        }).catch(function () { $('histList').innerHTML = '<p class="room-empty">读取失败：本地服务没响应</p>'; });
+    });
+    $('histList').addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('button[data-act="restore"]') : null;
+      if (!b) return;
+      var row = b.closest('.hist-row'), file = row.getAttribute('data-f');
+      if (histArm !== file) {
+        histArm = file; b.textContent = '再点一次恢复';
+        $('histMsg').textContent = '恢复会覆盖当前课表，5 秒内再点一次确认';
+        setTimeout(function () {
+          if (histArm === file) { histArm = ''; b.textContent = '恢复这版'; }
+        }, 5000);
+        return;
+      }
+      histArm = '';
+      fetch(API + '/api/plan/history/get?file=' + encodeURIComponent(file), { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          if (!r || !r.data) { $('histMsg').textContent = '这份快照读不出来'; return; }
+          S = normalize(r.data);
+          save(); renderAll(); jumpToLessons(); mgrToggle(false);
+          $('histMask').classList.remove('on');
+          toast('已恢复 ' + (S.local || []).length + ' 节课（' + (r.savedAt || '历史版本') + '）');
+        }).catch(function () { $('histMsg').textContent = '恢复失败：本地服务没响应'; });
+    });
+    $('histOk').addEventListener('click', function () { $('histMask').classList.remove('on'); });
+    $('histMask').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('on'); });
 
     /* 上课教室 */
     $('roomBtn').addEventListener('click', function () {
@@ -1468,8 +1681,18 @@
       if (!row) return;
       var r = roomOf(row.getAttribute('data-id'));
       if (!r) return;
-      r[e.target.getAttribute('data-f')] = e.target.value.trim();
-      save(); renderRoomBind();
+      var f = e.target.getAttribute('data-f'), v = e.target.value.trim();
+      if (f === 'name') { r.name = v; save(); renderRoomBind(); return; }
+      if (f === 'raw') {
+        r.raw = v;
+        var mi = meetingInfo(v);
+        r.link = mi.link;
+        delete r.no;
+        save(); renderRooms();
+        $('roomMsg').textContent = mi.no
+          ? '已保存：从链接里自动识别到会议号 ' + mi.no + '（不用单独填）'
+          : (mi.link ? '已保存链接；没识别到会议号，不影响进教室' : '会议链接已清空');
+      }
     });
     $('roomList').addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('.rm-del') : null;
@@ -1479,7 +1702,7 @@
       if (!e.target || e.target.tagName !== 'SELECT') return;
       S.bindings[e.target.getAttribute('data-t')] = e.target.value;
       save();
-      $('roomMsg').textContent = '已保存：这种课以后排课自动带这个教室的链接和会议号';
+      $('roomMsg').textContent = '已保存：这种课以后排课自动带这个教室的链接（会议号从链接里自动识别）';
     });
 
     /* 空白格排课弹层 */
@@ -1809,7 +2032,7 @@
       if (this.checked && 'Notification' in window && Notification.permission === 'default') Notification.requestPermission();
     });
     $('autoNoteOn').addEventListener('change', function () { S.set.autoNote = this.checked ? 1 : 0; save(); toast(this.checked ? '已开启：上课自动记笔记' : '已关闭：不再自动记笔记'); });
-    /* 会议链接 / 会议号已改到「上课教室」弹窗里统一管理 */
+    /* 会议链接（会议号自动识别）已在「上课教室」弹窗里统一管理 */
     [].forEach.call(document.querySelectorAll('.vpick'), function (b) {
       b.addEventListener('click', function () { S.set.voiceName = b.getAttribute('data-v'); save(); syncSettings(); });
     });
@@ -1835,10 +2058,14 @@
   function boot() {
     viewMon = mondayOf(new Date());
     renderAll();
+    jumpToLessons();
     bind();
     syncSettings();
     $('addD').value = isoOf(new Date());
     try { if (!localStorage.getItem('ielts_wake')) $('wake').style.display = ''; } catch (e) { $('wake').style.display = ''; }
+    /* 以本机文件为准：Chrome / 后侧预览 / 别的窗口排的课都同步过来 */
+    pullPlan(false);
+    setInterval(function () { pullPlan(true); }, 20000);
     setInterval(function () { renderNav(); renderGrid(); }, 60000);
     setInterval(check, 15000);
     setTimeout(check, 2000);

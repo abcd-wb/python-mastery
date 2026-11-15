@@ -1,0 +1,380 @@
+{
+ "scenes": [
+  {
+   "id": "write",
+   "name": "写作句型",
+   "icon": "✍️",
+   "color": "#2563eb"
+  },
+  {
+   "id": "speak",
+   "name": "口语表达",
+   "icon": "🗣",
+   "color": "#0d9488"
+  },
+  {
+   "id": "read",
+   "name": "阅读长难句",
+   "icon": "📚",
+   "color": "#7c3aed"
+  },
+  {
+   "id": "listen",
+   "name": "听力同义替换",
+   "icon": "🎧",
+   "color": "#ea580c"
+  },
+  {
+   "id": "vocab",
+   "name": "高频词汇",
+   "icon": "🔤",
+   "color": "#059669"
+  },
+  {
+   "id": "idea",
+   "name": "观点素材",
+   "icon": "💡",
+   "color": "#d97706"
+  },
+  {
+   "id": "grammar",
+   "name": "语法易错",
+   "icon": "🧩",
+   "color": "#db2777"
+  },
+  {
+   "id": "example",
+   "name": "万能例子",
+   "icon": "📌",
+   "color": "#475569"
+  },
+  {
+   "id": "misc",
+   "name": "未分类",
+   "icon": "📥",
+   "color": "#8b98ad"
+  }
+ ],
+ "items": [
+  {
+   "id": "c1a1dedd2076_0",
+   "ts": 1794740396150,
+   "scene": "write",
+   "text": "One of the strongest arguments in favour of free university education is that it allows talent to be rewarded rather than wealth.\n支持大学免费教育最有力的论据之一是：它让才华而不是财富成为被奖励的东西。\n【用法】Task 2 开头段表态",
+   "title": "教育 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_1",
+   "ts": 1794740396151,
+   "scene": "write",
+   "text": "While it is true that examinations measure little more than memory, this does not mean that they are worthless.\n虽然考试测的几乎只是记忆力，但这并不意味着它一无是处。\n【用法】让步段（While it is true that…, this does not mean that…）",
+   "title": "教育 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_2",
+   "ts": 1794740396152,
+   "scene": "write",
+   "text": "A further consideration is the extent to which schools prepare students for a labour market that is changing faster than any curriculum.\n还有一个考虑是：学校在多大程度上让学生准备好面对一个变化快过任何课程的市场。\n【用法】主体段第二点，句首过渡",
+   "title": "教育 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_3",
+   "ts": 1794740396153,
+   "scene": "write",
+   "text": "Unless governments invest in vocational training, the gap between graduates and available jobs will continue to widen.\n如果政府不投资职业培训，毕业生与可用岗位之间的差距会继续扩大。\n【用法】结论段提建议（Unless…, … will continue to）",
+   "title": "教育 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_4",
+   "ts": 1794740396154,
+   "scene": "speak",
+   "text": "I would say the biggest difference is the pace — at school someone tells you what to do next, whereas at university you have to plan it yourself.\n我觉得最大的差别是节奏：中学有人告诉你下一步做什么，大学得自己安排。\n【用法】Part 3 对比类问题",
+   "title": "教育 · 口语",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_5",
+   "ts": 1794740396155,
+   "scene": "write",
+   "text": "The damage caused by single-use plastics is now so visible that even industries that depend on them have begun to look for alternatives.\n一次性塑料造成的破坏已经明显到连依赖它的行业都开始寻找替代品。\n【用法】Task 2 举例开头（so … that）",
+   "title": "环境 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_6",
+   "ts": 1794740396156,
+   "scene": "write",
+   "text": "Taxing flights would be unpopular, but it would be effective: demand for air travel responds strongly to price.\n对航班征税会不受欢迎，但有效：航空需求对价格反应很强。\n【用法】评价政策（让步 + 冒号解释）",
+   "title": "环境 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_7",
+   "ts": 1794740396157,
+   "scene": "write",
+   "text": "It is often assumed that individual action is enough, yet the figures suggest that industrial emissions dwarf household ones.\n人们常以为个人行动就够了，但数据表明工业排放远超家庭排放。\n【用法】反驳常见观点（It is often assumed that…, yet…）",
+   "title": "环境 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_8",
+   "ts": 1794740396158,
+   "scene": "write",
+   "text": "Unless recycling is made convenient, most people will simply not do it, however strongly they agree with the principle.\n除非回收变得方便，否则即使再认同这个理念，多数人也不会做。\n【用法】结论段（Unless…, … however + adj）",
+   "title": "环境 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_9",
+   "ts": 1794740396159,
+   "scene": "speak",
+   "text": "Where I live, this is a fairly new issue — ten years ago nobody talked about it, but now it comes up in every conversation about the city.\n在我住的地方，这是近几年才有的问题：十年前没人提，现在每个关于城市的话题都会说到。\n【用法】Part 3 谈变化",
+   "title": "环境 · 口语",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_10",
+   "ts": 1794740396160,
+   "scene": "write",
+   "text": "What matters is not how much data a company collects, but whether the people it belongs to have any say in how it is used.\n重要的不是公司收集多少数据，而是数据所属的人对它的用途有没有发言权。\n【用法】Task 2 转折定义（What matters is not…, but whether…）",
+   "title": "科技 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_11",
+   "ts": 1794740396161,
+   "scene": "write",
+   "text": "Automation has already replaced routine work in manufacturing; the question now is whether it will do the same to office work.\n自动化已经取代了制造业的常规工作；现在的问题是它会不会对办公室工作做同样的事。\n【用法】主体段举例（分号连接两个分句）",
+   "title": "科技 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_12",
+   "ts": 1794740396162,
+   "scene": "write",
+   "text": "It would be naive to pretend that these tools are neutral: the way they are designed shapes the way we think.\n假装这些工具是中立的就太天真了：它们的设计方式塑造了我们的思考方式。\n【用法】表达立场（It would be naive to pretend that…）",
+   "title": "科技 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_13",
+   "ts": 1794740396163,
+   "scene": "write",
+   "text": "The benefit is real but unevenly distributed, which is precisely why regulation matters.\n好处是真的，但分配不均——这正是监管重要的原因。\n【用法】段落收尾（…, which is precisely why…）",
+   "title": "科技 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_14",
+   "ts": 1794740396164,
+   "scene": "speak",
+   "text": "I use it every day, but I would not say I depend on it — if it disappeared tomorrow I would manage, just more slowly.\n我每天都用，但不会说离不开它：明天没了我也能对付，只是慢一点。\n【用法】Part 1 谈习惯（but I would not say…）",
+   "title": "科技 · 口语",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_15",
+   "ts": 1794740396165,
+   "scene": "write",
+   "text": "For many employees, flexibility matters more than a small rise in salary, because time is the one thing money cannot buy back.\n对很多员工来说，弹性比小幅涨薪更重要，因为时间是钱买不回来的。\n【用法】Task 2 论证原因（because 从句）",
+   "title": "工作 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_16",
+   "ts": 1794740396166,
+   "scene": "write",
+   "text": "Working from home suits some tasks and ruins others; a sensible employer lets the type of work decide.\n远程办公适合某些工作、毁掉另一些；明智的雇主让工作性质来决定。\n【用法】折中观点（分号 + 具体化）",
+   "title": "工作 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_17",
+   "ts": 1794740396167,
+   "scene": "write",
+   "text": "Those who argue that young people change jobs too often tend to overlook how rarely the alternative — a job for life — still exists.\n认为年轻人跳槽太频繁的人，往往忽略了一点：“一份工作干一辈子”这种情况已经很少见了。\n【用法】反驳（Those who argue that… tend to overlook…）",
+   "title": "工作 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_18",
+   "ts": 1794740396168,
+   "scene": "write",
+   "text": "In the long run, a workforce that is constantly exhausted is cheaper to hire and more expensive to keep.\n长期看，一支长期疲惫的劳动力招起来便宜，留起来贵。\n【用法】结论句（In the long run, …）",
+   "title": "工作 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_19",
+   "ts": 1794740396169,
+   "scene": "speak",
+   "text": "The part I enjoy most is the variety — no two days are the same, which keeps me interested.\n我最喜欢的部分是变化：没有两天是一样的，这让我一直有兴趣。\n【用法】Part 1/2 描述喜欢的原因",
+   "title": "工作 · 口语",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_20",
+   "ts": 1794740396170,
+   "scene": "write",
+   "text": "Prevention is cheaper than treatment, yet health budgets almost everywhere are weighted towards the latter.\n预防比治疗便宜，但几乎所有地方的医疗预算都偏向后者。\n【用法】Task 2 指出矛盾（yet 转折）",
+   "title": "健康 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_21",
+   "ts": 1794740396171,
+   "scene": "write",
+   "text": "Taxing sugary drinks has been shown to reduce consumption, although the effect is modest and uneven across income groups.\n对含糖饮料征税已被证明能减少消费，尽管效果有限且在不同收入群体间不均。\n【用法】引用证据（has been shown to…, although…）",
+   "title": "健康 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_22",
+   "ts": 1794740396172,
+   "scene": "write",
+   "text": "It is tempting to blame individuals for poor health, but the environment in which they live limits their choices far more than willpower does.\n把健康问题归咎于个人很容易，但他们所处的环境对选择的限制远大于意志力。\n【用法】让步反驳（It is tempting to blame…, but…）",
+   "title": "健康 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_23",
+   "ts": 1794740396173,
+   "scene": "write",
+   "text": "A policy that works in one country may fail in another, because diet and transport are shaped by culture as much as by price.\n在A国有效的政策在B国可能失败，因为饮食与出行方式受文化影响不亚于受价格影响。\n【用法】限定条件（may fail, because… as much as…）",
+   "title": "健康 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_24",
+   "ts": 1794740396174,
+   "scene": "speak",
+   "text": "I try to walk whenever I can — not because I enjoy it, but because it is the only exercise I actually keep doing.\n能走我就走——不是因为喜欢，而是因为这是唯一我能坚持的运动。\n【用法】Part 1 谈习惯（not because…, but because…）",
+   "title": "健康 · 口语",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_25",
+   "ts": 1794740396175,
+   "scene": "write",
+   "text": "Governments have a responsibility to fund what markets will not, and basic research is the clearest example.\n政府有责任资助市场不会资助的东西，基础研究是最明显的例子。\n【用法】Task 2 立场句（what 引导的宾语从句）",
+   "title": "政府 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_26",
+   "ts": 1794740396176,
+   "scene": "write",
+   "text": "Spending on public transport is often presented as a cost, when in fact it is an investment with a measurable return.\n公共交通支出常被当作成本，实际上它是一项回报可衡量的投资。\n【用法】纠正误解（is often presented as…, when in fact…）",
+   "title": "政府 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_27",
+   "ts": 1794740396177,
+   "scene": "write",
+   "text": "The question is not whether to regulate, but at what level — too little lets harm spread, too much drives activity underground.\n问题不是要不要监管，而是监管到什么程度：太少伤害扩散，太多把活动逼到地下。\n【用法】结论段提平衡（not whether…, but at what level）",
+   "title": "政府 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_28",
+   "ts": 1794740396178,
+   "scene": "write",
+   "text": "Any policy that ignores the poorest will be judged a failure, however impressive its overall figures look.\n任何忽视最贫困者的政策都会被判为失败，无论总体数字多漂亮。\n【用法】评价（Any policy that… will be judged…, however…）",
+   "title": "政府 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_29",
+   "ts": 1794740396179,
+   "scene": "speak",
+   "text": "I think both sides have a point — individuals can change habits quickly, but only governments can change the system.\n我觉得两边都有道理：个人能快速改变习惯，但只有政府能改变系统。\n【用法】Part 3 双方观点",
+   "title": "政府 · 口语",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_30",
+   "ts": 1794740396180,
+   "scene": "write",
+   "text": "A city that is designed around cars makes walking inconvenient, and then blames its residents for not walking.\n围绕汽车设计的城市让步行变得不方便，然后又怪居民不走路。\n【用法】讽刺式论证（and then blames…）",
+   "title": "城市 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_31",
+   "ts": 1794740396181,
+   "scene": "write",
+   "text": "Rents rise faster than wages in most large cities, which pushes key workers further from the centre they serve.\n多数大城市的房租涨得比工资快，把关键岗位的人推离他们服务的市中心。\n【用法】因果链（which 引导结果）",
+   "title": "城市 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_32",
+   "ts": 1794740396182,
+   "scene": "write",
+   "text": "Green space is not a luxury added at the end of a project; it is infrastructure that decides how a neighbourhood ages.\n绿地不是项目末尾加的奢侈品，而是决定一个社区如何老化的基础设施。\n【用法】重新定义（not…; it is…）",
+   "title": "城市 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_33",
+   "ts": 1794740396183,
+   "scene": "write",
+   "text": "Where public transport is reliable, people give up their cars without being forced to.\n公共交通可靠的地方，人们不用被强迫就会放弃私家车。\n【用法】条件句开头（Where…, people…）",
+   "title": "城市 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_34",
+   "ts": 1794740396184,
+   "scene": "speak",
+   "text": "What I like about my city is that everything is within walking distance, although the traffic has got much worse.\n我喜欢我城市的地方是什么都在步行范围内，虽然交通差了很多。\n【用法】Part 2 描述地点",
+   "title": "城市 · 口语",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_35",
+   "ts": 1794740396185,
+   "scene": "write",
+   "text": "The problem is not that people are lied to, but that they are shown only the parts of the story that confirm what they already believe.\n问题不是人们被骗，而是他们只看到印证自己原有看法的那些部分。\n【用法】Task 2 深入分析（not that…, but that…）",
+   "title": "媒体 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_36",
+   "ts": 1794740396186,
+   "scene": "write",
+   "text": "Advertising does not simply sell products; it sells a version of the life that goes with them.\n广告卖的不只是产品，还卖一种与产品配套的生活想象。\n【用法】主体段观点（not simply…; it…）",
+   "title": "媒体 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_37",
+   "ts": 1794740396187,
+   "scene": "write",
+   "text": "Regulating speech is difficult precisely because the harm is slow, cumulative and hard to prove in a single case.\n监管言论之所以难，恰恰因为伤害是缓慢的、累积的，很难在单个案例中证明。\n【用法】解释困难（precisely because）",
+   "title": "媒体 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_38",
+   "ts": 1794740396188,
+   "scene": "write",
+   "text": "A free press is valuable not because journalists are always right, but because the possibility of being checked keeps power careful.\n新闻自由的价值不在于记者总是对的，而在于“可能被核查”让权力保持谨慎。\n【用法】结论句（not because…, but because…）",
+   "title": "媒体 · 写作",
+   "src": "内置高分句型"
+  },
+  {
+   "id": "c1a1dedd2076_39",
+   "ts": 1794740396189,
+   "scene": "speak",
+   "text": "I get most of my news from podcasts, which is probably not ideal — it means I hear what I already agree with.\n我主要从播客获取新闻，这大概不理想：意味着我听到的都是我已经认同的。\n【用法】Part 3 谈媒体（which 引导评价）",
+   "title": "媒体 · 口语",
+   "src": "内置高分句型"
+  }
+ ]
+}

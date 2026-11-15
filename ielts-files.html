@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>上课资料 · 雅思</title>
+<script src="assets/api.js?v=1"></script>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/ielts.css?v=35">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="ielts.html">← 雅思</a>
+    <div class="crumb"><b>模块二 · 上课资料</b></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
+
+<main class="i-wrap">
+
+  <div class="box" id="box">
+    <textarea id="sink" class="sink" spellcheck="false" autocomplete="off" aria-label="放资料进来"></textarea>
+    <div class="box-ph" id="boxPh">
+      <span class="box-ic">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 16V4M8.4 7.6 12 4l3.6 3.6"/>
+          <path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/>
+        </svg>
+      </span>
+      <b>点一下这里</b>
+      <span>再按 ⌘V，或右键 →「粘贴」<br>文件、截图、访达里复制的文件都行；也能直接拖进来</span>
+    </div>
+    <ul class="stage-list" id="stageList" contenteditable="false"></ul>
+  </div>
+
+  <div class="up-act">
+    <button class="btn btn-primary" id="addAll" disabled>添加到资料库</button>
+    <button class="lnk" id="readClip" type="button">读剪贴板</button>
+    <button class="lnk" id="stageClear" hidden>清空</button>
+    <span class="up-note" id="stageNote"></span>
+    <button class="lnk pick" id="pickBtn" type="button">选文件</button>
+    <input id="pick" type="file" multiple hidden>
+  </div>
+
+  <div class="lib-hd">
+    <b>资料库</b>
+    <span id="libCnt"></span>
+    <button class="lnk" id="trashBtn" hidden>回收站</button>
+    <button class="lnk" id="clearAll" hidden>清空</button>
+  </div>
+
+  <ul class="flist" id="trashList" hidden></ul>
+
+  <ul class="flist" id="lib"></ul>
+
+  <p class="lib-empty" id="libEmpty">这里还是空的，上面放进来试试。</p>
+  <p class="lib-foot" id="libFoot"></p>
+
+</main>
+
+<script src="assets/core.js"></script>
+<script src="assets/ielts-files.js?v=35"></script>
+</body>
+</html>
