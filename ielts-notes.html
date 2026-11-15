@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>课堂笔记 · 雅思</title>
+<script src="assets/api.js?v=1"></script>
+<script src="assets/auto-note.js?v=48"></script>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/ielts.css?v=48">
+<link rel="stylesheet" href="assets/notes.css?v=41">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="ielts.html">← 雅思</a>
+    <div class="crumb"><b>课堂 &amp; 口语笔记</b></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
+
+<main class="i-wrap">
+
+  <!-- 记录模式切换 -->
+  <div class="ntabs" id="ntabs">
+    <button class="ntab on" data-k="class">🎓 课堂笔记</button>
+    <button class="ntab" data-k="oral">🗣 口语 / 听力</button>
+  </div>
+
+  <!-- 录音区 -->
+  <div class="nbox" id="recBox">
+    <div class="nrow">
+      <label class="nlabel">这节课叫什么</label>
+      <input id="nName" placeholder="如：雅思 / 外教课 / 雅思哥口语" maxlength="30">
+    </div>
+    <div class="nrow">
+      <button class="btn btn-primary" id="recBtn" type="button">🎙 开始录音</button>
+      <button class="btn" id="recPause" type="button" hidden>⏸ 暂停</button>
+      <button class="btn btn-primary" id="recStop" type="button" hidden>■ 结束并生成笔记</button>
+      <span class="nstat" id="recStatus"></span>
+    </div>
+    <div class="nrec-dot" id="recDot" hidden>
+      <span class="pulse"></span><span id="recTime">00:00</span>
+    </div>
+    <p class="nhint" id="recHint">课堂：到课表的开始时间自动开录，到结束时间自动停并生成 AI 笔记（不会一直录）。口语 / 听力：从平台点雅思哥进入会自动开录，说完点「结束并生成笔记」。</p>
+  </div>
+
+  <!-- 笔记列表 -->
+  <div class="lib-hd">
+    <b>我的笔记</b>
+    <span id="nCnt"></span>
+    <button class="lnk" id="nClear" type="button" style="margin-left:auto">清空全部</button>
+  </div>
+
+  <ul class="nlist" id="nlist"></ul>
+  <p class="lib-empty" id="empty">还没有笔记。上课或点雅思哥会自动开始记录，下课点「结束」就生成一篇。</p>
+
+</main>
+
+<!-- 查看笔记弹窗 -->
+<div class="wmask" id="viewMask" hidden>
+  <div class="nview">
+    <div class="nv-top">
+      <b id="nvTitle">笔记</b>
+      <span id="nvKind"></span>
+      <button class="wp-x" id="nvClose" type="button" aria-label="关闭">×</button>
+    </div>
+    <div class="nv-body" id="nvBody"></div>
+  </div>
+</div>
+
+<script src="assets/notes.js?v=48"></script>
+</body>
+</html>

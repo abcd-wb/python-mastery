@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>课程与计划 · 雅思</title>
+<script src="assets/api.js?v=1"></script>
+<script src="assets/auto-note.js?v=48"></script>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/ielts.css?v=48">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="ielts.html">← 雅思</a>
+    <div class="crumb"><b>模块一 · 课程与计划</b></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
+
+<main class="i-wrap">
+
+  <div class="wake" id="wake" style="display:none">
+    <span>🔔 点一下才允许课前放提示音和语音（浏览器规定）。</span>
+    <button class="btn btn-sm btn-primary" id="wakeBtn">开启提醒</button>
+  </div>
+
+  <section class="tt">
+    <div class="tt-top">
+      <div>
+        <h1>雅思课表</h1>
+        <p class="tt-sub" id="ttSub">按周看 · 点课表空白处直接排课（周几、几点点在哪就排在哪）· 点课块进教室</p>
+      </div>
+      <div class="tt-acts">
+        <button class="tt-sync" id="roomBtn">🏫 上课教室</button>
+        <button class="tt-sync" id="mgrBtn">批量管理</button>
+        <button class="tt-sync" id="planBtn">＋ 排课</button>
+        <button class="tt-sync" id="imgBtn">图片排课</button>
+      </div>
+    </div>
+
+    <div class="wk-nav">
+      <div class="wnav-group">
+        <button class="wnav" id="prevW" aria-label="上一周">‹</button>
+        <div class="wlab"><b id="wRange">—</b><span id="wNote"></span></div>
+        <button class="wnav" id="nextW" aria-label="下一周">›</button>
+      </div>
+      <button class="wtoday" id="todayBtn">回到本周</button>
+      <span class="wnext" id="wNext"></span>
+    </div>
+
+    <div class="wk" id="wk"></div>
+
+    <div class="tt-foot">
+      <span class="fnote">课前 <b id="leadTxt">5</b> 分钟放轻音乐 + 真人女声提醒 · 语音：<b id="vname">晓晓</b> · 右键课块可单删</span>
+      <span class="tfl">
+        <button class="lnk" id="musicBtn">试听音乐</button>
+        <button class="lnk" id="voiceBtn">试听语音</button>
+        <button class="lnk" id="setBtn">设置</button>
+      </span>
+    </div>
+  </section>
+
+</main>
+
+<!-- 排课 -->
+<div class="mask" id="planMask">
+  <div class="modal">
+    <h3>排课</h3>
+    <p class="sub">一句话说清楚周几、几点、多久、什么课，剩下的我来排。课程名随便写 —— 写「外教课」，课表上就标外教课。排出来的课算「自排课」，走你自己的教室。</p>
+    <textarea class="say" id="say" rows="3" placeholder="例如：每周三 12 点半外教课，50 分钟"></textarea>
+    <div class="say-tips">
+      <span>试一句：</span>
+      <button class="mini" data-t="每周三12点半外教课，50分钟">每周三 12:30 · 外教课</button>
+      <button class="mini" data-t="每周二、周四晚上8点，1小时雅思课">每周二、四 20:00 · 雅思</button>
+      <button class="mini" data-t="11月20日上午10点到11点，口语课">11/20 10:00-11:00 口语</button>
+    </div>
+    <p class="hint" id="planMsg"></p>
+    <p class="hint" style="margin-top:2px">写完直接按 <b>⌘/Ctrl + Enter</b> 也能生成。</p>
+    <div class="mfoot">
+      <span class="mfoot-note">排出来的课算「自排课」，点课表就进你自己的教室</span>
+      <button class="btn" id="planCancel">取消</button>
+      <button class="btn btn-primary" id="planOk">生成课表</button>
+    </div>
+  </div>
+</div>
+
+<!-- 图片排课 -->
+<div class="mask" id="imgMask">
+  <div class="modal wide">
+    <h3>上传图片生成课表</h3>
+    <p class="sub">把课表截图贴进来，我按表格的列对齐，把「哪节课排在哪天」还原出来，列成一张表让你核对，确认后才加进课表。识别用 macOS 自带的文字识别，在本机跑，不上传别处。</p>
+
+    <div class="box" id="imgBox">
+      <textarea id="imgSink" class="sink" spellcheck="false" autocomplete="off" aria-label="放课表图片进来"></textarea>
+      <div class="box-ph" id="imgPh">
+        <span class="box-ic">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <circle cx="8.5" cy="9" r="1.6"/>
+            <path d="M4 17l5-4.5 4 3.2 3-2.4 4 3.7"/>
+          </svg>
+        </span>
+        <b>点一下这个框，然后右键 →「粘贴」</b>
+        <span>截图、图片文件都行；也可以按 ⌘V，或把图片拖进来</span>
+      </div>
+      <ul class="stage-list" id="imgStage"></ul>
+    </div>
+    <div class="ibox-act">
+      <button class="lnk" id="imgPick" type="button">选图片</button>
+      <button class="lnk" id="imgRead" type="button">从剪贴板读图</button>
+      <span class="istat" id="imgStatus">还没收到图片</span>
+    </div>
+    <input type="file" id="imgFile" accept="image/*" hidden>
+
+    <div class="krow">
+      <span>这节课叫什么</span>
+      <input class="namein" id="kName" value="雅思" maxlength="12" placeholder="比如：外教课" autocomplete="off">
+      <span class="kchips" id="kChips">
+        <button class="kchip on" type="button" data-k="雅思">雅思</button>
+        <button class="kchip" type="button" data-k="雅阅">雅阅</button>
+        <button class="kchip" type="button" data-k="雅写">雅写</button>
+        <button class="kchip" type="button" data-k="口语">口语</button>
+        <button class="kchip" type="button" data-k="听力">听力</button>
+      </span>
+      <p class="khint">填什么，课表上就标什么 —— 比如填「外教课」，下面识别出来的每一节都会写成外教课。单节不一样，直接改那一行右边的名字。</p>
+    </div>
+    <datalist id="kindList">
+      <option>雅思</option><option>雅阅</option><option>雅写</option><option>口语</option><option>听力</option><option>外教课</option>
+    </datalist>
+
+    <div class="ocrbox" id="ocrBox" style="display:none">
+      <div class="ocrimg"><img id="ocrImg" alt="上传的课表"></div>
+      <div class="ocrside">
+        <p class="hint" id="ocrMsg">准备中…</p>
+        <div class="ocrrows" id="ocrRows"></div>
+        <div class="addrow">
+          <span>没认出来的，手动补一行：</span>
+          <input type="date" id="addD">
+          <input type="time" id="addT" value="12:45">
+          <span>到</span>
+          <input type="time" id="addE" value="13:45">
+          <input class="namein" id="addK" value="雅思" maxlength="12" placeholder="课程名" style="width:96px">
+          <button class="btn btn-sm" id="addOk">加一行</button>
+        </div>
+        <div class="textrow" id="textRow" style="display:none">
+          <span>直接贴课表文字，一行一条：</span>
+          <textarea id="textIn" rows="4" placeholder="11月17日 12:45-13:45 外教课&#10;周一 09:00 口语陪练&#10;周三 晚上8点 雅思阅读" spellcheck="false"></textarea>
+          <button class="btn btn-sm" id="textOk">解析这几行</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mfoot">
+      <span class="mfoot-note" id="imgHint">识别出的课会列在上面，确认后点右边按钮</span>
+      <button class="btn" id="imgCancel">关闭</button>
+      <button class="btn btn-primary" id="imgOk" disabled>确认加入课表</button>
+    </div>
+  </div>
+</div>
+
+<!-- 点课表空白处排课 -->
+<div class="mask" id="cellMask">
+  <div class="modal wide">
+    <h3>在这一格排课 / 排计划</h3>
+    <p class="sub">点的是周几、几点就先填好了。选类型会自动带上对应教室的会议链接和会议号，点课块就直接进教室；除「自定义学习计划」外，到开始时间自动录音、到结束时间自动停并生成 AI 笔记。</p>
+    <div class="cell-form">
+      <div class="cf-row"><label>哪几天</label>
+        <span class="cf-chips" id="cfModes">
+          <button class="kchip on" type="button" data-mode="one">单日</button>
+          <button class="kchip" type="button" data-mode="multi">多个日期</button>
+          <button class="kchip" type="button" data-mode="daily">每天都有（范围）</button>
+        </span>
+      </div>
+      <div class="cf-row" id="cfOneRow"><label>日期</label><input type="date" id="cfD"></div>
+      <div class="cf-row" id="cfMultiRow" hidden>
+        <label>加日期</label><input type="date" id="cfDatePick">
+        <button class="btn btn-sm" id="cfDateAdd" type="button">＋ 加</button>
+        <span class="cf-dates" id="cfDates"></span>
+      </div>
+      <div class="cf-row" id="cfDailyRow" hidden>
+        <label>从</label><input type="date" id="cfFrom">
+        <label style="width:auto">到</label><input type="date" id="cfTo">
+        <span class="cf-tip">范围内每天都生成一节（最多 90 天）</span>
+      </div>
+      <div class="cf-row">
+        <label>开始</label><input type="time" id="cfS">
+        <label style="width:auto">结束</label><input type="time" id="cfE">
+      </div>
+      <div class="cf-row"><label>类型</label>
+        <span class="cf-chips" id="cfKinds">
+          <button class="kchip on" type="button" data-type="oral">雅思口语</button>
+          <button class="kchip" type="button" data-type="read">雅阅</button>
+          <button class="kchip" type="button" data-type="listen">雅听</button>
+          <button class="kchip" type="button" data-type="write">雅写</button>
+          <button class="kchip" type="button" data-type="foreign">雅思外教</button>
+          <button class="kchip" type="button" data-type="plan">📝 自定义学习计划</button>
+        </span>
+      </div>
+      <div class="cf-row" id="cfNameRow"><label>名称</label><input id="cfName" maxlength="12" placeholder="课表上显示的名字"></div>
+      <div class="cf-row" id="cfLinkRow"><label>会议链接</label><input id="cfLink" placeholder="选类型自动填，可改"></div>
+      <div class="cf-row" id="cfNoRow"><label>会议号</label><input id="cfNo" placeholder="选类型自动填，可改"></div>
+      <div class="cf-row" id="cfRoomRow"><label>教室</label><span class="cf-room" id="cfRoom"></span></div>
+      <div class="cf-row" id="cfTextRow" hidden><label>计划内容</label><textarea id="cfText" rows="2" placeholder="比如：背 50 个单词 + 精听一篇 Section 3"></textarea></div>
+      <p class="cf-note" id="cfNote"></p>
+    </div>
+    <div class="mfoot">
+      <span class="mfoot-note" id="cfFoot"></span>
+      <button class="btn" id="cfCancel" type="button">取消</button>
+      <button class="btn btn-primary" id="cfOk" type="button">确定，排进课表</button>
+    </div>
+  </div>
+</div>
+
+<!-- 上课教室：多个会议链接 + 会议号 -->
+<div class="mask" id="roomMask">
+  <div class="modal wide">
+    <h3>上课教室 · 会议链接与会议号</h3>
+    <p class="sub">可以添加多个教室。给每种课指定用哪个教室：排课时自动带上链接和会议号，点课块就直接跳转进教室。雅阅 / 雅听 / 雅写默认共用一个教室。</p>
+    <div class="room-list" id="roomList"></div>
+    <div class="room-add">
+      <input id="rmName" placeholder="教室名，如 雅思口语">
+      <input id="rmLink" placeholder="会议链接 https://…">
+      <input id="rmNo" placeholder="会议号">
+      <button class="btn btn-sm btn-primary" id="rmAdd" type="button">＋ 添加教室</button>
+    </div>
+    <h4 class="room-h4">每种课用哪个教室</h4>
+    <div class="room-bind" id="roomBind"></div>
+    <p class="hint" id="roomMsg"></p>
+    <div class="mfoot">
+      <span class="mfoot-note">改动即时保存；已排好的课保留排课当时的链接</span>
+      <button class="btn btn-primary" id="roomOk" type="button">好</button>
+    </div>
+  </div>
+</div>
+
+<!-- 设置 -->
+<div class="mask" id="setMask">
+  <div class="modal">
+    <h3>设置</h3>
+    <div class="setrow">课前 <select id="lead">
+      <option value="5">5 分钟</option>
+      <option value="10">10 分钟</option>
+      <option value="15">15 分钟</option>
+      <option value="30">30 分钟</option>
+    </select> 提醒</div>
+    <div class="setrow">
+      <label><input type="checkbox" id="musicOn"> 轻音乐</label>
+      <label><input type="checkbox" id="voiceOn"> 女声播报</label>
+      <label><input type="checkbox" id="notifyOn"> 系统通知</label>
+      <label><input type="checkbox" id="autoNoteOn"> 上课自动记笔记</label>
+    </div>
+    <div class="setrow vrow">提醒语音
+      <span class="vname">晓晓 · 真人女声</span>
+      <button class="lnk" id="vtest">试听</button>
+    </div>
+    <p class="hint">会议链接和会议号在顶部「🏫 上课教室」里统一管理：可添加多个教室，并给每种课指定用哪个。<br>「上课自动记笔记」按课表里排的<b>开始 / 结束时间</b>走：除「自定义学习计划」外，到开始时间自动开录、到结束时间自动停并生成 AI 笔记；自定义计划只占课表、不录音。要在这台 Mac 的 Chrome 里上课（声音外放），并留着平台标签页开着。</p>
+    <div class="mfoot"><button class="btn btn-primary" id="setOk">好</button></div>
+  </div>
+</div>
+
+<!-- 提醒浮层 -->
+<div class="ringmask" id="ringMask">
+  <div class="ringbox">
+    <div class="ring-note" id="ringNote">♪</div>
+    <h2 id="ringTitle">该上课了</h2>
+    <p id="ringSub">还有 5 分钟就要上雅思课了，请准备好进入教室。</p>
+    <a class="btn" id="ringJoin" href="#" target="_blank" rel="noopener">进入教室</a>
+    <button class="btn ghost" id="ringStop">知道了</button>
+  </div>
+</div>
+
+<!-- 课块右键菜单 -->
+<div class="ctxmenu" id="ctxMenu" hidden>
+  <button type="button" data-act="open">进入教室</button>
+  <button type="button" data-act="copy">复制会议链接 / 会议号</button>
+  <button type="button" data-act="del">删除这一节</button>
+  <button type="button" data-act="delbatch">删除这一批</button>
+  <button type="button" data-act="cancel">取消</button>
+</div>
+
+<!-- 批量管理条 -->
+<div class="mgrbar" id="mgrBar" hidden>
+  <b>批量管理</b>
+  <span id="mgrCnt">已选 0 节</span>
+  <button class="btn btn-sm" id="mgrAll" type="button">全选本周</button>
+  <button class="btn btn-sm" id="mgrDel" type="button">删除选中</button>
+  <button class="btn btn-sm" id="mgrClear" type="button">清空课表</button>
+  <button class="btn btn-sm btn-primary" id="mgrCancel" type="button">取消 / 退出</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/core.js"></script>
+<script src="data/ielts-schedule.js"></script>
+<script src="assets/ielts-plan.js?v=48"></script>
+</body>
+</html>

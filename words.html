@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="assets/api.js?v=1"></script>
+<script src="assets/auto-note.js?v=48"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>单词 · 雅思</title>
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/ielts.css?v=37">
+<link rel="stylesheet" href="assets/words.css?v=42">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="ielts.html">← 雅思</a>
+    <div class="crumb"><b>模块四 · 单词</b></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
+
+<main class="i-wrap">
+
+  <div class="box" id="box">
+    <textarea id="sink" class="sink" spellcheck="false" autocomplete="off" aria-label="放词表进来"></textarea>
+    <div class="box-ph" id="boxPh">
+      <span class="box-ic">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 4.5h9L19 9v10.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5.5a1 1 0 0 1 1-1Z"/>
+          <path d="M13.5 4.5V9H18"/>
+          <path d="M8 12.5h7M8 16h5"/>
+        </svg>
+      </span>
+      <b>点一下这个框，右键 →「粘贴」</b>
+      <span>词表文字粘进来就自动进词库，不用再点按钮<br>也能把 txt / pdf / 图片拖进来，或按 ⌘V</span>
+    </div>
+    <ul class="stage-list" id="stageList" contenteditable="false"></ul>
+  </div>
+
+  <div class="up-act">
+    <button class="btn btn-primary" id="importBtn" disabled>导入词表</button>
+    <span class="up-note" id="note">一行一个词，顺序随意：单词、音标、中文、例句，缺哪个都行</span>
+    <button class="lnk" id="pickBtn" type="button">选文件</button>
+    <input id="pick" type="file" multiple hidden>
+  </div>
+
+  <div class="manual" id="manualWrap">
+    <details id="manualDet" open>
+      <summary>手动输入 / 粘贴词表（点一下可收起）</summary>
+      <div class="manual-body">
+        <textarea id="manualText" rows="4" placeholder="一行一个词，例如：&#10;abandon 放弃&#10;curious 好奇的&#10;take part in 参加" spellcheck="false"></textarea>
+        <div class="manual-acts">
+          <button class="btn btn-primary" id="manualGo" type="button">✅ 加进词库</button>
+          <button class="btn voice-hold" id="voiceBtn" type="button">🎤 按住说话</button>
+          <span id="manualMsg"></span>
+        </div>
+        <div class="voice-line">
+          <span class="voice-hint" id="voiceHint">语音添加单词：按住上面的按钮念「单词 + 中文」，松手就自动加进词库；可以连着念好几个。</span>
+          <div class="voice-live" id="voiceLive" hidden></div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="wfiles" id="wfiles" hidden></div>
+
+  <div class="lib-hd">
+    <b>词库</b>
+    <span id="wcnt"></span>
+    <span class="lib-how">勾每行左边的方框 → 底部出现播放条</span>
+    <span class="lib-acts">
+      <button class="lnk" id="selAll" type="button">全选</button>
+      <button class="lnk" id="selNone" type="button">清空选择</button>
+      <button class="lnk" id="selUndone" type="button">只选没背的</button>
+    </span>
+  </div>
+
+  <div class="wsearch">
+    <input id="q" type="search" placeholder="搜单词或中文" autocomplete="off">
+  </div>
+
+  <div class="wfilter" id="wfilter">
+    <span class="wf-label">分类</span>
+    <button class="wchip on" data-tag="" type="button">全部</button>
+    <button class="wchip" data-tag="易错" type="button">易错 / 易忘</button>
+    <span id="tagChips"></span>
+  </div>
+
+  <ul class="wlist" id="wlist"></ul>
+  <div class="pager" id="pager" hidden>
+    <button class="btn btn-sm" id="pagerPrev" type="button">上一页</button>
+    <span id="pagerInfo">第 1 / 1 页</span>
+    <button class="btn btn-sm" id="pagerNext" type="button">下一页</button>
+  </div>
+  <p class="lib-empty" id="empty">还没有单词。把词表拖进上面那个框，或直接贴一段进来。</p>
+  <p class="lib-foot" id="foot"></p>
+
+</main>
+
+<div class="wbar" id="wbar" hidden>
+  <span class="wbar-n" id="barN">已选 0 个</span>
+  <button class="btn btn-sm" id="btnPlay" type="button">循环播放</button>
+  <button class="btn btn-sm" id="btnAnim" type="button">记忆动画</button>
+  <button class="btn btn-sm" id="btnComic" type="button">四格漫剧</button>
+  <button class="lnk" id="btnDone" type="button">标记已背</button>
+  <button class="lnk" id="btnHard" type="button">标易错</button>
+  <button class="lnk" id="btnTag" type="button">加分类</button>
+</div>
+
+<!-- 加分类弹窗 -->
+<div class="wmask" id="tagMask" hidden>
+  <div class="wtagbox">
+    <div class="ws-top"><span>给选中的词加分类</span><button class="wp-x" id="tagClose" type="button">×</button></div>
+    <div class="wtag-body">
+      <p class="wtag-sub">按应用场景分类，比如「学术」「口语」「写作」「听力」。已有的分类点一下即可，也可输入新的。</p>
+      <div class="wtag-chips" id="tagChoices"></div>
+      <input class="wtag-input" id="tagInput" placeholder="输入新分类，回车确认" maxlength="20">
+      <div class="wtag-acts">
+        <button class="btn btn-sm" id="tagCancel">取消</button>
+        <button class="btn btn-primary" id="tagOk">确定加分类</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 循环播放 -->
+<div class="wmask" id="playMask" hidden>
+  <div class="wplayer">
+    <div class="wp-top">
+      <span id="wpIdx">1 / 1</span>
+      <span id="wpLoop">第 1 遍</span>
+      <button class="wp-x" id="wpClose" type="button" aria-label="关闭">×</button>
+    </div>
+    <div class="wp-body">
+      <div class="wp-word" id="wpWord">word</div>
+      <div class="wp-phon" id="wpPhon"></div>
+      <div class="wp-cn" id="wpCn"></div>
+      <div class="wp-ex" id="wpEx"></div>
+    </div>
+    <div class="wp-acts">
+      <button class="lnk" id="wpPrev" type="button">上一个</button>
+      <button class="btn btn-primary" id="wpToggle" type="button">暂停</button>
+      <button class="lnk" id="wpNext" type="button">下一个</button>
+      <span class="wp-gap"></span>
+      <button class="lnk" id="wpRate" type="button">语速 1.0×</button>
+      <button class="lnk" id="wpAuto" type="button">自动下一个：开</button>
+    </div>
+  </div>
+</div>
+
+<!-- 动画 / 漫剧 -->
+<div class="wmask" id="showMask" hidden>
+  <div class="wshow">
+    <div class="ws-top">
+      <span id="wsTitle">记忆动画</span>
+      <span id="wsIdx">1 / 1</span>
+      <button class="wp-x" id="wsClose" type="button" aria-label="关闭">×</button>
+    </div>
+    <div class="ws-stage" id="wsStage"></div>
+    <div class="ws-acts">
+      <button class="lnk" id="wsPrev" type="button">上一张</button>
+      <button class="lnk" id="wsPause" type="button">暂停</button>
+      <button class="lnk" id="wsNext" type="button">下一张</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/words.js?v=42"></script>
+</body>
+</html>
