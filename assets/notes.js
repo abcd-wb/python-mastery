@@ -88,6 +88,32 @@
     return '';
   }
 
+  /* 告诉本地服务「这节课真的在录」。
+     没有这个心跳，服务端只能靠「有页面开着」猜，今天 19:30 的外教课就是这么漏掉的：
+     页面在，但这节课根本没开始录。 */
+  var recHbTimer = null;
+  function recHb(st) {
+    if (!S.lesson || typeof fetch !== 'function') return;
+    try {
+      fetch('/api/note/rec-hb?lesson=' + encodeURIComponent(S.lesson) + '&st=' + (st || 'rec'),
+        { cache: 'no-store' }).catch(function () { });
+    } catch (e) { }
+  }
+  function startRecHb() {
+    stopRecHb();
+    recHb('rec');
+    recHbTimer = setInterval(function () { recHb('rec'); }, 10000);
+  }
+  function stopRecHb(done) {
+    clearInterval(recHbTimer); recHbTimer = null;
+    if (done) recHb('done');
+  }
+
+  function isMineLesson() {
+    if (!S.lesson) return false;
+    try { return localStorage.getItem('ielts_note_running') === S.lesson; } catch (e) { return false; }
+  }
+
   function extOf(m) {
     if (m.indexOf('mp4') >= 0) return 'm4a';
     if (m.indexOf('webm') >= 0) return 'webm';
@@ -159,6 +185,7 @@
       beginSegment();
       scheduleRotate();
       armAutoEnd();
+      startRecHb();
       clearInterval(recTimer);
       recTimer = setInterval(function () {
         if (!paused) {
@@ -241,6 +268,7 @@
     clearTimeout(endTimer);
     S.autoEnd = 0;
     if (finishTimer) return;
+    stopRecHb(true);   /* 这节课结束了，告诉服务端别再重复拉起笔记页 */
     if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
     recording = false;
     setRecUI(false, false);

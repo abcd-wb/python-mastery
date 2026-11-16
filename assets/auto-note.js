@@ -112,7 +112,19 @@
     if (noteAlive()) return;
     var w = null;
     try { w = window.open(noteUrl(o, o.key), WIN); } catch (e) { }
-    if (!w) { del(tag); showBlocked(o, o.key); }
+    if (w) return;
+    /* 弹窗被浏览器拦了 → 请本地服务直接拉起笔记页（服务端 open 不受弹窗拦截影响）。
+       今天 19:30 的外教课就是卡在这里：页面开着但弹窗被拦，服务端又因为「页面活着」不接管。 */
+    try {
+      fetch(BASE + '/api/note/open?lesson=' + encodeURIComponent(o.key) +
+        '&name=' + encodeURIComponent(o.name || '这节课') + '&end=' + o.en,
+        { cache: 'no-store' }).then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (!j || !j.ok) { del(tag); showBlocked(o, o.key); }
+        }).catch(function () { del(tag); showBlocked(o, o.key); });
+    } catch (e) {
+      del(tag); showBlocked(o, o.key);
+    }
   }
 
   function finish(o) {

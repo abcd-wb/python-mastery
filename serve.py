@@ -607,33 +607,52 @@ def save_plan(payload):
 # 笔记页带 auto=1 自动开录、带 end 到下课自己停录并生成 AI 笔记，不需要额外停录指令。
 PORT = 8101
 GUARD_FILE = os.path.join(ROOT, 'data', 'ielts-note-guard.json')
-GUARD = {'last_hb': 0.0, 'state': {}}
+GUARD_LOG = os.path.join(ROOT, 'data', 'note-guard.log')
+# state：每节课服务端拉起过笔记页的记录；done：已录完/用户主动结束的课，不再重复拉起
+# rec_key / rec_ts：笔记页「正在录音」的心跳，只有它才是「这节课真的在录」的唯一证据
+GUARD = {'last_hb': 0.0, 'state': {}, 'done': set(), 'rec_key': '', 'rec_ts': 0.0}
 GUARD_LOCK = threading.Lock()
+
+
+def log_guard(msg):
+    """守护动作留痕：以后能直接看 data/note-guard.log 判断是没录还是没声音。"""
+    try:
+        os.makedirs(os.path.dirname(GUARD_LOG), exist_ok=True)
+        with open(GUARD_LOG, 'a', encoding='utf-8') as f:
+            f.write('[%s] %s\n' % (time.strftime('%Y-%m-%d %H:%M:%S'), msg))
+    except Exception:
+        pass
 
 
 def load_guard():
     try:
         with open(GUARD_FILE, 'r', encoding='utf-8') as f:
             d = json.load(f)
-        if isinstance(d, dict) and isinstance(d.get('state'), dict):
-            return d['state']
+        if isinstance(d, dict):
+            return {
+                'state': d['state'] if isinstance(d.get('state'), dict) else {},
+                'done': set(d['done']) if isinstance(d.get('done'), list) else set(),
+            }
     except Exception:
         pass
-    return {}
+    return {'state': {}, 'done': set()}
 
 
-def save_guard(state):
+def save_guard():
     try:
         os.makedirs(os.path.dirname(GUARD_FILE), exist_ok=True)
+        with GUARD_LOCK:
+            payload = {'state': GUARD['state'], 'done': sorted(GUARD['done'])}
         tmp = GUARD_FILE + '.tmp'
         with open(tmp, 'w', encoding='utf-8') as f:
-            json.dump({'state': state}, f, ensure_ascii=False, indent=1)
+            json.dump(payload, f, ensure_ascii=False, indent=1)
         os.replace(tmp, GUARD_FILE)
     except Exception:
         pass
 
 
 def guard_hb():
+    """普通平台页心跳：只说明「有人开着平台页面」，不代表这节课在录音。"""
     with GUARD_LOCK:
         GUARD['last_hb'] = time.time()
 
@@ -641,6 +660,36 @@ def guard_hb():
 def guard_alive():
     with GUARD_LOCK:
         return (time.time() - GUARD['last_hb']) < 45
+
+
+def rec_hb(lesson, st):
+    """笔记页录音心跳。st='rec' 正在录；st='done' 这节课已结束（正常录完或用户主动停）。"""
+    first = False
+    with GUARD_LOCK:
+        if st == 'done':
+            if lesson:
+                GUARD['done'].add(lesson)
+            GUARD['rec_key'] = ''
+            GUARD['rec_ts'] = 0.0
+        else:
+            first = (GUARD['rec_key'] or '') != (lesson or '')
+            GUARD['rec_key'] = lesson or ''
+            GUARD['rec_ts'] = time.time()
+    if st == 'done':
+        log_guard('🎧 录音结束：%s' % (lesson or '（未标课次）'))
+        save_guard()   # 立刻落盘：服务重启后不会又把已录完的课重新拉起一遍
+    elif first:
+        log_guard('🎙 笔记页开始录音：%s' % (lesson or '（未标课次）'))
+
+
+def rec_alive(lesson):
+    """这节课此刻是否真的有笔记页在录音（40 秒内报过 rec）。
+    课次为空时视为「正在录但没标课次」——宁可不重复开窗，也不要打断已经在录的页面。"""
+    with GUARD_LOCK:
+        if (time.time() - GUARD['rec_ts']) >= 40:
+            return False
+        k = GUARD['rec_key'] or ''
+        return (not k) or k == (lesson or '')
 
 
 def plan_lessons():
@@ -669,29 +718,49 @@ def plan_lessons():
 
 
 def guard_tick():
-    if guard_alive():
-        return   # 有平台页活着，auto-note.js 已在按时间处理，不要重复开窗口
+    """只在「这节课确实没人录」时拉起笔记页。
+    旧逻辑用「有没有平台页开着」当判据，导致只要 Chrome 里有任一平台标签页，
+    服务端就永不接管——今天 19:30 的外教课就是这么漏掉的（页面在，但录的是别的课/根本没录）。"""
     now = time.time() * 1000
     state = GUARD['state']
     changed = False
     for l in plan_lessons():
-        if state.get(l['key']):
-            continue
+        key = l['key']
         if l['st'] <= now < l['en']:
+            if key in GUARD['done']:
+                continue          # 这节课已经录完/用户主动结束，不再重复拉起
+            if rec_alive(key):
+                continue          # 笔记页正在录这节课，不用管
+            prev = state.get(key) or {}
+            # 已经拉起过但还没开始录 → 90 秒后允许再试，一节课最多 3 次，避免无限刷窗口
+            if prev.get('at') and (now - prev['at']) < 90000:
+                continue
+            if (prev.get('try') or 0) >= 3:
+                continue
             url = ('http://127.0.0.1:%d/ielts-notes.html?kind=class&auto=1&guard=1'
                    '&name=%s&lesson=%s&end=%d' %
                    (PORT, urllib.parse.quote(l['name']),
-                    urllib.parse.quote(l['key']), int(l['en'])))
+                    urllib.parse.quote(key), int(l['en'])))
             try:
                 # -g：后台打开，不把 Chrome 抢到前台打断桌面应用上课
                 subprocess.Popen(['open', '-g', '-a', 'Google Chrome', url],
                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                state[l['key']] = {'at': int(now), 'via': 'server'}
+                state[key] = {'at': int(now), 'via': 'server', 'try': (prev.get('try') or 0) + 1}
                 changed = True
-            except Exception:
-                pass
+                log_guard('⚡ 服务端拉起笔记页：%s %s（第 %d 次尝试）' %
+                          (key, l['name'], state[key]['try']))
+            except Exception as e:
+                log_guard('❌ 拉起笔记页失败：%s %s: %r' % (key, l['name'], e))
+        elif l['en'] <= now < l['en'] + 6 * 3600 * 1000:
+            # 下课了但整节课从没录到任何东西 → 明确记一笔，方便事后追查
+            key_end = 'end_logged_' + key
+            if key not in GUARD['done'] and not state.get(key_end):
+                state[key_end] = {'at': int(now), 'via': 'audit'}
+                changed = True
+                log_guard('⚠️ 下课核查：%s %s 这节课没有录音记录（无 done、无 rec 心跳）' %
+                          (key, l['name']))
     if changed:
-        save_guard(state)
+        save_guard()
 
 
 def guard_loop():
@@ -1257,6 +1326,40 @@ class Handler(SimpleHTTPRequestHandler):
         if path == '/api/note/heartbeat':
             guard_hb()
             return self._json({'ok': True})
+
+        if path == '/api/note/rec-hb':
+            # 笔记页录音心跳：st=rec 正在录 / st=done 这节课结束（正常录完或用户主动停）
+            lesson = (qs.get('lesson') or [''])[0]
+            st = (qs.get('st') or ['rec'])[0]
+            rec_hb(lesson, 'done' if st == 'done' else 'rec')
+            return self._json({'ok': True})
+
+        if path == '/api/note/open':
+            # 前端弹窗被浏览器拦截时的兜底：由服务端直接拉起笔记页（不受弹窗拦截影响）
+            lesson = (qs.get('lesson') or [''])[0]
+            name = (qs.get('name') or ['这节课'])[0]
+            try:
+                end = int((qs.get('end') or ['0'])[0])
+            except Exception:
+                end = 0
+            if not end:
+                for l in plan_lessons():
+                    if l['key'] == lesson:
+                        end = int(l['en'])
+                        break
+            if not end:
+                return self._json({'ok': False, 'err': '没找到这节课的结束时间'}, 400)
+            url = ('http://127.0.0.1:%d/ielts-notes.html?kind=class&auto=1&guard=1'
+                   '&name=%s&lesson=%s&end=%d' %
+                   (PORT, urllib.parse.quote(name), urllib.parse.quote(lesson), end))
+            try:
+                subprocess.Popen(['open', '-g', '-a', 'Google Chrome', url],
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                log_guard('🖥 前端弹窗被拦，改由服务端拉起：%s %s' % (lesson, name))
+                return self._json({'ok': True, 'end': end})
+            except Exception as e:
+                log_guard('❌ 服务端拉起失败：%s %s: %r' % (lesson, name, e))
+                return self._json({'ok': False, 'err': str(e)}, 500)
 
         if path == '/api/term/defs':
             return self._json({'ok': True, 'defs': load_term_defs()})
@@ -2404,7 +2507,9 @@ def main():
         port = int(sys.argv[1])
     PORT = port
     ensure_store()
-    GUARD['state'] = load_guard()
+    _g = load_guard()
+    GUARD['state'] = _g['state']
+    GUARD['done'] = _g['done']
     # 启动自检：页面引用的脚本/样式一旦失效，立刻在控制台报红
     print_ref_report(scan_broken_refs(), '[引用守卫·启动]')
     # 后台守护：即使 Chrome 一个平台页都没开，到上课时间也会自动拉起笔记页
