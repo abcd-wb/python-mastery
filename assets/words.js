@@ -93,6 +93,21 @@
     return S.words.filter(function (w) { return S.sel[w.id]; });
   }
 
+  /* 同步「全选本页」复选框：本页全选=勾、部分选中=半选、没选=空 */
+  function syncSelAll() {
+    var box = $('selPage');
+    if (!box) return;
+    var page = S.pageWords || [];
+    var on = page.filter(function (w) { return S.sel[w.id]; }).length;
+    var i = box.nextElementSibling;
+    box.checked = page.length > 0 && on === page.length;
+    box.indeterminate = on > 0 && on < page.length;
+    if (i) i.classList.toggle('half', box.indeterminate);
+    $('selPageInfo').textContent = page.length
+      ? '本页已选 ' + on + ' / ' + page.length
+      : '';
+  }
+
   /* ================= 渲染 ================= */
 
   function row(w) {
@@ -159,6 +174,10 @@
     /* 分页条 */
     paintPager(list.length, totalPages);
 
+    /* 全选本页：记住当前页的词，并同步复选框状态（全选/半选/未选） */
+    S.pageWords = pageList;
+    syncSelAll();
+
     var n = selWords().length;
     /* 没勾选的时候不占屏：只有选了词才浮出来 */
     $('wbar').hidden = n === 0;
@@ -166,6 +185,7 @@
     $('btnPlay').disabled = !n;
     $('btnAnim').disabled = !n;
     $('btnComic').disabled = !n;
+    $('btnArticle').disabled = !n;
     $('btnDone').disabled = !n;
     $('btnHard').disabled = !n;
     $('btnTag').disabled = !n;
@@ -632,21 +652,6 @@
       });
     });
 
-    $('wlist').addEventListener('click', function (e) {
-      var say = e.target.closest('.wsay');
-      if (say) {
-        e.stopPropagation();
-        var txt = say.getAttribute('data-say');
-        playClips([{ text: txt, voice: V.en, rate: -10 }]);
-        return;
-      }
-      var li = e.target.closest('.wrow');
-      if (!li) return;
-      var id = li.getAttribute('data-id');
-      S.sel[id] = !S.sel[id];
-      render();
-    });
-
     $('wlist').addEventListener('change', function (e) {
       if (e.target.type !== 'checkbox') return;
       var li = e.target.closest('.wrow');
@@ -674,6 +679,14 @@
       render();
     });
 
+    /* 全选本页：一次性勾选/取消当前页所有词 */
+    $('selPage').addEventListener('click', function () {
+      var page = S.pageWords || [];
+      var allOn = page.length > 0 && page.every(function (w) { return S.sel[w.id]; });
+      page.forEach(function (w) { S.sel[w.id] = allOn ? false : true; });
+      render();
+    });
+
     $('btnDone').addEventListener('click', function () {
       var list = selWords();
       if (!list.length) return;
@@ -692,6 +705,92 @@
     $('btnPlay').addEventListener('click', startPlay);
     $('btnAnim').addEventListener('click', function () { startShow('anim'); });
     $('btnComic').addEventListener('click', function () { startShow('comic'); });
+
+    /* ============ 选词生成雅思文章 ============ */
+    var artTopic = '';
+    function openArticle() {
+      var list = selWords();
+      if (!list.length) return;
+      artTopic = '';
+      $('artWordLine').textContent = '将用这 ' + list.length + ' 个词：' +
+        list.map(function (w) { return w.w; }).join('、');
+      $('artPick').hidden = false;
+      $('artResult').hidden = true;
+      $('artLoading').hidden = true;
+      $('artTitleTop').textContent = '生成雅思文章';
+      [].forEach.call($('artPick').querySelectorAll('.art-topic'), function (b) {
+        b.classList.remove('on');
+      });
+      $('artMask').hidden = false;
+    }
+    $('btnArticle').addEventListener('click', openArticle);
+    $('artClose').addEventListener('click', function () { stopAudio(); $('artMask').hidden = true; });
+    $('artMask').addEventListener('click', function (e) {
+      if (e.target === this) { stopAudio(); this.hidden = true; }
+    });
+    $('artPick').addEventListener('click', function (e) {
+      var b = e.target.closest('.art-topic');
+      if (!b) return;
+      artTopic = b.getAttribute('data-topic');
+      [].forEach.call(this.querySelectorAll('.art-topic'), function (x) {
+        x.classList.toggle('on', x === b);
+      });
+    });
+    function genArticle() {
+      if (!artTopic) { note('先选一个主题', 4000); return; }
+      var words = selWords().map(function (w) { return w.w; });
+      if (!words.length) { note('先勾选一些单词', 4000); return; }
+      $('artPick').hidden = true;
+      $('artResult').hidden = true;
+      $('artLoading').hidden = false;
+      stopAudio();
+      fetch(API + '/article', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ words: words, topic: artTopic })
+      }).then(function (r) { return r.json(); }).then(function (j) {
+        $('artLoading').hidden = true;
+        if (!j || !j.ok) {
+          $('artPick').hidden = false;
+          note((j && j.err) || '生成失败，请重试', 8000);
+          return;
+        }
+        $('artTitleTop').textContent = '雅思阅读短文';
+        $('artH').textContent = j.title || 'IELTS Reading Passage';
+        $('artZh').textContent = j.zh || '';
+        $('artZh').hidden = !j.zh;
+        $('artText').textContent = j.article || '';
+        var used = j.used || [];
+        var hit = used.length
+          ? '已自然融入 ' + used.length + ' 个选中的词：' + used.join('、')
+          : '已按所选主题写成雅思难度短文';
+        $('artNote').textContent = hit + '。';
+        $('artResult').hidden = false;
+      }).catch(function () {
+        $('artLoading').hidden = true;
+        $('artPick').hidden = false;
+        if (window.apiFail) apiFail('生成文章没成功');
+        note('连不上本地服务，先双击「启动.command」', 8000);
+      });
+    }
+    $('artGo').addEventListener('click', genArticle);
+    $('artAgain').addEventListener('click', openArticle);
+    $('artSay').addEventListener('click', function () {
+      var text = $('artText').textContent || '';
+      if (!text) return;
+      playClips([{ text: text, voice: V.en, rate: -6 }]);
+    });
+    $('artCopy').addEventListener('click', function () {
+      var text = ($('artH').textContent || '') + '\n\n' + ($('artText').textContent || '');
+      var done = function () { note('文章已复制', 3000); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { note('复制失败，请手动选中', 4000); });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) { note('复制失败，请手动选中', 4000); }
+        document.body.removeChild(ta);
+      }
+    });
 
     /* 手动输入词表：保底入口，任何情况都能把词敲进来 */
     $('manualGo').addEventListener('click', function () {
@@ -873,7 +972,16 @@
         body: JSON.stringify({ id: w.id, hard: on ? 1 : 0 })
       }).catch(function () { });
     }
+    /* 统一的词行点击：朗读 / 易错 / 删除 / 勾选切换。
+       以前这里有两个 click 监听器，第一个点任意位置就 render() 重建 DOM，
+       把第二个监听器要操作的 ✕ 按钮换掉了，导致「点叉删不掉」。现合并为一个。 */
     $('wlist').addEventListener('click', function (e) {
+      var say = e.target.closest('.wsay');
+      if (say) {
+        e.stopPropagation();
+        playClips([{ text: say.getAttribute('data-say'), voice: V.en, rate: -10 }]);
+        return;
+      }
       var hb = e.target.closest('[data-act="hard"]');
       if (hb) {
         e.stopPropagation();
@@ -895,7 +1003,7 @@
         var dw = null;
         S.words.forEach(function (x) { if (x.id === dwid) dw = x; });
         if (!dw) return;
-        if (!confirm('删除单词「' + dw.w + '」吗？删除后不可恢复。')) return;
+        /* 直接删，不弹确认框 */
         fetch(API + '/del', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ id: dwid })
@@ -910,6 +1018,12 @@
         });
         return;
       }
+      /* 点整行（非按钮区）：切换勾选 */
+      var row = e.target.closest('.wrow');
+      if (!row) return;
+      var rid = row.getAttribute('data-id');
+      S.sel[rid] = !S.sel[rid];
+      render();
     });
 
     /* 批量标易错 */
@@ -1020,6 +1134,7 @@
       if (e.key === 'Escape') {
         if (!$('playMask').hidden) stopPlay();
         if (!$('showMask').hidden) closeShow();
+        if (!$('artMask').hidden) { stopAudio(); $('artMask').hidden = true; }
       }
     });
 

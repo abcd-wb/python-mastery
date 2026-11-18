@@ -8,7 +8,7 @@
 <title>单词 · 雅思</title>
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/ielts.css?v=53">
-<link rel="stylesheet" href="assets/words.css?v=42">
+<link rel="stylesheet" href="assets/words.css?v=43">
 </head>
 <body>
 
@@ -87,6 +87,12 @@
     <span id="tagChips"></span>
   </div>
 
+  <div class="wselbar" id="wselbar">
+    <label class="wchk wchk-all"><input type="checkbox" id="selPage" aria-label="全选本页"><i></i></label>
+    <span id="selPageLbl">全选本页</span>
+    <span class="wselinfo" id="selPageInfo"></span>
+  </div>
+
   <ul class="wlist" id="wlist"></ul>
   <div class="pager" id="pager" hidden>
     <button class="btn btn-sm" id="pagerPrev" type="button">上一页</button>
@@ -103,6 +109,7 @@
   <button class="btn btn-sm" id="btnPlay" type="button">循环播放</button>
   <button class="btn btn-sm" id="btnAnim" type="button">记忆动画</button>
   <button class="btn btn-sm" id="btnComic" type="button">四格漫剧</button>
+  <button class="btn btn-sm" id="btnArticle" type="button">生成文章</button>
   <button class="lnk" id="btnDone" type="button">标记已背</button>
   <button class="lnk" id="btnHard" type="button">标易错</button>
   <button class="lnk" id="btnTag" type="button">加分类</button>
@@ -166,6 +173,39 @@
   </div>
 </div>
 
-<script src="assets/words.js?v=42"></script>
+<!-- 选词生成雅思文章 -->
+<div class="wmask" id="artMask" hidden>
+  <div class="wart">
+    <div class="ws-top">
+      <span id="artTitleTop">生成雅思文章</span>
+      <button class="wp-x" id="artClose" type="button" aria-label="关闭">×</button>
+    </div>
+    <div class="art-body">
+      <div class="art-pick" id="artPick">
+        <p class="art-sub">用选中的词写一篇雅思难度（7–8 分）英文短文，主题选一个：</p>
+        <div class="art-topics">
+          <button class="art-topic" data-topic="motorsport" type="button">🏎 赛车运动</button>
+          <button class="art-topic" data-topic="tech" type="button">🚀 前沿科技</button>
+        </div>
+        <p class="art-wordline" id="artWordLine"></p>
+        <button class="btn btn-primary" id="artGo" type="button">生成文章</button>
+      </div>
+      <div class="art-result" id="artResult" hidden>
+        <h3 class="art-h" id="artH"></h3>
+        <p class="art-zh" id="artZh"></p>
+        <div class="art-text" id="artText"></div>
+        <div class="art-acts">
+          <button class="btn btn-sm" id="artSay" type="button">朗读全文</button>
+          <button class="btn btn-sm" id="artCopy" type="button">复制文章</button>
+          <button class="lnk" id="artAgain" type="button">换主题重写</button>
+        </div>
+        <p class="art-note" id="artNote"></p>
+      </div>
+      <div class="art-loading" id="artLoading" hidden>AI 正在构思雅思文章（约 40 秒）…</div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/words.js?v=43"></script>
 </body>
 </html>

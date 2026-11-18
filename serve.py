@@ -1651,6 +1651,9 @@ class Handler(SimpleHTTPRequestHandler):
         if path == '/api/words/del':
             return self.words_del()
 
+        if path == '/api/words/article':
+            return self.words_article()
+
         if path == '/api/errors/add':
             try:
                 payload = json.loads(self._read_body().decode('utf-8') or '{}')
@@ -2399,6 +2402,70 @@ class Handler(SimpleHTTPRequestHandler):
             return self._json({'ok': False, 'err': '没找到这些单词'}, 404)
         save_words(rest)
         return self._json({'ok': True, 'removed': len(gone), 'names': gone, 'total': len(rest)})
+
+    def words_article(self):
+        """选中的单词 → 雅思难度英文短文（赛车 / 前沿科技等主题），尽量自然融入这些词。"""
+        try:
+            payload = json.loads(self._read_body().decode('utf-8') or '{}')
+        except Exception:
+            payload = {}
+        words = payload.get('words') or []
+        if not isinstance(words, list):
+            words = []
+        words = [str(x).strip() for x in words if str(x).strip()][:40]
+        if not words:
+            return self._json({'ok': False, 'err': '请先勾选一些单词'}, 400)
+        topic = str(payload.get('topic') or 'technology').strip()[:40]
+        topic_cn = {
+            'motorsport': '赛车运动、F1、高性能汽车与赛道科技',
+            'tech': '最新前沿科技（人工智能、机器人、太空探索、新能源等）',
+        }.get(topic, topic)
+
+        word_list = ', '.join(words)
+        prompt = (
+            'You are an IELTS exam writer. Write ONE English reading passage of IELTS band 7-8 difficulty '
+            'about this topic: ' + topic_cn + '.\n'
+            'Requirements:\n'
+            '- Length: 180-240 words, in 2-3 paragraphs.\n'
+            '- Naturally and correctly use as many of these target words as possible (change word forms if needed): '
+            + word_list + '.\n'
+            '- Use authentic academic/journalistic style typical of IELTS reading tests.\n'
+            '- Do NOT add a Chinese translation.\n\n'
+            'Return STRICT JSON only, no markdown, no explanation:\n'
+            '{"title":"English title","article":"the full English passage with \\n between paragraphs",'
+            '"zh":"中文大意（2-3句）","used":["words actually used"]}'
+        )
+        # 用 lite 推理模型：写文章约 40 秒；pro 版要 100 秒且没必要。
+        article_model = ark_model('asr_model') or 'doubao-seed-2-1-lite-260915'
+        ans = doubao_chat([{'role': 'user', 'content': prompt}],
+                          model=article_model, max_tokens=1100)
+        if not ans:
+            return self._json({'ok': False, 'err': 'AI 暂时没响应，请稍后再试'})
+        try:
+            s = ans.strip()
+            if s.startswith('```'):
+                s = s.split('```')[1]
+                if s.lstrip().startswith('json'):
+                    s = s.lstrip()[4:]
+            data = json.loads(s)
+            title = str(data.get('title') or '').strip()[:120]
+            article = str(data.get('article') or '').strip()[:8000]
+            zh = str(data.get('zh') or '').strip()[:1200]
+            used = data.get('used') or []
+            if not isinstance(used, list):
+                used = []
+            used = [str(x).strip() for x in used if str(x).strip()][:40]
+            if not article:
+                raise ValueError('empty article')
+            return self._json({'ok': True, 'title': title, 'article': article,
+                               'zh': zh, 'used': used, 'count': len(words)})
+        except Exception:
+            # AI 返回不是 JSON：把正文直接当文章显示，保证用户至少有内容可读
+            body = ans.strip()
+            if body.startswith('```'):
+                body = body.split('```')[1]
+            return self._json({'ok': True, 'title': 'IELTS Reading Passage',
+                               'article': body[:8000], 'zh': '', 'used': [], 'count': len(words)})
 
     # ---------- 从本机路径导入（访达复制的文件走这条） ----------
     def import_local(self):
