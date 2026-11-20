@@ -372,7 +372,17 @@
     $('nvTitle').textContent = n.title;
     $('nvKind').textContent = kindLabel(n.kind);
     var html = '';
-    if (n.text) html += '<div class="nv-sec"><b>原文</b><pre class="nv-text">' + esc(n.text) + '</pre></div>';
+    if (n.text) {
+      var txt = esc(n.text);
+      /* 长课文默认只显示前 6000 字，避免旧手机/360 浏览器渲染两万字卡住像「打不开」；点展开看全文 */
+      if (n.text.length > 6000) {
+        html += '<div class="nv-sec"><b>原文（' + n.text.length + ' 字，点展开看全文）</b>' +
+          '<pre class="nv-text" id="nvTextFold">' + txt.slice(0, 6000) + '</pre>' +
+          '<button class="nv-more" id="nvMore" type="button">展开全文 ▼</button></div>';
+      } else {
+        html += '<div class="nv-sec"><b>原文</b><pre class="nv-text">' + txt + '</pre></div>';
+      }
+    }
     if (n.kind === 'class') {
       if (n.summary) html += '<div class="nv-sec"><b>内容概括</b><p class="nv-sum">' + esc(n.summary) + '</p></div>';
       if (n.highlights && n.highlights.length) {
@@ -387,6 +397,24 @@
     }
     $('nvBody').innerHTML = html || '<p class="nv-empty">这篇笔记没有额外内容。</p>';
     $('viewMask').hidden = false;
+
+    var more = $('nvMore');
+    if (more) {
+      more.addEventListener('click', function () {
+        var pre = $('nvTextFold');
+        if (!pre) return;
+        var full = esc(n.text);
+        if (pre.getAttribute('data-full') === '1') {
+          pre.textContent = full.slice(0, 6000);
+          pre.setAttribute('data-full', '0');
+          more.textContent = '展开全文 ▼';
+        } else {
+          pre.textContent = full;
+          pre.setAttribute('data-full', '1');
+          more.textContent = '收起 ▲';
+        }
+      });
+    }
   }
 
   /* ---------------- 事件 ---------------- */
@@ -440,15 +468,11 @@
     $('recStop').addEventListener('click', stopRec);
 
     $('nlist').addEventListener('click', function (e) {
-      var b = e.target.closest('button');
-      if (!b) return;
-      var li = b.closest('.nitem');
+      var li = e.target.closest('.nitem');
+      if (!li) return;
       var id = li.getAttribute('data-id');
-      var act = b.getAttribute('data-act');
-      if (act === 'view') {
-        S.notes.forEach(function (n) { if (n.id === id) openNote(n); });
-        return;
-      }
+      var b = e.target.closest('button');
+      var act = b ? b.getAttribute('data-act') : '';
       if (act === 'del') {
         if (!confirm('删除这篇笔记？')) return;
         fetch(API + '/del', {
@@ -458,7 +482,10 @@
           S.notes = S.notes.filter(function (n) { return n.id !== id; });
           render();
         });
+        return;
       }
+      /* 点整行（含「看」按钮 / 空白）都打开笔记，避免只认按钮导致点不开 */
+      S.notes.forEach(function (n) { if (n.id === id) openNote(n); });
     });
 
     if ($('nClear')) {

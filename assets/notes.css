@@ -49,3 +49,8 @@
   white-space:pre-wrap;word-break:break-word}
 .nv-an p:nth-child(odd){background:#f8fafc}
 .nv-empty{font-size:13px;color:#9aa7b8;text-align:center;padding:30px 0}
+
+/* 长原文展开按钮 */
+.nv-more{display:inline-block;margin-top:8px;border:1px solid var(--line2,#dbe3ef);background:#f7faff;
+  color:#2b5fc0;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer}
+.nv-more:hover{border-color:#9dbcf3;background:#eef4ff}

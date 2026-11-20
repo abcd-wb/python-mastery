@@ -3,6 +3,7 @@ data/keys.json
 data/ielts-plan*.json
 data/ielts-plan-history/
 data/ielts-note-guard.json
+data/note-guard.log
 data/*.part
 data/_up_*
 data/_voice_*
