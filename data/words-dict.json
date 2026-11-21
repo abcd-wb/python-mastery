@@ -1297,5 +1297,23 @@
   "en_def": "large evergreen tropical tree cultivated for its large oval fruit",
   "ex": "The monkey is eating a mango.",
   "phon": "ˈmæŋɡəʊ"
+ },
+ "file": {
+  "cn": "n. 文件夹（或箱、柜等）；（计算机的）文档；档案；纵列；锉刀；（与某政策领域相关的）议题，职责",
+  "en_def": "a set of related records (either written or electronic) kept together",
+  "ex": "Bring file presentation to life by adding graphics.",
+  "phon": "faɪl"
+ },
+ "resilient": {
+  "cn": "adj. （人或动物）对困境有承受力的，有复原力的；（物质或物体）有弹性的，有回弹力的",
+  "en_def": "recovering readily from adversity, depression, or the like",
+  "ex": "These emotions can improve our mood, and make us more resilient to stress and adversity.",
+  "phon": "rɪˈzɪliənt"
+ },
+ "nuance": {
+  "cn": "n. 细微差别",
+  "en_def": "a subtle difference in meaning or opinion or attitude",
+  "ex": "There's an important sort of nuance that we need to introduce.",
+  "phon": "ˈnjuːɑːns"
  }
 }

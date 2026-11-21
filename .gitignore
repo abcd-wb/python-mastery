@@ -12,3 +12,6 @@ data/_voice_*
 # 系统
 .DS_Store
 __pycache__/
+
+# 语音朗读缓存（运行时生成）
+data/tts-cache/

@@ -364,6 +364,29 @@
     try { t = dt.getData('text/plain') || ''; } catch (e) { }
     if (!t.trim()) { try { t = htmlText(dt.getData('text/html')); } catch (e) { } }
     if (!t.trim()) { try { t = dt.getData('text/uri-list') || ''; } catch (e) { } }
+
+    /* 右键粘贴文件时，浏览器只给 file:// 路径（没有文件对象）。
+       识别到就交给服务端按路径读文件导入，别把路径当单词存进去。 */
+    var uri = String(t || '').trim().split('\n')[0].trim();
+    if (/^file:\/\//i.test(uri)) {
+      note('识别到粘贴的文件，正在读取…', 0);
+      fetch(API + '/path', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: uri })
+      }).then(function (r) { return r.json(); }).then(function (j) {
+        if (!j || !j.ok) { note((j && j.err) || '文件导入失败', 8000); return; }
+        return load().then(function () {
+          showNewWords();
+          if (!j.parsed) note('读出了文件但没认出单词（可能不是词表）', 7000);
+          else note('已从「' + (j.file || '文件') + '」导入 ' + (j.added || 0) + ' 个新词', 6000);
+        });
+      }).catch(function () {
+        if (window.apiFail) apiFail('文件没读出来');
+        note('连不上本地服务 —— 先双击「启动.command」，再刷新这一页', 9000);
+      });
+      return true;
+    }
+
     if (t && t.trim()) return pasteText(t);
     return false;
   }

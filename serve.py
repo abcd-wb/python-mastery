@@ -1603,6 +1603,9 @@ class Handler(SimpleHTTPRequestHandler):
         if path == '/api/words/paste':
             return self.words_paste()
 
+        if path == '/api/words/path':
+            return self.words_import_path()
+
         if path == '/api/words/add':
             try:
                 payload = json.loads(self._read_body().decode('utf-8') or '{}')
@@ -2296,6 +2299,48 @@ class Handler(SimpleHTTPRequestHandler):
         out = dict(res)
         out['file'] = name
         out['parsed'] = len(parsed)
+        return self._json(out)
+
+    def words_import_path(self):
+        """右键粘贴文件时，浏览器只给 file:// 路径（没有文件对象），
+        由服务端按路径读取词表文件并导入。路径做白名单校验。"""
+        try:
+            payload = json.loads(self._read_body().decode('utf-8') or '{}')
+        except Exception:
+            payload = {}
+        p = path_of(payload.get('path'))
+        if not p or not os.path.isfile(p):
+            return self._json({'ok': False, 'err': '这个文件找不到'}, 400)
+        if not allowed_path(p):
+            return self._json({'ok': False, 'err': '这个位置的文件不允许读'}, 403)
+        try:
+            if os.path.getsize(p) > MAX_BYTES:
+                return self._json({'ok': False, 'err': '文件太大'}, 413)
+            with open(p, 'rb') as f:
+                raw = f.read()
+        except OSError as e:
+            return self._json({'ok': False, 'err': '读不了这个文件：%s' % e}, 400)
+        name = safe_name(os.path.basename(p))
+        ext = os.path.splitext(name)[1].lower()
+        text = extract_file_text(raw, name, ext)
+        if text is None:
+            return self._json({'ok': False, 'err': '这个文件读不出文字'}, 400)
+        os.makedirs(WORD_DIR, exist_ok=True)
+        fid = new_id()
+        disk = fid + '__' + name
+        with open(os.path.join(WORD_DIR, disk), 'wb') as f:
+            f.write(raw)
+        parsed = parse_words_text(text, src=name)
+        res = self.merge_words(parsed, src=name)
+        files = load_word_files()
+        files.append({'id': fid, 'name': name, 'size': len(raw), 'file': disk,
+                      'ts': int(time.time() * 1000), 'n': len(parsed)})
+        save_word_files(files)
+        out = dict(res)
+        out['file'] = name
+        out['parsed'] = len(parsed)
+        if not parsed:
+            out['note'] = '读出了文字，但没认出英文单词（可能不是词表）'
         return self._json(out)
 
     # ---------- 语音上传单词：录音 → 本机语音识别 → 加词 ----------
