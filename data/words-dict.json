@@ -1315,5 +1315,148 @@
   "en_def": "a subtle difference in meaning or opinion or attitude",
   "ex": "There's an important sort of nuance that we need to introduce.",
   "phon": "ˈnjuːɑːns"
+ },
+ "landlord": {
+  "cn": "n. 房东，地主；（客栈、酒吧或出租公寓的）店主，老板",
+  "en_def": "a landowner who leases to others",
+  "ex": "His landlord doubled the rent.",
+  "phon": "ˈlændlɔːd"
+ },
+ "tenant": {
+  "cn": "n. 房客，租户；业主",
+  "en_def": "someone who pays rent to use land or a building or a car that is owned by someone else",
+  "ex": "The rent is a matter for negotiation between the landlord and the tenant.",
+  "phon": "ˈtenənt"
+ },
+ "renter": {
+  "cn": "n. 承租人，租户，房客；佃户；出租人，房东；影片出租商；（Renter）德语人名，译作伦特",
+  "en_def": "someone who pays rent to use land or a building or a car that is owned by someone else",
+  "ex": "Everyone is a renter or an owner, or lives with renters or owners.",
+  "phon": "ˈrentə(r)"
+ },
+ "roomer": {
+  "cn": "n. 房客；寄宿者",
+  "en_def": "a tenant in someone's house",
+  "phon": "ˈruːmə(r); ˈrʊmə(r)"
+ },
+ "lodger": {
+  "cn": "n. 房客；寄宿人；投宿者",
+  "en_def": "a tenant in someone's house",
+  "ex": "Jennie took in a lodger to help with the mortgage.",
+  "phon": "ˈlɒdʒə(r)"
+ },
+ "lease": {
+  "cn": "n. 租约，租契",
+  "en_def": "property that is leased or rented out or let",
+  "ex": "They lease the land from a local farmer.",
+  "phon": "liːs"
+ },
+ "cost": {
+  "cn": "n. 价钱，费用；成本，开支；代价，损失；诉讼费用",
+  "en_def": "the total spent for goods or services including money and time and labor",
+  "ex": "I pushed her away immediately. I said this costs extra!",
+  "phon": "kɒst"
+ },
+ "rent": {
+  "cn": "n. 租金，租用费；（布等上面的）破洞，裂口",
+  "en_def": "a regular payment by a tenant to a landlord for use of some property",
+  "ex": "We only pay a nominal rent.",
+  "phon": "rent"
+ },
+ "security": {
+  "cn": "n. 保护措施，安全工作；保安部门；安检处；保障，保证；安全，安全感；抵押品，保证金；证券，债券",
+  "en_def": "the state of being free from danger or injury",
+  "ex": "It must be better to be able to offer them love and security.",
+  "phon": "sɪˈkjʊərəti"
+ },
+ "deposit": {
+  "cn": "v. 放下，放置；储蓄；存放，寄存；沉积，沉淀；支付（押金、订金或预缴费用）",
+  "en_def": "the phenomenon of sediment or gravel accumulating",
+  "ex": "A 10% deposit is payable in advance.",
+  "phon": "dɪˈpɒzɪt"
+ },
+ "insurance": {
+  "cn": "n. 保险；保险费；保险业；保险赔偿金，保险金；保险单；预防措施，安全保障",
+  "en_def": "promise of reimbursement in the case of loss; paid to people or companies so concerned about hazards that they have made prepayments to an insurance company",
+  "ex": "You can make a claim on your insurance policy.",
+  "phon": "ɪnˈʃʊərəns"
+ },
+ "location": {
+  "cn": "n. 地点，位置；（电影的）外景拍摄地；定位；（计算机内存里的）地址",
+  "en_def": "a point or extent in space",
+  "ex": "I was doubly attracted to the house—by its size and its location.",
+  "phon": "ləʊˈkeɪʃn"
+ },
+ "suburb": {
+  "cn": "n. 城郊，近郊",
+  "en_def": "a residential district located on the outskirts of a city",
+  "ex": "They live in a wealthy suburb of Chicago.",
+  "phon": "ˈsʌbɜːb"
+ },
+ "downtown": {
+  "cn": "adj. 市中心的，商业区的",
+  "en_def": "the commercial center of a town or city",
+  "ex": "Parking can be tricky downtown.",
+  "phon": "ˌdaʊnˈtaʊn"
+ },
+ "lawn": {
+  "cn": "n. 草坪，草地；上等细棉布，上等细麻布",
+  "en_def": "a field of cultivated and mowed grass",
+  "ex": "I mow the lawn every week in summer.",
+  "phon": "lɔːn"
+ },
+ "street": {
+  "cn": "n. 街道，街；马路，车行道；街头，户外（公共场合）；（用于街道名称或地址）…街，…大街",
+  "en_def": "a thoroughfare (usually including sidewalks) that is lined with buildings",
+  "ex": "He tore off down the street.",
+  "phon": "striːt"
+ },
+ "road": {
+  "cn": "n. 路，公路，马路，街； 途径，方法，路子；（矿）地下巷道；贸易路线；铁路；（列车可通行的）无障碍铁路路轨，特殊情况铁路路轨；近岸锚地，港外锚地",
+  "en_def": "an open way (generally public) for travel or transportation",
+  "ex": "He danced off down the road.",
+  "phon": "rəʊd"
+ },
+ "building": {
+  "cn": "n. 建筑物，房屋，楼房；建筑，建筑业",
+  "en_def": "a structure that has a roof and walls and stands more or less permanently in one place",
+  "ex": "The building soared above us.",
+  "phon": "ˈbɪldɪŋ"
+ },
+ "avenue": {
+  "cn": "n. 大街；（通向大宅子的）林荫道；途径，渠道",
+  "en_def": "a line of approach",
+  "ex": "The avenue had never been paved, and deep mud made it impassable in winter.",
+  "phon": "ˈævənjuː"
+ },
+ "boulevard": {
+  "cn": "n. 林荫大道，城市中的宽阔大街；大马路",
+  "en_def": "a wide street or thoroughfare",
+  "ex": "Rush to the boulevard to meet and greet the tourists.",
+  "phon": "ˈbuːləvɑːd"
+ },
+ "ne": {
+  "cn": "adj. （用于人名前表示）曾用名，旧称；尼日尔（因特网域名）",
+  "en_def": "a colorless odorless gaseous element that give a red glow in a vacuum tube; one of the six inert gasses; occurs in the air in small amounts",
+  "ex": "Although the \"ne\" in negatives should always be written, it is very rarely used in informal speech.",
+  "phon": "ˌen ˈi:"
+ },
+ "facility": {
+  "cn": "n. 设施，设备；卫生间；天赋，才能；（机器等的）特别装置，（服务等的）特色；（用作某种用途的）场所",
+  "en_def": "a building or place that provides a particular service or is used for a particular industry",
+  "ex": "It describes completely the facility and its safety basis.",
+  "phon": "fəˈsɪləti"
+ },
+ "laundry": {
+  "cn": "n. 待洗（或正在洗涤、洗完）的衣物；洗衣房，洗衣店；洗衣物，洗衣物的活",
+  "en_def": "garments or white goods that can be cleaned by laundering",
+  "ex": "The hotel has a laundry service.",
+  "phon": "ˈlɔːndri"
+ },
+ "gym": {
+  "cn": "n. 体育馆，健身房；（尤指学校的）体育活动",
+  "en_def": "athletic facility equipped for sports or physical training",
+  "ex": "I work out at the gym most days.",
+  "phon": "dʒɪm"
  }
 }
