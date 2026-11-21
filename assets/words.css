@@ -28,7 +28,19 @@
   background-repeat:no-repeat;background-position:center}
 
 /* 列表 */
-.wlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.wlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+/* 按来源文件分组：文件名一行，点小三角展开/收起这个文件里的全部单词 */
+.wgroup{list-style:none;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.wgrp-hd{display:flex;align-items:center;gap:9px;padding:11px 14px;cursor:pointer;user-select:none;
+  background:#f8fafd;transition:background .13s;outline:none}
+.wgrp-hd:hover,.wgrp-hd:focus-visible{background:#eef4fc}
+.wgroup.is-open .wgrp-hd{border-bottom:1px solid var(--line)}
+.wgrp-tri{display:inline-block;font-size:11px;color:#7b8ca3;width:15px;text-align:center;flex:none}
+.wgrp-name{font-size:13.5px;font-weight:800;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wgrp-n{font-size:11.5px;color:#8b98ad;background:#eef3fb;border-radius:20px;padding:2px 9px;
+  margin-left:auto;white-space:nowrap;flex:none}
+.wgrp-body{list-style:none;margin:0;padding:8px;display:flex;flex-direction:column;gap:8px}
+.wgroup:not(.is-open) .wgrp-body{display:none}
 .wrow{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);
   border-radius:14px;padding:11px 14px;cursor:pointer;transition:.13s}
 .wrow:hover{border-color:#cddcf3}

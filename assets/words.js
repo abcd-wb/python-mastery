@@ -8,9 +8,20 @@
   var S = {
     words: [], files: [], sel: {}, q: '', mode: 'server',
     stage: [], busy: false, down: false, filter: '', tags: [], page: 0,
-    freshSince: 0
+    freshSince: 0, open: {}
   };
   var PAGE_SIZE = 50;
+
+  /* 分组展开状态：记住每组是展开还是收起，刷新页面不丢 */
+  var OPEN_KEY = 'pm_word_group_open';
+  function loadOpen() {
+    try { S.open = JSON.parse(localStorage.getItem(OPEN_KEY) || '{}') || {}; }
+    catch (e) { S.open = {}; }
+  }
+  function saveOpen() {
+    try { localStorage.setItem(OPEN_KEY, JSON.stringify(S.open)); } catch (e) { }
+  }
+  loadOpen();
 
   function $(id) { return document.getElementById(id); }
   function esc(s) {
@@ -141,6 +152,32 @@
     return list;
   }
 
+  /* 按来源文件分组：以文件名分类，每组一个小三角，点开看这个文件里的全部单词 */
+  function renderGroups(list) {
+    var groups = {}, order = [];
+    /* 文件列表顺序优先 */
+    S.files.forEach(function (f) { if (f.name && !(f.name in groups)) { groups[f.name] = []; order.push(f.name); } });
+    list.forEach(function (w) {
+      var k = w.src || '未分类';
+      if (!(k in groups)) { groups[k] = []; order.push(k); }
+      groups[k].push(w);
+    });
+
+    return order.filter(function (k) { return groups[k] && groups[k].length; }).map(function (k) {
+      var arr = groups[k];
+      var open = S.open[k] !== false;   /* 默认展开，点小三角收起 */
+      var done = arr.filter(function (w) { return w.done; }).length;
+      return '<li class="wgroup' + (open ? ' is-open' : '') + '" data-src="' + esc(k) + '">' +
+        '<div class="wgrp-hd" role="button" tabindex="0" aria-expanded="' + open + '">' +
+        '<span class="wgrp-tri" aria-hidden="true">' + (open ? '▼' : '▶') + '</span>' +
+        '<b class="wgrp-name">' + esc(k) + '</b>' +
+        '<span class="wgrp-n">' + arr.length + ' 词' + (done ? ' · 已背 ' + done : '') + '</span>' +
+        '</div>' +
+        '<ul class="wgrp-body">' + (open ? arr.map(row).join('') : '') + '</ul>' +
+        '</li>';
+    }).join('');
+  }
+
   function render() {
     var q = S.q.trim().toLowerCase();
     var list = S.words.filter(function (w) {
@@ -149,14 +186,9 @@
     });
     list = applyFilter(list);
 
-    /* 分页：每页 PAGE_SIZE 个 */
-    var totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
-    if (S.page >= totalPages) S.page = totalPages - 1;
-    if (S.page < 0) S.page = 0;
-    var start = S.page * PAGE_SIZE;
-    var pageList = list.slice(start, start + PAGE_SIZE);
-
-    $('wlist').innerHTML = pageList.map(row).join('');
+    /* 按文件分组显示：展开的组显示全部单词，不再按 50 个分页 */
+    $('wlist').innerHTML = renderGroups(list);
+    $('pager').hidden = true;
     $('empty').hidden = S.words.length > 0;
     if (!S.words.length) {
       $('empty').textContent = S.down
@@ -168,14 +200,12 @@
     }
     $('wcnt').textContent = S.words.length
       ? '共 ' + S.words.length + ' 个 · 已背 ' + S.words.filter(function (w) { return w.done; }).length +
-        ' · 易错 ' + S.words.filter(function (w) { return w.hard; }).length
+        ' · 易错 ' + S.words.filter(function (w) { return w.hard; }).length +
+        ' · ' + new Set(S.words.map(function (w) { return w.src || '未分类'; })).size + ' 份文件'
       : '';
 
-    /* 分页条 */
-    paintPager(list.length, totalPages);
-
-    /* 全选本页：记住当前页的词，并同步复选框状态（全选/半选/未选） */
-    S.pageWords = pageList;
+    /* 全选本页：分组视图下列出的是当前筛选的全部词 */
+    S.pageWords = list;
     syncSelAll();
 
     var n = selWords().length;
@@ -223,6 +253,13 @@
     S.filter = '';
     S.page = 0;
     S.freshSince = Date.now() - 10000;   // 10 秒内加入的词标「刚加」
+    /* 刚加的词所属文件组自动展开，免得新词藏在收起的组里 */
+    S.words.forEach(function (w) {
+      if ((w.ts || 0) >= S.freshSince) {
+        var k = w.src || '未分类';
+        if (S.open[k] === false) { S.open[k] = true; saveOpen(); }
+      }
+    });
     renderFilter();
     [].forEach.call($('wfilter').querySelectorAll('.wchip[data-tag]'), function (c) {
       c.classList.toggle('on', c.getAttribute('data-tag') === '');
@@ -976,6 +1013,16 @@
        以前这里有两个 click 监听器，第一个点任意位置就 render() 重建 DOM，
        把第二个监听器要操作的 ✕ 按钮换掉了，导致「点叉删不掉」。现合并为一个。 */
     $('wlist').addEventListener('click', function (e) {
+      /* 点文件名那一行的小三角：展开 / 收起这一组的全部单词 */
+      var hd = e.target.closest('.wgrp-hd');
+      if (hd) {
+        var g = hd.closest('.wgroup');
+        var key = g.getAttribute('data-src');
+        S.open[key] = S.open[key] === false;   /* 展开→收起，收起→展开 */
+        saveOpen();
+        render();
+        return;
+      }
       var say = e.target.closest('.wsay');
       if (say) {
         e.stopPropagation();
@@ -1024,6 +1071,15 @@
       var rid = row.getAttribute('data-id');
       S.sel[rid] = !S.sel[rid];
       render();
+    });
+
+    /* 组标题支持键盘：回车 / 空格展开收起 */
+    $('wlist').addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var hd = e.target.closest('.wgrp-hd');
+      if (!hd) return;
+      e.preventDefault();
+      hd.click();
     });
 
     /* 批量标易错 */
