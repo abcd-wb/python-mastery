@@ -12,6 +12,7 @@
 
   var PLAN = [
     { s: '第 1 步', n: 'Python 入门（黑马）', d: '45 天 · 看到第 110 集就停', c: '#2563eb' },
+    { s: '第 1.5 步', n: 'Git 工具课（尚硅谷）', d: '2 天 · 40 集，入门后立刻学，与 Python 课零重复', c: '#ea580c' },
     { s: '第 2 步', n: '吴恩达 · AI Python', d: '3 天 · 35 集，只走这一门', c: '#e11d48' },
     { s: '第 3 步', n: 'Python 进阶', d: '45 天 · 面向对象到算法数据结构', c: '#0d9488' },
     { s: '第 4 步', n: '项目实战', d: '30 天 · Pandas + RFM 出作品', c: '#7c3aed' },
@@ -32,10 +33,11 @@
     return null;
   }
 
-  /* #/ai → 三位老师；#/ai/lhy → 该老师的课；#/lhy_ml → 课程目录 */
+  /* #/ai → 三位老师；#/ai/lhy → 该老师的课；#/c/<id> → 课程详情（避免和 #/ai 老师分组撞 key） */
   function route() {
     var h = (location.hash || '').replace(/^#\/?/, '').replace(/\/$/, '');
     var parts = h.split('/');
+    if (parts[0] === 'c' && parts[1]) return { kind: 'course', id: PY.COURSES[parts[1]] ? parts[1] : 'intro' };
     if (parts[0] === 'ai' && !parts[1]) return { kind: 'teachers' };
     if (parts[0] === 'ai' && teacherOf(parts[1])) return { kind: 'teacher', tid: parts[1] };
     return { kind: 'course', id: PY.COURSES[h] ? h : 'intro' };
@@ -130,7 +132,7 @@
       var n = c.pages.length, done = PY.countDone(cid);
       var pct = n ? Math.round(done / n * 100) : 0;
       var nx = nextLesson(c);
-      h += '<a class="ccard" href="module.html#/' + cid + '">' +
+      h += '<a class="ccard" href="module.html#/c/' + cid + '">' +
         '<div class="cc-h"><b>' + esc(c.title) + '</b>' +
         '<span class="cc-tag">' + n + ' 集 · ' + (c.length ? c.length.split('·').pop().trim() : '') + '</span></div>' +
         '<p class="cc-d">' + esc(c.sub || '') + '</p>' +

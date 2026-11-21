@@ -13,7 +13,7 @@
 
   function renderBar(c, p, total) {
     document.getElementById('bar').innerHTML =
-      PY.backTo('module.html#/' + c.id, '返回目录') +
+      PY.backTo('module.html#/c/' + c.id, '返回目录') +
       '<div class="crumb">' + esc(c.title) + ' · <b>P' + p + ' / ' + total + '</b></div>' +
       '<div class="right"><a class="back" href="hub.html">总界面</a></div>';
   }

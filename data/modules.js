@@ -1,6 +1,7 @@
 /* 学习顺序（零基础 → 能干活）：四门课各是第几步 */
 window.PY_STEPS = {
   intro:   { step: 1, tag: '打地基', days: 45, note: '看到第 110 集（第12章结束）就可以停，第13~18章在进阶课里更细' },
+  git:     { step: '1.5', tag: '工具课', days: 2,  note: '入门学到能写脚本后立刻插学：add/commit/push、建分支、解决一次冲突就够用，越早越省事' },
   ai:      { step: 2, tag: '练手感', days: 3,  note: '这一步只看吴恩达那 35 集（3 天）；李宏毅、李沐的课要等进阶学完再进' },
   adv:     { step: 3, tag: '补内功', days: 45, note: '面向对象讲到算法数据结构，这一门决定你后面走多快，别跳' },
   project: { step: 4, tag: '出作品', days: 30, note: '前 3 章（Linux / MySQL）快看，重点在 Pandas 和最后的 RFM 项目' }
@@ -24,6 +25,12 @@ window.PY_DUP = {
   ],
   project: [
     { from: 22, to: 58, dup: '入门课 第14章', why: 'MySQL：两处都讲，这里更完整，入门那段可略', skip: false }
+  ],
+  git: [
+    { from: 1, to: 40, dup: '独有', why: '四门 Python 课都不讲版本控制，Git 是工具课，与它们零重复，越早学越省事', skip: false }
+  ],
+  javaweb: [
+    { from: 1, to: 89, dup: '独有（另一条路线）', why: 'Java Web 栈（HTML/CSS/JS/Servlet/Tomcat/MVC）与 Python 数据分析/AI 路线零内容重复；想走 Java 后端才需要，只学 Python 可跳过', skip: false }
   ]
 };
 
@@ -97,5 +104,34 @@ window.PY_MODULES = {
     info: { teacher: '宋浩', platform: 'B 站（页面内直接播放）', length: '63 集 · 约 37.0 小时', lang: '全中文', cost: '免费' },
     why: '统计学的数学底座就是这一门。学完才看得懂 A/B 测试、置信区间、p 值在说什么，也是数据分析岗面试必问。',
     how: '前 4 章是概率（重在算），后 4 章是统计（重在懂）。第 6 章抽样分布最容易糊，三大分布列张表背下来。'
+  },
+  discrete: {
+    id: 'discrete', name: '离散数学', back: 'hub.html#/math',
+    color: '#7c3aed', tint: '#f3ecff', tint2: '#ddc9ff',
+    title: '离散数学 · 屈婉玲 北大国家精品课',
+    desc: '屈婉玲等四位北大老师主讲，134 集完整版：数理逻辑、集合论、代数结构、组合数学、图论、初等数论六大板块，配套北大版《离散数学》黑皮书。',
+    info: { teacher: '屈婉玲 等（北京大学）', platform: 'B 站搬运（北大国家精品课）', length: '134 集 · 约 88.8 小时', lang: '全中文', cost: '免费' },
+    why: '国内离散数学最权威的中文课，计算机专业的硬地基：算法、数据库、形式化验证、密码学都建在它上面，学算法和形式化绕不开。',
+    how: '概念多跨度大，每个定义先抄一遍再闭书复述，最后做书后例题。按集合论→图论→代数结构→组合数学→数理逻辑走，数理逻辑（第 23、24 章）最抽象放最后。'
+  },
+
+  /* ---- 工具课 / 扩展方向：Git 是必备工具；JavaWeb 是 Java 方向，与 Python 路线不同 ---- */
+  git: {
+    id: 'git', name: 'Git 工具课', back: 'index.html',
+    color: '#ea580c', tint: '#fff0e6', tint2: '#ffd6b8',
+    title: '尚硅谷《Git 企业实战》· 2024 最新版',
+    desc: '40 集 5.7 小时：本地仓库与基础命令、分支合并、冲突解决、IDEA 集成、GitLab 企业级协作、Code Review 与 CI/CD 自动部署。',
+    info: { teacher: '尚硅谷', platform: 'B 站（页面内直接播放）', length: '40 集 · 约 5.7 小时', lang: '全中文', cost: '免费' },
+    why: '程序员必备的版本控制工具：写代码迟早要协作和回退版本。它不是编程课，一天就能拿下，越早学越省事。与四门 Python 课零重复。',
+    how: '跟着敲一遍 add/commit/push、建分支、制造一次冲突再解决就够用。GitLab 部署与 runner 部分了解即可，用到再回头查。'
+  },
+  javaweb: {
+    id: 'javaweb', name: 'JavaWeb（Java 方向）', back: 'index.html',
+    color: '#0891b2', tint: '#ecfeff', tint2: '#a5f3fc',
+    title: '尚硅谷《JavaWeb》· 全新技术栈',
+    desc: '89 集 42 小时：前端三件套、Tomcat 与 Servlet、会话跟踪、MVC 分层、Filter/Listener，三个实战项目（库存、QQZone、书城），最后接 Vue + Axios。',
+    info: { teacher: '尚硅谷', platform: 'B 站（页面内直接播放）', length: '89 集 · 约 42.3 小时', lang: '全中文', cost: '免费' },
+    why: 'Java 后端方向的入门地基。注意：这是 Java Web 栈，与 Python 数据分析/AI 路线零内容重复——只学 Python 的话不用碰它，想转 Java 后端或做全栈才需要。',
+    how: '前端三件套可快速过，重点在 Servlet 原理、MVC 思想和手写 IOC，以及最后书城项目（Vue + Axios + 事务）串起整条链。每个项目自己再改一遍需求。'
   }
 };

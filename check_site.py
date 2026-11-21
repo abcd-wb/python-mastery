@@ -96,7 +96,11 @@ def main():
         ('module.html#/stats',    '统计学',     ('class="lno"', 'class="toc-item'), 30),
         ('module.html#/calculus', '微积分',     ('class="lno"', 'class="toc-item'), 30),
         ('module.html#/linear',   '线性代数',   ('class="lno"', 'class="toc-item'), 20),
+        ('module.html#/discrete', '离散数学',   ('class="lno"', 'class="toc-item'), 100),
         ('module.html#/intro',    'Python 入门', ('class="lno"', 'class="toc-item'), 30),
+        ('module.html#/c/ai',     '吴恩达课程', ('class="lno"', 'class="toc-item'), 30),
+        ('module.html#/git',      'Git 工具课', ('class="lno"', 'class="toc-item'), 30),
+        ('module.html#/javaweb',  'JavaWeb',    ('class="lno"', 'class="toc-item'), 80),
         ('module.html#/ai',       'AI 老师',    ('class="module-card',), 2),
         ('course.html#/stats/1',  '播放页',     ('class="toc-item',), 1),
     ]

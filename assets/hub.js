@@ -10,7 +10,8 @@
     math: '<path d="M6 4.5h11"/><path d="M6 4.5c0 6-2.5 8-2.5 8s2.5 2 2.5 8"/><path d="M16.8 12.6 20 17.2M20 12.6l-3.2 4.6"/>',
     stats: '<path d="M4 19.5V10M9.5 19.5V5M15 19.5v-7M20.5 19.5V8"/><path d="M3 21h18"/>',
     calculus: '<path d="M15.6 4.4c-2.6 0-3.3 1.7-3.8 4.2L10 19.4c-.5 2.5-1.6 3.6-3.6 3.6"/><path d="M7.4 10.6h7.2"/>',
-    linear: '<rect x="3.5" y="4.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="4.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="14.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="14.5" width="7" height="7" rx="1.6"/>'
+    linear: '<rect x="3.5" y="4.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="4.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="14.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="14.5" width="7" height="7" rx="1.6"/>',
+    discrete: '<circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7.6 7.6 10.8 16M16.4 7.6 13.2 16M8 6h8"/>'
   };
 
   var VIEWS = {
@@ -25,7 +26,7 @@
       title: '大学课程', back: { txt: '← 总界面', href: '#/' }, cols: 'c2',
       cards: [
         { key: 'python', name: 'Python', ds: '入门 · 进阶 · 项目实战 · AI 应用', href: 'index.html', c: '#2563eb', tint: '#e8f0ff', tint2: '#c2d8ff', prog: ['intro', 'adv', 'project', 'ai', 'lhy_ml', 'lhy_dl', 'lhy_llm', 'lhy_gen', 'mu_d2l'] },
-        { key: 'math', name: '大学数学', ds: '统计学 · 微积分 · 线性代数', href: '#/math', c: '#0f766e', tint: '#e6f7f4', tint2: '#b8e8e0', prog: ['stats', 'calculus', 'linear'] }
+        { key: 'math', name: '大学数学', ds: '统计学 · 微积分 · 线性代数 · 离散数学', href: '#/math', c: '#0f766e', tint: '#e6f7f4', tint2: '#b8e8e0', prog: ['stats', 'calculus', 'linear', 'discrete'] }
       ]
     },
     math: {
@@ -33,7 +34,8 @@
       cards: [
         { key: 'stats', name: '统计学', ds: '概率论与数理统计 · 63 集', href: 'module.html#/stats', c: '#b45309', tint: '#fff5e6', tint2: '#ffd9a8', prog: ['stats'] },
         { key: 'calculus', name: '微积分', ds: '高等数学 · 59 集', href: 'module.html#/calculus', c: '#1d4ed8', tint: '#e8f0ff', tint2: '#c2d8ff', prog: ['calculus'] },
-        { key: 'linear', name: '线性代数', ds: '宋浩 3.0 · 39 集', href: 'module.html#/linear', c: '#0f766e', tint: '#e6f7f4', tint2: '#b8e8e0', prog: ['linear'] }
+        { key: 'linear', name: '线性代数', ds: '宋浩 3.0 · 39 集', href: 'module.html#/linear', c: '#0f766e', tint: '#e6f7f4', tint2: '#b8e8e0', prog: ['linear'] },
+        { key: 'discrete', name: '离散数学', ds: '屈婉玲 · 北大精品课 · 134 集', href: 'module.html#/discrete', c: '#7c3aed', tint: '#f3ecff', tint2: '#ddc9ff', prog: ['discrete'] }
       ]
     }
   };
@@ -78,8 +80,8 @@
 
   function foot(k) {
     if (k === 'home') return '左边雅思还没开课；右边大学课程里 Python 和数学都能直接进班上课。';
-    if (k === 'college') return 'Python 平台 ' + totals(['intro', 'adv', 'project', 'ai']) + ' 集；大学数学 ' + totals(['stats', 'calculus', 'linear']) + ' 集，都是宋浩完整课。';
-    return '三门课合计 ' + totals(['stats', 'calculus', 'linear']) + ' 集，点卡片进目录，点目录直接播那一集。';
+    if (k === 'college') return 'Python 平台 ' + totals(['intro', 'adv', 'project', 'ai']) + ' 集；大学数学 ' + totals(['stats', 'calculus', 'linear', 'discrete']) + ' 集（宋浩三门 + 屈婉玲离散数学）。';
+    return '四门课合计 ' + totals(['stats', 'calculus', 'linear', 'discrete']) + ' 集，点卡片进目录，点目录直接播那一集。';
   }
 
   function render() {

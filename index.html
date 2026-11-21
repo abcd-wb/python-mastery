@@ -27,6 +27,20 @@
       <span class="mprog"><i></i></span>
     </a>
 
+    <a class="module-card" data-id="git" href="module.html#/git" style="--c:#ea580c;--tint:#fff0e6;--tint2:#ffd6b8">
+      <span class="step" title="第 1.5 步 · 工具课">第 1.5 步</span>
+      <span class="ico" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="5.5" r="2"/><circle cx="6" cy="18.5" r="2"/><circle cx="18" cy="12" r="2"/>
+          <path d="M6 7.5v9M8 7.5c4 0 8 1.5 8 4.5"/>
+        </svg>
+      </span>
+      <span class="nm">Git 工具课</span>
+      <span class="ds">40 集 5.7h，入门后立刻学</span>
+      <span class="go">进入 →</span>
+      <span class="mprog"><i></i></span>
+    </a>
+
     <a class="module-card" data-id="ai" href="module.html#/ai" style="--c:#e11d48;--tint:#ffe9ef;--tint2:#ffc9d8">
       <span class="step" title="第 2 步 · 练手感">第 2 步</span>
       <span class="ico" aria-hidden="true">
@@ -71,6 +85,21 @@
       <span class="mprog"><i></i></span>
     </a>
 
+    <a class="module-card" data-id="javaweb" href="module.html#/javaweb" style="--c:#0891b2;--tint:#ecfeff;--tint2:#a5f3fc">
+      <span class="step" title="Java 方向选修 · 与 Python 路线零重复">选修</span>
+      <span class="ico" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 4.5C5.5 6 4 8 4 10.5c0 3 2 4.5 4 5.5-2 1-4 2.5-4 4"/>
+          <path d="M16 4.5c2.5 1.5 4 3.5 4 6 0 3-2 4.5-4 5.5 2 1 4 2.5 4 4"/>
+          <path d="M13 3.5 11 20.5"/>
+        </svg>
+      </span>
+      <span class="nm">JavaWeb（Java 方向）</span>
+      <span class="ds">89 集 42h，转 Java 后端才学</span>
+      <span class="go">进入 →</span>
+      <span class="mprog"><i></i></span>
+    </a>
+
     <a class="module-card" href="resources.html" style="--c:#ea580c;--tint:#fff0e6;--tint2:#ffd6b8">
       <span class="ico" aria-hidden="true">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -101,10 +130,11 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="data/videos.js"></script>
-<script src="data/ai.js"></script>
-<script src="data/modules.js"></script>
-<script src="assets/core.js"></script>
+<script src="data/videos.js?v=55"></script>
+<script src="data/tools.js?v=55"></script>
+<script src="data/ai.js?v=55"></script>
+<script src="data/modules.js?v=55"></script>
+<script src="assets/core.js?v=55"></script>
 <script>
 (function () {
   if (!window.PY) return;
@@ -129,13 +159,14 @@
   var S = window.PY_STEPS || {};
   var f = document.getElementById('orderFoot');
   if (f && S.intro) {
-    var names = { intro: '入门', ai: 'AI 实战', adv: '进阶', project: '项目实战' };
+    var names = { intro: '入门', git: 'Git 工具', ai: 'AI 实战', adv: '进阶', project: '项目实战' };
     var parts = [];
-    ['intro', 'ai', 'adv', 'project'].forEach(function (k) {
+    ['intro', 'git', 'ai', 'adv', 'project'].forEach(function (k) {
       if (S[k]) parts.push('<b>' + names[k] + '</b> ' + S[k].days + ' 天');
     });
     f.innerHTML = '按这个顺序学：' + parts.join(' → ') +
-      '（每天 2 小时，约 4 个月）　·　入门第 13~18 章与进阶／实战重复，课表里已标「可跳过」';
+      '（每天 2 小时，约 4 个月）　·　入门第 13~18 章与进阶／实战重复，课表里已标「可跳过」' +
+      '<br>Git 与四门 Python 课零重复；JavaWeb 是 Java 方向、与 Python 路线零重复，只学 Python 可跳过。';
   }
 })();
 </script>
