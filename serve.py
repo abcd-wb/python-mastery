@@ -127,6 +127,7 @@ ERR_FILE = os.path.join(ROOT, 'data', 'ielts-errors.json')
 REC_FILE = os.path.join(ROOT, 'data', 'ielts-records.json')
 OCR_BIN = os.path.join(ROOT, 'tools', 'bin', 'ocr')
 PDFTEXT_BIN = os.path.join(ROOT, 'tools', 'bin', 'pdftext')
+PDFRENDER_BIN = os.path.join(ROOT, 'tools', 'bin', 'pdfrender')
 
 # 能按纯文本读的格式（直接 decode）；其余交给 pdftext / ocr
 TEXT_EXTS = {'.txt', '.md', '.csv', '.tsv', '.text', '.log', '.json', '.srt', '.ass', '.vtt', ''}
@@ -1137,6 +1138,32 @@ def enrich_words_batch(items, limit=30):
     return n
 
 
+def ocr_scanned_pdf(path, max_pages=20):
+    """扫描件 PDF（无文字层）兜底：逐页渲染成图片 → OCR → 合并文字。
+    渲染工具 tools/bin/pdfrender <pdf> <页号> <缩放> 输出图片路径到 stdout。"""
+    if not os.path.exists(PDFRENDER_BIN) or not os.path.exists(OCR_BIN):
+        return ''
+    out = []
+    for i in range(max_pages):
+        try:
+            r = subprocess.run([PDFRENDER_BIN, path, str(i), '2'],
+                               capture_output=True, timeout=40)
+            img = r.stdout.decode('utf-8', 'replace').strip().splitlines()
+            if r.returncode != 0 or not img or not os.path.exists(img[0]):
+                break
+            o = subprocess.run([OCR_BIN, img[0]], capture_output=True, timeout=40)
+            txt = o.stdout.decode('utf-8', 'replace').strip()
+            if txt:
+                out.append(txt)
+            try:
+                os.remove(img[0])
+            except OSError:
+                pass
+        except Exception:
+            break
+    return '\n'.join(out)
+
+
 def extract_file_text(raw, name='', ext=''):
     """从任意文件里尽量提取文字。返回 str（可能为空串），读不出返回 None。"""
     ext = (ext or os.path.splitext(name)[1]).lower()
@@ -1182,7 +1209,11 @@ def extract_file_text(raw, name='', ext=''):
             text = r.stdout.decode('utf-8', 'replace').strip()
             if r.returncode == 0 and text:
                 return text
-            # PDF 抽不出文字（扫描件）：退回 OCR 逐页识别不了，就提示
+            # PDF 抽不出文字（扫描件）：逐页渲染 → OCR 兜底
+            if ext == '.pdf':
+                ocred = ocr_scanned_pdf(tmp)
+                if ocred and ocred.strip():
+                    return ocred.strip()
             return text or None
         except Exception:
             return None

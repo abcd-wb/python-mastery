@@ -145,6 +145,25 @@
       '</div></li>';
   }
 
+  /* 阅读考点词卡片：横排每行4个，单词在上、注释和例句在下 */
+  function readingCard(w) {
+    var on = !!S.sel[w.id];
+    var isNew = !!(S.freshSince && (w.ts || 0) >= S.freshSince);
+    return '<li class="rcard' + (w.done ? ' is-done' : '') + (on ? ' is-on' : '') +
+      (isNew ? ' is-new' : '') + '" data-id="' + esc(w.id) + '">' +
+      '<div class="rc-top">' +
+        '<label class="wchk"><input type="checkbox"' + (on ? ' checked' : '') + '><i></i></label>' +
+        '<b class="rc-w">' + esc(w.w) + '</b>' +
+        '<button class="wsay" type="button" data-say="' + esc(w.w) + '" aria-label="读一遍">▶</button>' +
+        '<button class="wdelword" type="button" data-act="del" title="删除这个单词">✕</button>' +
+      '</div>' +
+      (w.phon ? '<div class="rc-phon">/' + esc(w.phon) + '/</div>' : '') +
+      '<div class="rc-cn">' + esc(w.cn || '（暂无注释）') + '</div>' +
+      '<div class="rc-en">' + esc(w.en_def || '') + '</div>' +
+      '<div class="rc-ex">' + esc(w.ex || '（暂无例句）') + '</div>' +
+      '</li>';
+  }
+
   /* 分类筛选：当前选中的分类 / 易错 */
   function applyFilter(list) {
     if (S.filter === 'hard') return list.filter(function (w) { return w.hard; });
@@ -152,11 +171,15 @@
     return list;
   }
 
-  /* 按来源文件分组：以文件名分类，每组一个小三角，点开看这个文件里的全部单词 */
+  /* 按来源文件分组：以文件名分类，每组一个小三角，点开看这个文件里的全部单词
+     标了 layout:'reading' 的文件（如 488考点词）用横排卡片：每行4个，单词在上、注释例句在下 */
   function renderGroups(list) {
-    var groups = {}, order = [];
+    var groups = {}, order = [], layout = {};
     /* 文件列表顺序优先 */
-    S.files.forEach(function (f) { if (f.name && !(f.name in groups)) { groups[f.name] = []; order.push(f.name); } });
+    S.files.forEach(function (f) {
+      if (f.name && !(f.name in groups)) { groups[f.name] = []; order.push(f.name); }
+      if (f.layout) layout[f.name] = f.layout;
+    });
     list.forEach(function (w) {
       var k = w.src || '未分类';
       if (!(k in groups)) { groups[k] = []; order.push(k); }
@@ -167,13 +190,18 @@
       var arr = groups[k];
       var open = S.open[k] !== false;   /* 默认展开，点小三角收起 */
       var done = arr.filter(function (w) { return w.done; }).length;
-      return '<li class="wgroup' + (open ? ' is-open' : '') + '" data-src="' + esc(k) + '">' +
+      var isReading = layout[k] === 'reading';
+      var body = open
+        ? (isReading
+            ? '<ul class="rgrid">' + arr.map(readingCard).join('') + '</ul>'
+            : '<ul class="wgrp-body">' + arr.map(row).join('') + '</ul>')
+        : '';
+      return '<li class="wgroup' + (open ? ' is-open' : '') + (isReading ? ' is-reading' : '') + '" data-src="' + esc(k) + '">' +
         '<div class="wgrp-hd" role="button" tabindex="0" aria-expanded="' + open + '">' +
         '<span class="wgrp-tri" aria-hidden="true">' + (open ? '▼' : '▶') + '</span>' +
         '<b class="wgrp-name">' + esc(k) + '</b>' +
-        '<span class="wgrp-n">' + arr.length + ' 词' + (done ? ' · 已背 ' + done : '') + '</span>' +
-        '</div>' +
-        '<ul class="wgrp-body">' + (open ? arr.map(row).join('') : '') + '</ul>' +
+        '<span class="wgrp-n">' + arr.length + ' 词' + (done ? ' · 已背 ' + done : '') + (isReading ? ' · 横排' : '') + '</span>' +
+        '</div>' + body +
         '</li>';
     }).join('');
   }
@@ -360,35 +388,42 @@
       return true;
     }
 
+    /* 右键粘文件：浏览器给的不是文件对象，而是一条 file:// 路径。
+       注意：从微信/Finder 复制文件时 text/plain 只有「文件名」，
+       必须先单独看 text/uri-list，不能让文件名把分支抢走（否则当成词表 → 导不进）。 */
+    var fileUri = '';
+    try { fileUri = String(dt.getData('text/uri-list') || '').trim().split('\n')[0].trim(); } catch (e) { }
+    if (/^file:\/\//i.test(fileUri)) return importPath(fileUri);
+
     var t = '';
     try { t = dt.getData('text/plain') || ''; } catch (e) { }
     if (!t.trim()) { try { t = htmlText(dt.getData('text/html')); } catch (e) { } }
-    if (!t.trim()) { try { t = dt.getData('text/uri-list') || ''; } catch (e) { } }
-
-    /* 右键粘贴文件时，浏览器只给 file:// 路径（没有文件对象）。
-       识别到就交给服务端按路径读文件导入，别把路径当单词存进去。 */
-    var uri = String(t || '').trim().split('\n')[0].trim();
-    if (/^file:\/\//i.test(uri)) {
-      note('识别到粘贴的文件，正在读取…', 0);
-      fetch(API + '/path', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: uri })
-      }).then(function (r) { return r.json(); }).then(function (j) {
-        if (!j || !j.ok) { note((j && j.err) || '文件导入失败', 8000); return; }
-        return load().then(function () {
-          showNewWords();
-          if (!j.parsed) note('读出了文件但没认出单词（可能不是词表）', 7000);
-          else note('已从「' + (j.file || '文件') + '」导入 ' + (j.added || 0) + ' 个新词', 6000);
-        });
-      }).catch(function () {
-        if (window.apiFail) apiFail('文件没读出来');
-        note('连不上本地服务 —— 先双击「启动.command」，再刷新这一页', 9000);
-      });
-      return true;
-    }
+    /* 有的应用把 file:// 放在 text/plain 里 */
+    var uri2 = String(t || '').trim().split('\n')[0].trim();
+    if (/^file:\/\//i.test(uri2)) return importPath(uri2);
 
     if (t && t.trim()) return pasteText(t);
     return false;
+  }
+
+  /* 按 file:// 路径让服务端读文件导入（扫描件 PDF 走 OCR）。 */
+  function importPath(uri) {
+    note('识别到粘贴的文件，正在读取…', 0);
+    fetch(API + '/path', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: uri })
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j || !j.ok) { note((j && j.err) || '文件导入失败', 8000); return; }
+      return load().then(function () {
+        showNewWords();
+        if (!j.parsed) note('读出了文件但没认出单词（可能不是词表）', 7000);
+        else note('已从「' + (j.file || '文件') + '」导入 ' + (j.added || 0) + ' 个新词', 6000);
+      });
+    }).catch(function () {
+      if (window.apiFail) apiFail('文件没读出来');
+      note('连不上本地服务 —— 先双击「启动.command」，再刷新这一页', 9000);
+    });
+    return true;
   }
 
   function paintStage() {
@@ -481,7 +516,8 @@
     $('wpLoop').textContent = '第 ' + P.loop + ' 遍 / 共 ' + P.maxLoop;
     $('wpWord').textContent = w.w;
     $('wpPhon').textContent = w.phon ? '/' + w.phon + '/' : '';
-    $('wpCn').textContent = w.cn || '';
+    /* 循环播放只显示英英释义，不显示中文释义 */
+    $('wpCn').textContent = w.en_def || '';
     $('wpEx').innerHTML = w.ex ? esc(w.ex) : '';
     $('wpEx').classList.toggle('none', !w.ex);
     $('wpToggle').textContent = P.playing ? '暂停' : '继续';
@@ -493,7 +529,8 @@
     stopAudio();
     var list = [{ text: w.w, voice: V.en, rate: -10 }];
     if (w.ex) list.push({ text: w.ex, voice: V.en, rate: -8 });
-    if (w.cn) list.push({ text: w.cn, voice: V.zh, rate: -4 });
+    /* 不读中文释义：英英释义用英文语音朗读；没有英英释义时就不读这一段 */
+    if (w.en_def) list.push({ text: w.en_def, voice: V.en, rate: -6 });
     playClips(list, function () {
       if (!P.playing) return;
       setTimeout(function () {
@@ -723,7 +760,7 @@
 
     $('wlist').addEventListener('change', function (e) {
       if (e.target.type !== 'checkbox') return;
-      var li = e.target.closest('.wrow');
+      var li = e.target.closest('.wrow, .rcard');
       S.sel[li.getAttribute('data-id')] = e.target.checked;
       render();
     });
@@ -1064,7 +1101,7 @@
       var hb = e.target.closest('[data-act="hard"]');
       if (hb) {
         e.stopPropagation();
-        var li = hb.closest('.wrow');
+        var li = hb.closest('.wrow, .rcard');
         var wid = li.getAttribute('data-id');
         var w = null;
         S.words.forEach(function (x) { if (x.id === wid) w = x; });
@@ -1077,7 +1114,7 @@
       var db = e.target.closest('[data-act="del"]');
       if (db) {
         e.stopPropagation();
-        var dli = db.closest('.wrow');
+        var dli = db.closest('.wrow, .rcard');
         var dwid = dli.getAttribute('data-id');
         var dw = null;
         S.words.forEach(function (x) { if (x.id === dwid) dw = x; });
@@ -1098,7 +1135,7 @@
         return;
       }
       /* 点整行（非按钮区）：切换勾选 */
-      var row = e.target.closest('.wrow');
+      var row = e.target.closest('.wrow, .rcard');
       if (!row) return;
       var rid = row.getAttribute('data-id');
       S.sel[rid] = !S.sel[rid];
