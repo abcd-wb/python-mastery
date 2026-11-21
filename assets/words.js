@@ -225,7 +225,7 @@
       $('wfiles').innerHTML = '<b>已导入 ' + S.files.length + ' 份</b>' +
         S.files.map(function (f) {
           return '<span class="wf">' + esc(f.name) + ' <i>' + (f.n || 0) + ' 词</i>' +
-            '<button class="wdel" type="button" data-fid="' + esc(f.id) + '" title="删除这份文件（单词保留）">删</button></span>';
+            '<button class="wdel" type="button" data-fid="' + esc(f.id) + '" title="移走这份文件（单词保留）">✕</button></span>';
         }).join('') +
         '<em>删除只移走文件，词库里已有的单词会保留</em>';
     } else {
@@ -691,24 +691,33 @@
       paintStage();
     });
 
-    /* 删除已导入的词表文件（只移走文件，词库单词保留） */
+    /* 删除已导入的词表文件（只移走文件，词库单词保留）。
+       不再弹 confirm：原生确认框常被浏览器挡在窗口后面，看起来像"点了没反应"。
+       直接删 + 轻提示，跟单词行的 ✕ 保持一致。 */
     $('wfiles').addEventListener('click', function (e) {
       var b = e.target.closest('.wdel');
       if (!b) return;
       var fid = b.getAttribute('data-fid');
       var name = '';
       S.files.forEach(function (f) { if (f.id === fid) name = f.name; });
-      if (!confirm('删除「' + (name || '这份文件') + '」吗？\n只移走文件，已经进词库的单词会保留。')) return;
+      /* 先禁用按钮，防连点重复删 */
+      b.disabled = true;
       fetch(API + '/file-del', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: fid })
       }).then(function (r) { return r.json(); }).then(function (j) {
-        if (!j || !j.ok) { note((j && j.err) || '删除失败', 6000); return; }
+        if (!j || !j.ok) {
+          b.disabled = false;
+          note((j && j.err) || '删除失败', 6000);
+          return;
+        }
         S.files = S.files.filter(function (f) { return f.id !== fid; });
         render();
-        note('已删除「' + (j.removed || name) + '」，词库单词保留', 5000);
+        note('已移走「' + (j.removed || name) + '」，词库单词保留', 5000);
       }).catch(function () {
+        b.disabled = false;
         if (window.apiFail) apiFail('删除没成功');
+        note('连不上本地服务 —— 先双击「启动.command」，再刷新这一页', 8000);
       });
     });
 
