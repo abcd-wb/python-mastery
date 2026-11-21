@@ -357,6 +357,37 @@
     return true;
   }
 
+  /* 统一输入框的「✅ 加进词库」：框里打的 or 粘进来的文字，走同一条解析入库链。
+     文件不走这里 —— 文件在 paste / 拖放 / 选文件时直接交给服务端导入。 */
+  function submitTyped() {
+    var el = $('sink');
+    var t = el ? el.value : '';
+    if (!String(t || '').trim()) {
+      note('先在框里输入单词，一行一个', 4000);
+      try { el.focus({ preventScroll: true }); } catch (e) { }
+      return;
+    }
+    note('正在解析…', 0);
+    fetch(API + '/paste', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: t })
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j || !j.ok) { note((j && j.err) || '没解析出单词', 8000); return; }
+      return load().then(function () {
+        showNewWords();
+        if (!j.parsed) note('没认出英文单词，检查一下是不是每行都有英文', 8000);
+        else if (!j.added && !j.updated) note('认出 ' + j.parsed + ' 行，词库里都已经有了', 6000);
+        else {
+          el.value = '';
+          note('加进 ' + (j.added || 0) + ' 个' + (j.updated ? '，补全 ' + j.updated + ' 个' : '') + '，下面已列出', 6500);
+        }
+      });
+    }).catch(function () {
+      if (window.apiFail) apiFail('词表没解析成功');
+      note('连不上本地服务 —— 先双击「启动.command」，再刷新这一页', 9000);
+    });
+  }
+
   function htmlText(h) {
     return String(h || '')
       .replace(/<br\s*\/?>/gi, '\n')
@@ -365,6 +396,27 @@
       .replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&')
       .replace(/&lt;/gi, '<').replace(/&gt;/gi, '>')
       .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+  }
+
+  /* 剪贴板里有没有文件（右键复制的文件 / 系统文件对象 / file:// 路径）。
+     有文件 → 走服务端按文件导入；普通文字 → 留在输入框里，等点「✅ 加进词库」。 */
+  function clipboardHasFile(dt) {
+    if (!dt) return false;
+    if (dt.files && dt.files.length) return true;
+    if (dt.items) {
+      for (var i = 0; i < dt.items.length; i++) {
+        if (dt.items[i].kind === 'file') return true;
+      }
+    }
+    try {
+      var u = String(dt.getData('text/uri-list') || '').trim().split('\n')[0].trim();
+      if (/^file:\/\//i.test(u)) return true;
+    } catch (e) { }
+    try {
+      var t = String(dt.getData('text/plain') || '').trim().split('\n')[0].trim();
+      if (/^file:\/\//i.test(t)) return true;
+    } catch (e) { }
+    return false;
   }
 
   /* 收一次粘贴：先文件，再纯文字，最后从 HTML 里扒文字（公众号/微信群常见） */
@@ -445,15 +497,12 @@
         '<span class="ssz">' + sz + '</span>' +
         '<button class="odel" type="button" data-i="' + i + '" aria-label="移出">×</button></li>';
     }).join('');
-    $('boxPh').style.display = S.stage.length ? 'none' : '';
-    $('importBtn').disabled = !S.stage.length || S.busy;
-    $('importBtn').textContent = S.stage.length ? '导入词表（' + S.stage.length + '）' : '导入词表';
+    /* stage 只显示"待导入"项；平时为空，CSS 的 :empty 会自动把它收起来 */
   }
 
   function doImport() {
     if (!S.stage.length || S.busy) return;
     S.busy = true;
-    $('importBtn').disabled = true;
     note('正在解析…', 0);
 
     var jobs = S.stage.map(function (it) {
@@ -658,35 +707,48 @@
     function focusBox() { try { sink.focus({ preventScroll: true }); } catch (e) { } }
     box.addEventListener('mousedown', function (e) {
       if (e.target.closest('button')) return;
+      if (e.target === sink) return;   /* 点输入框本身，别抢光标 */
       focusBox();
     });
     box.addEventListener('contextmenu', function (e) {
       if (e.target.closest('button')) return;
       focusBox();
     });
-    sink.addEventListener('input', function () { sink.value = ''; });
+
+    /* sink 现在是真正能打字的输入框：不再有 input 事件把字清空。
+       ⌘/Ctrl + Enter 快捷提交；普通回车照常换行。 */
     sink.addEventListener('keydown', function (e) {
-      if (e.key === 'Backspace' || e.key === 'Delete') {
-        if (S.stage.length) { S.stage.pop(); paintStage(); }
-        e.preventDefault(); return;
-      }
-      if (e.key === 'Tab') return;
-      var mod = e.metaKey || e.ctrlKey;
-      if (!mod) e.preventDefault();
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); submitTyped(); }
     });
 
+    /* 粘贴：文件 → 直接导入；文字 → 留在框里（不拦截默认行为，浏览器自己插入），
+       点「✅ 加进词库」再入库，这样粘进来还能先核对、再改。 */
     sink.addEventListener('paste', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      handlePaste(e.clipboardData || window.clipboardData);
-      setTimeout(function () { sink.value = ''; }, 0);
+      var dt = e.clipboardData || window.clipboardData;
+      if (clipboardHasFile(dt)) {
+        e.preventDefault();
+        e.stopPropagation();
+        handlePaste(dt);
+      }
     });
-    /* 兜底：框没被点中时按 ⌘V 也收（焦点在页面上就行） */
+    /* 兜底：焦点在页面空白处按 ⌘V —— 文件直接导，文字送进统一输入框 */
     document.addEventListener('paste', function (e) {
       if (e.defaultPrevented) return;
       var t = e.target;
-      if (t && (t.tagName === 'INPUT' || (t.tagName === 'TEXTAREA' && t.id !== 'sink'))) return;
-      if (handlePaste(e.clipboardData || window.clipboardData)) e.preventDefault();
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+      var dt = e.clipboardData || window.clipboardData;
+      if (clipboardHasFile(dt)) {
+        if (handlePaste(dt)) e.preventDefault();
+        return;
+      }
+      var txt = '';
+      try { txt = (dt && dt.getData('text/plain')) || ''; } catch (err) { }
+      if (txt && txt.trim()) {
+        e.preventDefault();
+        sink.value = (sink.value ? sink.value.replace(/\s*$/, '') + '\n' : '') + txt.trim();
+        focusBox();
+        note('文字已放进输入框，点「✅ 加进词库」就入库', 5000);
+      }
     });
 
     ['dragenter', 'dragover'].forEach(function (ev) {
@@ -720,7 +782,7 @@
       paintStage();
       doImport();
     });
-    $('importBtn').addEventListener('click', doImport);
+    $('addBtn').addEventListener('click', submitTyped);
     $('stageList').addEventListener('click', function (e) {
       var b = e.target.closest('.odel');
       if (!b) return;
@@ -896,26 +958,6 @@
         try { document.execCommand('copy'); done(); } catch (e) { note('复制失败，请手动选中', 4000); }
         document.body.removeChild(ta);
       }
-    });
-
-    /* 手动输入词表：保底入口，任何情况都能把词敲进来 */
-    $('manualGo').addEventListener('click', function () {
-      var t = $('manualText').value;
-      if (!String(t || '').trim()) { $('manualMsg').textContent = '先在上面输入几个词'; return; }
-      $('manualMsg').textContent = '正在解析…';
-      fetch(API + '/paste', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: t })
-      }).then(function (r) { return r.json(); }).then(function (j) {
-        if (!j || !j.ok) { $('manualMsg').textContent = (j && j.err) || '没解析出单词'; return; }
-        return load().then(function () {
-          showNewWords();
-          if (!j.parsed) $('manualMsg').textContent = '没认出英文单词，检查一下是不是每行都有英文。';
-          else { $('manualMsg').textContent = '加进 ' + (j.added || 0) + ' 个，下面已列出。'; $('manualText').value = ''; }
-        });
-      }).catch(function () {
-        $('manualMsg').textContent = '连不上本地服务，先双击「启动.command」。';
-      });
     });
 
     /* 语音添加单词（微信式）：按住按钮录音 → 松手 → 豆包识别 → 自动加进词库。
@@ -1263,7 +1305,8 @@
       }
     });
 
-    focusBox();
+    /* 不再启动时自动 focus：sink 现在是真输入框，自动聚焦会在手机上顶起键盘。
+       右键粘贴时 contextmenu 处理器会临时聚焦，足够让「粘贴」菜单生效。 */
   }
 
   /* ================= 启动 ================= */

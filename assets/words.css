@@ -171,19 +171,24 @@
 .lib-hd .lib-how{color:#8ea0b8;font-size:11.8px;font-weight:500}
 @media (max-width:560px){ .lib-hd .lib-how{display:none} }
 
-/* 手动输入词表的保底入口 */
-.manual{margin:10px 2px 0}
-.manual summary{cursor:pointer;font-size:12.5px;color:var(--blue);font-weight:600;user-select:none;list-style:none}
-.manual summary::-webkit-details-marker{display:none}
-.manual summary::before{content:'▸ ';display:inline-block;transition:.15s}
-.manual details[open] summary::before{content:'▾ '}
-.manual-body{margin-top:8px;border:1px solid var(--line);border-radius:10px;background:#fbfcff;padding:10px}
-.manual-body textarea{display:block;width:100%;box-sizing:border-box;border:1px solid var(--line2);border-radius:8px;
-  background:#fff;padding:8px 10px;font:13px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);
-  resize:vertical;outline:none;min-height:120px}
-.manual-body textarea:focus{border-color:#9dbcf3}
-.manual-acts{display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
-.manual-acts span{font-size:12px;color:var(--ink3)}
+/* ===== 统一输入框：打字 / 粘贴文字 / 粘贴文件 / 上传文件 / 语音加词 =====
+   ielts.css 的 .box .sink 是"盖满整框的透明取焦点层"，这里覆盖成可见的真输入框。 */
+.box .sink{position:relative;left:auto;top:auto;right:auto;bottom:auto;
+  display:block;width:100%;box-sizing:border-box;min-height:104px;height:auto;
+  padding:11px 13px;border:1px solid var(--line2);border-radius:12px;
+  background:#fff;color:var(--ink);-webkit-text-fill-color:var(--ink);caret-color:var(--ink);
+  font:13px/1.75 ui-monospace,SFMono-Regular,Menlo,monospace;
+  resize:vertical;overflow:auto;z-index:2}
+.box .sink::placeholder{color:#aab5c4;-webkit-text-fill-color:#aab5c4}
+.box .sink:focus{outline:none;border-color:#9dbcf3;box-shadow:0 0 0 4px rgba(37,99,235,.07)}
+.box .stage-list{position:relative;z-index:2}
+.uni-acts{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative;z-index:2}
+.uni-acts .up-note{font-size:12px;color:var(--ink3);flex:1;min-width:140px}
+.box .voice-line{margin:0;position:relative;z-index:2}
+@media (max-width:620px){
+  .box .sink{min-height:120px}
+  .uni-acts .up-note{flex:1 1 100%;min-width:0}
+}
 
 /* 粘贴内容预览（stage 里文字项的前几个字） */
 .stage-list .sprev{font-size:11px;color:#8a97a8;flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
