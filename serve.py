@@ -390,10 +390,99 @@ def parse_word_line(raw):
     return {'w': w, 'phon': phon, 'cn': cn[:80], 'ex': ex[:200]}
 
 
+# ---------- 文件导入忠实解析：原样保留单词 + 文件内子分类 ----------
+_WNUM = re.compile(r'(?<!\d)(\d{1,3})\s*[.．、\)]\s*')
+_WPOS = re.compile(r'\((?:n|v|vt|vi|adj|adv|np|vp|adjp|advp|prase|prep|conj)\.?\)', re.I)
+_WPHON = re.compile(r'\[([^\[\]]+)\]')
+
+
+def _is_section_line(s):
+    """分类标题候选：★场景名 或 纯英文短行（无编号/音标/中文）。"""
+    if not s or len(s) > 40:
+        return False
+    if '场景' in s or s.startswith('★'):
+        return True
+    if '[' in s or '(' in s or ')' in s or CJK.search(s) or _WNUM.match(s):
+        return False
+    return re.fullmatch(r"[A-Za-z][A-Za-z '\-’?]{1,38}", s) is not None
+
+
+def _clean_section_name(s):
+    s = re.sub(r'^★+\s*', '', s)
+    if '场景' in s and '：' in s:
+        s = s.replace('⼀', '').replace('一', '')
+        s = re.sub(r'^场景[一二三四五六七八九十]*[：:]\s*', '', s)
+    return s.strip(' ：:★')
+
+
+def _join_phon_lines(lines):
+    """把被 PDF 排版拆断的音标 [ ... ] 合并回一行。"""
+    out, buf = [], ''
+    for raw in lines:
+        line = (raw or '').strip()
+        if buf:
+            line = buf + ' ' + line
+            buf = ''
+        if line.count('[') > line.count(']'):
+            buf = line
+            continue
+        out.append(line)
+    if buf:
+        out.append(buf)
+    return out
+
+
 def parse_words_text(text, src=''):
-    out, seen = [], set()
-    for line in (text or '').splitlines():
-        it = parse_word_line(line)
+    """文件/粘贴导入：原样保留单词（大小写/词组/连字符/撇号都不改），
+    按 / = , 拆同义词，识别文件里的分类标题写进 tag；手写标记（热/难/品）不当中文。
+    无音标的普通行仍走原 parse_word_line，保证手输/手抄词表兼容。"""
+    lines = _join_phon_lines([(l or '').strip() for l in (text or '').splitlines()])
+    out, seen, tag = [], set(), ''
+
+    def next_content(i):
+        for j in range(i + 1, len(lines)):
+            if lines[j] and not lines[j].startswith('#'):
+                return lines[j]
+        return ''
+
+    for i, s in enumerate(lines):
+        if not s or s.startswith('#') or re.fullmatch(r'\d{1,3}', s):
+            continue
+        # 纯英文短行只有后面紧跟带音标词条时才算分类标题，避免把单个词误当标题
+        if _is_section_line(s) and '[' in next_content(i) and ']' in next_content(i):
+            tag = _clean_section_name(s)
+            continue
+        if '[' in s and ']' in s:
+            nums = [m.start() for m in _WNUM.finditer(s)]
+            blocks = ([s[nums[k]:(nums[k + 1] if k + 1 < len(nums) else len(s))]
+                       for k in range(len(nums))] if len(nums) > 1 else [s])
+            for block in blocks:
+                for seg in re.split(r'\s*[/=,，、]\s*', block):
+                    seg = seg.strip()
+                    if not seg:
+                        continue
+                    mnum = _WNUM.search(seg)
+                    if mnum:
+                        seg = seg[mnum.end():]
+                    before = seg.split('[', 1)[0]
+                    mw = re.match(r"\s*([A-Za-z][A-Za-z0-9 '\-’():.]*)", before)
+                    if not mw:
+                        continue
+                    w = _WPOS.sub(' ', mw.group(1))
+                    w = re.sub(r'\s+', ' ', w).strip(' .,;:、')
+                    if not w or len(w) < 2 or len(w) > 60:
+                        continue
+                    if w.lower() in ('vp', 'n', 'np', 'adj', 'adv', 'advp', 'prase'):
+                        continue
+                    k = w.lower()
+                    if k in seen:
+                        continue
+                    seen.add(k)
+                    pm = _WPHON.search(seg)
+                    out.append({'w': w, 'phon': pm.group(1).strip() if pm else '',
+                                'cn': '', 'ex': '', 'tag': tag, 'src': src})
+            continue
+        it = parse_word_line(s)
         if not it:
             continue
         k = it['w'].lower()
@@ -401,6 +490,8 @@ def parse_words_text(text, src=''):
             continue
         seen.add(k)
         it['src'] = src
+        if tag and not it.get('tag'):
+            it['tag'] = tag
         out.append(it)
     return out
 
