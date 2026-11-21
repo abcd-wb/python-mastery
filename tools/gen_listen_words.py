@@ -16,7 +16,7 @@ WORDS_JSON = os.path.join(ROOT, 'data', 'words.json')
 WORD_DIR = os.path.join(ROOT, 'data', 'words-files')
 WORD_INDEX = os.path.join(WORD_DIR, 'index.json')
 
-NUM_RE = re.compile(r'(?<!\d)(\d{1,3})\s*[.．、\)]\s*')
+NUM_RE = re.compile(r'(?<!\d)(\d{1,4})\s*[.．、\)]\s*')
 POS_RE = re.compile(r'\((?:n|v|vt|vi|adj|adv|np|vp|adjp|advp|prase|prep|conj)\.?\)', re.I)
 PHON_RE = re.compile(r'\[([^\[\]]+)\]')
 CJK_RE = re.compile(r'[\u3400-\u9fff]+')
@@ -40,7 +40,7 @@ def join_phon_lines(lines):
         if buf:
             line = buf + ' ' + line
             buf = ''
-        if line.count('[') > line.count(']'):
+        if line.rfind('[') > line.rfind(']'):
             buf = line
             continue
         out.append(line)
@@ -55,11 +55,13 @@ def section_tag(s, sections):
     if sections:
         t = re.sub(r'\[[^\[\]]*\]', ' ', s)
         t = POS_RE.sub(' ', t)
-        t = re.sub(r'^\s*\d{1,3}[.．、)]\s*', '', t)
+        t = re.sub(r'^\s*\d{1,4}[.．、)]\s*', '', t)
         t = re.sub(r'\s+', ' ', t).strip().strip('.,;:')
+        cands = [t, clean_section(s)]
         for sec in sections:
-            if t.lower() == sec.lower():
+            if any(c.lower() == sec.lower() for c in cands):
                 return sec
+        return ''                      # 白名单模式：只认列出的分类，不启用通用识别
     if '场景' in s or s.startswith('★'):
         return clean_section(s)
     if not s or len(s) > 40:
@@ -95,7 +97,7 @@ def extract_items(text, sections=()):
     tag = ''
     for line in join_phon_lines(text.splitlines()):
         s = line.strip()
-        if not s or s.startswith('#') or re.fullmatch(r'\d{1,3}', s):
+        if not s or s.startswith('#') or re.fullmatch(r'\d{1,4}', s):
             continue
         sec = section_tag(s, sections)
         if sec:
@@ -120,6 +122,8 @@ def extract_items(text, sections=()):
                 no = int(mnum.group(1))
                 seg = seg[mnum.end():]
             before = seg.split('[', 1)[0]
+            if any(c in before for c in 'ˈˌɑɒəɪʊʒʃθðŋæʌɔɜː'):
+                continue                      # 跨行音标续行，不是单词
             mw = re.match(r"\s*([A-Za-z][A-Za-z0-9 '\-’():.]*)", before)
             if not mw:
                 continue                      # 编号后直接是音标：词在上一行，跳过
@@ -211,9 +215,21 @@ def main():
 
     if os.path.exists(WORD_INDEX):
         idx = json.load(open(WORD_INDEX, encoding='utf-8'))
+        found = False
         for f in idx:
             if f.get('name') == src:
                 f['n'] = len(built)
+                found = True
+        if not found:
+            import shutil, time
+            fid = 'f%x' % int(time.time() * 1000)
+            dest = '%s__%s' % (fid, src)
+            try:
+                shutil.copyfile(a.pdf, os.path.join(WORD_DIR, dest))
+            except Exception as e:
+                print('复制词表文件失败:', e)
+            idx.append({'id': fid, 'name': src, 'size': os.path.getsize(a.pdf),
+                        'file': dest, 'ts': int(time.time() * 1000), 'n': len(built)})
         json.dump(idx, open(WORD_INDEX, 'w', encoding='utf-8'),
                   ensure_ascii=False, indent=1)
 

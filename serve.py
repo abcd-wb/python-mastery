@@ -190,9 +190,9 @@ def parse_report(text):
         m = re.search(r'(?<![\d.])(\d{1,2})\s*[/／]\s*(\d{1,2})(?![\d.])', flat)
     if m:
         right, total = m.group(1), m.group(2)
-    m = re.search(r'(?:正确率|准确率)[\s\S]{0,50}?(\d{1,3}(?:\.\d)?)\s*%', flat)
+    m = re.search(r'(?:正确率|准确率)[\s\S]{0,50}?(\d{1,4}(?:\.\d)?)\s*%', flat)
     if not m:
-        m = re.search(r'(\d{1,3}(?:\.\d)?)\s*%', flat)
+        m = re.search(r'(\d{1,4}(?:\.\d)?)\s*%', flat)
     if m:
         pct = m.group(1)
 
@@ -391,7 +391,7 @@ def parse_word_line(raw):
 
 
 # ---------- 文件导入忠实解析：原样保留单词 + 文件内子分类 ----------
-_WNUM = re.compile(r'(?<!\d)(\d{1,3})\s*[.．、\)]\s*')
+_WNUM = re.compile(r'(?<!\d)(\d{1,4})\s*[.．、\)]\s*')
 _WPOS = re.compile(r'\((?:n|v|vt|vi|adj|adv|np|vp|adjp|advp|prase|prep|conj)\.?\)', re.I)
 _WPHON = re.compile(r'\[([^\[\]]+)\]')
 
@@ -423,7 +423,7 @@ def _join_phon_lines(lines):
         if buf:
             line = buf + ' ' + line
             buf = ''
-        if line.count('[') > line.count(']'):
+        if line.rfind('[') > line.rfind(']'):
             buf = line
             continue
         out.append(line)
@@ -446,7 +446,7 @@ def parse_words_text(text, src=''):
         return ''
 
     for i, s in enumerate(lines):
-        if not s or s.startswith('#') or re.fullmatch(r'\d{1,3}', s):
+        if not s or s.startswith('#') or re.fullmatch(r'\d{1,4}', s):
             continue
         # 纯英文短行只有后面紧跟带音标词条时才算分类标题，避免把单个词误当标题
         if _is_section_line(s) and '[' in next_content(i) and ']' in next_content(i):
@@ -465,6 +465,8 @@ def parse_words_text(text, src=''):
                     if mnum:
                         seg = seg[mnum.end():]
                     before = seg.split('[', 1)[0]
+                    if any(c in before for c in 'ˈˌɑɒəɪʊʒʃθðŋæʌɔɜː'):
+                        continue
                     mw = re.match(r"\s*([A-Za-z][A-Za-z0-9 '\-’():.]*)", before)
                     if not mw:
                         continue
