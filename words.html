@@ -8,7 +8,7 @@
 <title>单词 · 雅思</title>
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/ielts.css?v=53">
-<link rel="stylesheet" href="assets/words.css?v=49">
+<link rel="stylesheet" href="assets/words.css?v=50">
 </head>
 <body>
 
@@ -24,19 +24,19 @@
 
   <!-- 统一输入框：打字 / 粘贴文字 / 粘贴文件 / 上传文件 / 语音加词，全在这一个框里 -->
   <div class="box" id="box">
-    <textarea id="sink" class="sink" rows="5" spellcheck="false" autocomplete="off"
-      placeholder="在这里输入单词，一行一个（例如：abandon 放弃）；也可以把词表文件粘贴 / 拖进来，或按住下面的话筒念出来"
+    <textarea id="sink" class="sink" rows="2" spellcheck="false" autocomplete="off"
+      placeholder="输入单词（一行一个）／粘贴词表文件／拖进来"
       aria-label="输入单词或粘贴词表"></textarea>
     <ul class="stage-list" id="stageList" contenteditable="false"></ul>
     <div class="uni-acts">
       <button class="btn btn-primary" id="addBtn" type="button">✅ 加进词库</button>
       <button class="lnk" id="pickBtn" type="button">📁 选文件</button>
-      <button class="btn voice-hold" id="voiceBtn" type="button">🎤 按住说话</button>
+      <button class="btn voice-hold" id="voiceBtn" type="button" title="按住念「单词 + 中文」，松手自动加词">🎤 按住说话</button>
       <input id="pick" type="file" multiple hidden>
-      <span class="up-note" id="note">一行一个词，顺序随意：单词、音标、中文、例句，缺哪个都行</span>
     </div>
     <div class="voice-line">
-      <span class="voice-hint" id="voiceHint">语音加词：按住「🎤 按住说话」念「单词 + 中文」，松手就自动加进词库；可以连着念好几个。</span>
+      <span class="up-note" id="note">一行一个词；可粘贴或拖入词表文件</span>
+      <span class="voice-hint" id="voiceHint">按住话筒念「单词 + 中文」自动加词</span>
       <div class="voice-live" id="voiceLive" hidden></div>
     </div>
   </div>
@@ -184,6 +184,6 @@
   </div>
 </div>
 
-<script src="assets/words.js?v=49"></script>
+<script src="assets/words.js?v=50"></script>
 </body>
 </html>

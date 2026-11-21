@@ -39,7 +39,7 @@
     $('note').textContent = t || '';
     clearTimeout(note._t);
     if (ms !== 0) note._t = setTimeout(function () {
-      $('note').textContent = '一行一个词，顺序随意：单词、音标、中文、例句，缺哪个都行';
+      $('note').textContent = '一行一个词；可粘贴或拖入词表文件';
     }, ms || 5000);
   }
 
@@ -413,8 +413,56 @@
       .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
   }
 
-  /* 剪贴板里有没有文件（右键复制的文件 / 系统文件对象 / file:// 路径）。
-     有文件 → 走服务端按文件导入；普通文字 → 留在输入框里，等点「✅ 加进词库」。 */
+  /* 右键复制文件时，Chrome / 微信 / Finder 给剪贴板的东西各不相同：
+     - 文件对象（Files / items.kind=file）
+     - text/uri-list 里一条 file:///Users/... 路径
+     - text/plain 里一条裸路径 /Users/... 或 ~/...
+     - text/plain 里只有一个文件名 xxx.pdf（最坑，以前当成词表文字）
+     这里把所有可能的「路径线索」按优先级收齐，逐条试，而不是只认 file://。 */
+  function clipboardPathCandidates(dt) {
+    var out = [];
+    function add(s) {
+      s = String(s || '').trim();
+      if (s && out.indexOf(s) < 0) out.push(s);
+    }
+    try {
+      var uris = String(dt.getData('text/uri-list') || '');
+      uris.split(/\r?\n/).forEach(function (line) {
+        line = line.trim();
+        if (line && line.charAt(0) !== '#') add(line);
+      });
+    } catch (e) { }
+    try { add(dt.getData('text/plain')); } catch (e) { }
+    return out;
+  }
+
+  /* 判断一条剪贴板文本是不是文件路径线索：file:// / 绝对路径 / ~ 开头 / 像词表文件名 */
+  function pathKind(raw) {
+    var s = String(raw || '').trim().replace(/^["']|["']$/g, '');
+    if (!s) return '';
+    if (/^file:\/\//i.test(s)) return 'uri';
+    if (/^[~\/]/.test(s) && s.length < 500) return 'abs';
+    var base = s.split(/[\r\n]/)[0].trim();
+    if (/\.(pdf|txt|docx?|xlsx?|csv|tsv|md|json|srt|vtt|html?|epub)$/i.test(base) &&
+        base.indexOf('\n') < 0 && base.length < 200 && !/\s{3,}/.test(base)) return 'name';
+    return '';
+  }
+
+  function importPathValue(raw) {
+    /* 服务端 path_of() 会自己展开 ~ 、解码 file://、还原 URL 编码，前端不必先转换 */
+    return String(raw || '').trim().replace(/^["']|["']$/g, '');
+  }
+
+  /* 按文件名让服务端在本机常见目录（下载/桌面/文稿/微信临时目录/词表目录）里找真实路径 */
+  function findFileByName(name) {
+    return fetch(API + '/find', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name })
+    }).then(function (r) { return r.json(); })
+      .then(function (j) { return (j && j.ok && j.path) ? j.path : ''; })
+      .catch(function () { return ''; });
+  }
+
   function clipboardHasFile(dt) {
     if (!dt) return false;
     if (dt.files && dt.files.length) return true;
@@ -423,19 +471,12 @@
         if (dt.items[i].kind === 'file') return true;
       }
     }
-    try {
-      var u = String(dt.getData('text/uri-list') || '').trim().split('\n')[0].trim();
-      if (/^file:\/\//i.test(u)) return true;
-    } catch (e) { }
-    try {
-      var t = String(dt.getData('text/plain') || '').trim().split('\n')[0].trim();
-      if (/^file:\/\//i.test(t)) return true;
-    } catch (e) { }
-    return false;
+    return clipboardPathCandidates(dt).some(function (s) { return !!pathKind(s); });
   }
 
-  /* 收一次粘贴：先文件，再纯文字，最后从 HTML 里扒文字（公众号/微信群常见） */
-  function handlePaste(dt) {
+  /* 收一次粘贴：先文件对象，再路径线索（file:// / 裸路径 / 文件名），最后纯文字。
+     filesOnly=true 时只处理文件线索，文字留给输入框自己；document 捕获阶段用它。 */
+  function handlePaste(dt, filesOnly) {
     if (!dt) return false;
     var files = [], i;
     if (dt.files && dt.files.length) for (i = 0; i < dt.files.length; i++) files.push(dt.files[i]);
@@ -455,20 +496,29 @@
       return true;
     }
 
-    /* 右键粘文件：浏览器给的不是文件对象，而是一条 file:// 路径。
-       注意：从微信/Finder 复制文件时 text/plain 只有「文件名」，
-       必须先单独看 text/uri-list，不能让文件名把分支抢走（否则当成词表 → 导不进）。 */
-    var fileUri = '';
-    try { fileUri = String(dt.getData('text/uri-list') || '').trim().split('\n')[0].trim(); } catch (e) { }
-    if (/^file:\/\//i.test(fileUri)) return importPath(fileUri);
+    /* 右键粘文件：浏览器给的往往不是文件对象，而是一条路径或光秃秃的文件名。
+       注意 text/plain 里的「文件名」不能当词表文字解析，必须优先按文件查路径。 */
+    var cands = clipboardPathCandidates(dt);
+    for (i = 0; i < cands.length; i++) {
+      var kind = pathKind(cands[i]);
+      if (kind === 'uri' || kind === 'abs') return importPath(importPathValue(cands[i]));
+    }
+    for (i = 0; i < cands.length; i++) {
+      if (pathKind(cands[i]) === 'name') {
+        var nm = cands[i].trim().split(/[\r\n]/)[0].trim();
+        note('识别到粘贴的文件「' + nm + '」，正在找路径…', 0);
+        findFileByName(nm).then(function (p) {
+          if (p) importPath(p);
+          else note('找到文件名「' + nm + '」但没定位到路径，请用「📁 选文件」导入', 8000);
+        });
+        return true;
+      }
+    }
 
+    if (filesOnly) return false;
     var t = '';
     try { t = dt.getData('text/plain') || ''; } catch (e) { }
     if (!t.trim()) { try { t = htmlText(dt.getData('text/html')); } catch (e) { } }
-    /* 有的应用把 file:// 放在 text/plain 里 */
-    var uri2 = String(t || '').trim().split('\n')[0].trim();
-    if (/^file:\/\//i.test(uri2)) return importPath(uri2);
-
     if (t && t.trim()) return pasteText(t);
     return false;
   }
@@ -736,26 +786,21 @@
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); submitTyped(); }
     });
 
-    /* 粘贴：文件 → 直接导入；文字 → 留在框里（不拦截默认行为，浏览器自己插入），
-       点「✅ 加进词库」再入库，这样粘进来还能先核对、再改。 */
-    sink.addEventListener('paste', function (e) {
-      var dt = e.clipboardData || window.clipboardData;
-      if (clipboardHasFile(dt)) {
-        e.preventDefault();
-        e.stopPropagation();
-        handlePaste(dt);
-      }
-    });
-    /* 兜底：焦点在页面空白处按 ⌘V —— 文件直接导，文字送进统一输入框 */
+    /* 右键粘贴统一在捕获阶段处理：不管焦点在不在输入框，只要剪贴板里是文件（对象 /
+       file:// / 裸路径 / 文件名），都先拦下来按文件导入，绝不当成词表文字。
+       普通文字：焦点在输入框就走浏览器默认插入；焦点在别处才送进输入框。 */
     document.addEventListener('paste', function (e) {
-      if (e.defaultPrevented) return;
-      var t = e.target;
-      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
       var dt = e.clipboardData || window.clipboardData;
+      if (!dt) return;
       if (clipboardHasFile(dt)) {
-        if (handlePaste(dt)) e.preventDefault();
+        if (handlePaste(dt, true)) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         return;
       }
+      var t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
       var txt = '';
       try { txt = (dt && dt.getData('text/plain')) || ''; } catch (err) { }
       if (txt && txt.trim()) {
@@ -764,7 +809,7 @@
         focusBox();
         note('文字已放进输入框，点「✅ 加进词库」就入库', 5000);
       }
-    });
+    }, true);
 
     ['dragenter', 'dragover'].forEach(function (ev) {
       box.addEventListener(ev, function (e) { e.preventDefault(); box.classList.add('over'); });

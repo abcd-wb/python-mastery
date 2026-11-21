@@ -1383,6 +1383,46 @@ def allowed_path(p):
     return False
 
 
+def find_file_by_name(name):
+    """右键复制文件时剪贴板常常只有文件名（没有路径）。按文件名在本机常见目录里找真实路径。"""
+    q = str(name or '').strip().strip('"').strip("'")
+    if not q:
+        return ''
+    if q.lower().startswith('file://'):
+        q = urllib.parse.unquote(urllib.parse.urlparse(q).path)
+    q = os.path.basename(os.path.expanduser(q))
+    if not q or '/' in q:
+        return ''
+    home = os.path.expanduser('~')
+    roots = [os.path.join(ROOT, 'data', 'words-files')]
+    for d in ('Downloads', 'Desktop', 'Documents'):
+        p = os.path.join(home, d)
+        if os.path.isdir(p):
+            roots.append(p)
+    # 微信临时目录：xwechat_files/<wxid>/temp/RWTemp/...
+    wx = os.path.join(home, 'Library', 'Containers', 'com.tencent.xinWeChat',
+                      'Data', 'Documents', 'xwechat_files')
+    if os.path.isdir(wx):
+        try:
+            for e in os.scandir(wx):
+                if e.is_dir():
+                    t = os.path.join(e.path, 'temp')
+                    if os.path.isdir(t):
+                        roots.append(t)
+        except OSError:
+            pass
+    roots += ['/tmp', '/Volumes']
+    pat = glob.escape(q)
+    for root in roots:
+        try:
+            for c in glob.glob(os.path.join(root, '**', pat), recursive=True):
+                if os.path.isfile(c) and allowed_path(c):
+                    return os.path.realpath(c)
+        except OSError:
+            continue
+    return ''
+
+
 class Handler(SimpleHTTPRequestHandler):
     protocol_version = 'HTTP/1.1'
 
@@ -1729,6 +1769,16 @@ class Handler(SimpleHTTPRequestHandler):
 
         if path == '/api/words/path':
             return self.words_import_path()
+
+        if path == '/api/words/find':
+            try:
+                payload = json.loads(self._read_body().decode('utf-8') or '{}')
+            except Exception:
+                payload = {}
+            p = find_file_by_name(payload.get('name') or payload.get('path') or '')
+            if not p:
+                return self._json({'ok': False, 'err': '本机常见目录里没找到这个文件'}, 404)
+            return self._json({'ok': True, 'path': p, 'file': os.path.basename(p)})
 
         if path == '/api/words/add':
             try:
@@ -2432,11 +2482,16 @@ class Handler(SimpleHTTPRequestHandler):
             payload = json.loads(self._read_body().decode('utf-8') or '{}')
         except Exception:
             payload = {}
-        p = path_of(payload.get('path'))
-        if not p or not os.path.isfile(p):
-            return self._json({'ok': False, 'err': '这个文件找不到'}, 400)
-        if not allowed_path(p):
-            return self._json({'ok': False, 'err': '这个位置的文件不允许读'}, 403)
+        raw_p = payload.get('path') or payload.get('name') or ''
+        p = path_of(raw_p)
+        if p and os.path.isfile(p):
+            if not allowed_path(p):
+                return self._json({'ok': False, 'err': '这个位置的文件不允许读'}, 403)
+        else:
+            # 剪贴板只给了文件名（微信/Finder 常见）：去常见目录里找真实路径
+            p = find_file_by_name(raw_p)
+            if not p or not os.path.isfile(p):
+                return self._json({'ok': False, 'err': '这个文件找不到：%s' % raw_p}, 400)
         try:
             if os.path.getsize(p) > MAX_BYTES:
                 return self._json({'ok': False, 'err': '文件太大'}, 413)
