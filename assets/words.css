@@ -266,6 +266,13 @@
 @media(max-width:560px){.art-body{padding:6px 14px 16px}.art-text{font-size:14px;padding:12px}}
 
 /* ===== 阅读考点词横排：每行4个，单词在上，注释+例句在下 ===== */
+/* 原文件「每行4词为一组」：每组单独一块，组内有边框横排，组间有明显间距/边框/序号区分 */
+.rgroup4{margin:12px 0;padding:10px 12px 12px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#fff,var(--card))}
+.rgroup4 + .rgroup4{margin-top:14px}
+.rg4-hd{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:11.5px;color:var(--ink3)}
+.rg4-n{font-weight:800;color:var(--blue)}
+.rg4-c{margin-left:auto;background:#eef3fb;color:var(--ink2);border-radius:999px;padding:1px 9px;font-size:11px}
+.rgroup4 .rgrid{margin-top:0}
 .rgrid{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .rcard{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 11px 11px;box-shadow:0 2px 8px rgba(22,36,64,.04);transition:border-color .15s,box-shadow .15s}
 .rcard.is-on{border-color:var(--blue);box-shadow:0 0 0 2px rgba(37,99,235,.14)}

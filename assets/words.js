@@ -164,6 +164,21 @@
       '</li>';
   }
 
+  /* 488总表：原文件是「每行4个词」，这里按每4个一组还原，
+     每组单独一块（带序号），组与组之间有边框/间距区分，组内4个词横排。 */
+  function renderReadingGroups(arr) {
+    var out = '', n = Math.ceil(arr.length / 4);
+    for (var g = 0; g < n; g++) {
+      var chunk = arr.slice(g * 4, g * 4 + 4);
+      out += '<div class="rgroup4">' +
+        '<div class="rg4-hd"><span class="rg4-n">第 ' + (g + 1) + ' 组</span>' +
+        '<span class="rg4-c">' + chunk.length + ' 词</span></div>' +
+        '<ul class="rgrid">' + chunk.map(readingCard).join('') + '</ul>' +
+        '</div>';
+    }
+    return out;
+  }
+
   /* 分类筛选：当前选中的分类 / 易错 */
   function applyFilter(list) {
     if (S.filter === 'hard') return list.filter(function (w) { return w.hard; });
@@ -193,7 +208,7 @@
       var isReading = layout[k] === 'reading';
       var body = open
         ? (isReading
-            ? '<ul class="rgrid">' + arr.map(readingCard).join('') + '</ul>'
+            ? renderReadingGroups(arr)
             : '<ul class="wgrp-body">' + arr.map(row).join('') + '</ul>')
         : '';
       return '<li class="wgroup' + (open ? ' is-open' : '') + (isReading ? ' is-reading' : '') + '" data-src="' + esc(k) + '">' +
