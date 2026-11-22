@@ -187,6 +187,8 @@
     h += '<div class="hero-actions">' +
       '<a class="btn btn-primary" href="course.html#/' + c.id + '/' + nx + '">' +
       (done ? '继续学习 · P' + nx : '开始上课 · P1') + ' →</a>' +
+      (['intro', 'adv', 'project', 'ai'].indexOf(c.id) >= 0
+        ? '<a class="btn" href="exercises.html#/' + c.id + '">作业及练习 →</a>' : '') +
       '<a class="btn" href="' + esc(c.url) + '" target="_blank" rel="noopener">B 站原视频 ↗</a>' +
       '</div>';
     h += '<div class="prog"><div class="prog-bar"><i style="width:' + pct + '%"></i></div>' +

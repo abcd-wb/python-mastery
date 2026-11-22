@@ -54,3 +54,25 @@
 .nv-more{display:inline-block;margin-top:8px;border:1px solid var(--line2,#dbe3ef);background:#f7faff;
   color:#2b5fc0;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer}
 .nv-more:hover{border-color:#9dbcf3;background:#eef4ff}
+
+/* ===== 分类重点笔记：词汇 / 词组 / 句型 / 注意事项 / 易错点 ===== */
+.nv-points{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.nv-pk{border:1px solid var(--line);border-radius:12px;padding:10px 13px;background:#fff}
+.nv-pk h4{display:flex;align-items:center;gap:6px;margin:0 0 8px;font-size:13.5px;color:var(--ink)}
+.nv-pk h4 span{margin-left:auto;font-size:11px;color:#8b98ad;background:#eef3fb;border-radius:999px;padding:1px 8px}
+.nv-pk ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.nv-pk li{font-size:13px;line-height:1.6;color:var(--ink2);padding:6px 10px;border-radius:8px;
+  background:#f8fafc;border-left:3px solid #94a3b8;word-break:break-word}
+.nv-pk.words{background:#f7faff;border-color:#dbe7ff}
+.nv-pk.words li{background:#fff;border-left-color:#3b82f6}
+.nv-pk.phrases li{border-left-color:#8b5cf6}
+.nv-pk.patterns li{border-left-color:#0d9488}
+.nv-pk.tips{background:#fffdf5;border-color:#f5e6b8}
+.nv-pk.tips li{background:#fff;border-left-color:#eab308}
+.nv-pk.mistakes{background:#fff7f7;border-color:#f6d5d5}
+.nv-pk.mistakes li{background:#fff;border-left-color:#e11d48;color:#9f1239}
+.nv-raw{margin-top:6px;border-top:1px dashed var(--line);padding-top:10px}
+.nv-raw .nv-text{margin-top:8px}
+
+/* 笔记列表上直接显示重点分类数 */
+.nmeta.pm{margin-left:auto;background:#eef4ff;color:#3b6fd0}

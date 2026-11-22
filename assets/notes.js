@@ -50,8 +50,17 @@
     $('nCnt').textContent = '共 ' + list.length + ' 篇 · 占用 ' + kb + '（只存文字，不存录音）';
     $('empty').hidden = list.length > 0;
     $('nlist').innerHTML = list.map(function (n) {
+      var pts = n.points || {};
+      var pc = pointCount(pts);
       var hl = (n.highlights || []).length;
       var an = (n.analysis || []).length;
+      var preview = '';
+      if (pc) {
+        preview = POINT_DEFS.filter(function (d) { return (pts[d.key] || []).length; })
+          .map(function (d) { return d.label + ' ' + pts[d.key].length; }).join(' · ');
+      } else {
+        preview = esc(n.summary || n.text || '').slice(0, 120);
+      }
       return '<li class="nitem" data-id="' + esc(n.id) + '">' +
         '<div class="nhead">' +
         '<span class="nwhen">' + when(n.ts) + '</span>' +
@@ -59,8 +68,9 @@
         '<span class="nkind">' + kindLabel(n.kind) + '</span>' +
         '<span class="nacts"><button data-act="view">看</button><button data-act="del">删</button></span>' +
         '</div>' +
-        '<p class="nsum">' + esc(n.summary || n.text || '').slice(0, 120) + '</p>' +
-        (hl ? '<span class="nmeta">' + hl + ' 个重点</span>' : '') +
+        '<p class="nsum">' + preview + '</p>' +
+        (pc ? '<span class="nmeta pm">' + pc + ' 条重点</span>' : '') +
+        (hl && !pc ? '<span class="nmeta">' + hl + ' 个重点</span>' : '') +
         (an ? '<span class="nmeta">' + an + ' 条分析</span>' : '') +
         '</li>';
     }).join('');
@@ -310,6 +320,48 @@
 
   /* ---------------- 转文字 → 分析 → 存笔记 ---------------- */
 
+  /* 分类重点笔记：词汇 / 词组 / 句型 / 注意事项 / 易错点 */
+  var POINT_DEFS = [
+    { key: 'words',    tag: '词汇', label: '重点词汇', icon: '📕' },
+    { key: 'phrases',  tag: '词组', label: '词组搭配', icon: '🔗' },
+    { key: 'patterns', tag: '句型', label: '重点句型', icon: '✍️' },
+    { key: 'tips',     tag: '注意', label: '注意事项', icon: '📌' },
+    { key: 'mistakes', tag: '易错', label: '易错点',   icon: '⚠️' }
+  ];
+
+  function emptyPoints() {
+    var p = {};
+    POINT_DEFS.forEach(function (d) { p[d.key] = []; });
+    return p;
+  }
+
+  /* 把 AI 输出按【词汇】【词组】等标题切成五类条目 */
+  function parseKeyPoints(result) {
+    var p = emptyPoints(), cur = '';
+    String(result || '').split(/\r?\n/).forEach(function (raw) {
+      var line = String(raw).trim();
+      if (!line) return;
+      var m = line.match(/^【([^】]+)】\s*(.*)$/);
+      if (m) {
+        cur = '';
+        POINT_DEFS.forEach(function (d) { if (m[1].indexOf(d.tag) >= 0) cur = d.key; });
+        var rest = m[2].replace(/^[-•*]\s*/, '').trim();
+        if (rest && rest !== '无' && cur && p[cur].length < 40) p[cur].push(rest);
+        return;
+      }
+      var item = line.replace(/^[-•*]\s*/, '').trim();
+      if (!item || item === '无' || !cur || p[cur].length >= 40) return;
+      p[cur].push(item);
+    });
+    return p;
+  }
+
+  function pointCount(p) {
+    var n = 0;
+    POINT_DEFS.forEach(function (d) { n += ((p && p[d.key]) || []).length; });
+    return n;
+  }
+
   function analyze(text) {
     fetch(API + '/analyze', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -317,37 +369,41 @@
     }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j || !j.ok) {
         // 分析失败：也把纯文字存成笔记，不丢内容
-        saveNote(text, '', [], []);
+        saveNote(text, '', [], [], emptyPoints());
         return;
       }
       var result = j.result || '';
       if (S.kind === 'class') {
-        // 提炼重点：把【重点】开头的行抽出来
-        var highlights = [];
-        result.split('\n').forEach(function (line) {
-          var m = line.match(/【重点】\s*(.+)/);
-          if (m) highlights.push(m[1]);
-        });
-        var summary = result.split('\n').filter(function (l) { return l.trim() && !l.match(/【重点】/); }).join(' ').slice(0, 400);
-        saveNote(text, summary, highlights, []);
+        var points = parseKeyPoints(result);
+        if (!pointCount(points)) {
+          // 老格式兜底：只有【重点】行的，仍按重点展示
+          var hl = [];
+          result.split('\n').forEach(function (line) {
+            var m = line.match(/【重点】\s*(.+)/);
+            if (m) hl.push(m[1]);
+          });
+          points.tips = hl;
+        }
+        saveNote(text, '', [], [], points);
       } else {
         // 口语分析：整段结果存成 analysis
         var lines = result.split('\n').filter(function (l) { return l.trim(); });
-        saveNote(text, '', [], lines);
+        saveNote(text, '', [], lines, emptyPoints());
       }
     }).catch(function () {
-      saveNote(text, '', [], []);
+      saveNote(text, '', [], [], emptyPoints());
     });
   }
 
-  function saveNote(text, summary, highlights, analysis) {
+  function saveNote(text, summary, highlights, analysis, points) {
     var name = $('nName').value.trim() || (S.kind === 'class' ? '课堂' : '口语');
     var title = name + ' · ' + timeStr();
     fetch(API + '/add', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title: title, kind: S.kind, text: text,
-        summary: summary, highlights: highlights, analysis: analysis
+        summary: summary, highlights: highlights, analysis: analysis,
+        points: points || emptyPoints()
       })
     }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j || !j.ok) { $('recHint').textContent = '笔记没存上：' + ((j && j.err) || '失败'); return; }
@@ -372,30 +428,49 @@
     $('nvTitle').textContent = n.title;
     $('nvKind').textContent = kindLabel(n.kind);
     var html = '';
-    if (n.text) {
-      var txt = esc(n.text);
-      /* 长课文默认只显示前 6000 字，避免旧手机/360 浏览器渲染两万字卡住像「打不开」；点展开看全文 */
-      if (n.text.length > 6000) {
-        html += '<div class="nv-sec"><b>原文（' + n.text.length + ' 字，点展开看全文）</b>' +
-          '<pre class="nv-text" id="nvTextFold">' + txt.slice(0, 6000) + '</pre>' +
-          '<button class="nv-more" id="nvMore" type="button">展开全文 ▼</button></div>';
-      } else {
-        html += '<div class="nv-sec"><b>原文</b><pre class="nv-text">' + txt + '</pre></div>';
-      }
-    }
+
     if (n.kind === 'class') {
-      if (n.summary) html += '<div class="nv-sec"><b>内容概括</b><p class="nv-sum">' + esc(n.summary) + '</p></div>';
-      if (n.highlights && n.highlights.length) {
-        html += '<div class="nv-sec"><b>重点</b><ul class="nv-hl">' +
-          n.highlights.map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul></div>';
+      /* 课堂笔记：按五类重点呈现，默认不显示大段转写原话 */
+      var p = n.points || emptyPoints();
+      var total = pointCount(p);
+      var oldHl = (n.highlights || []);
+      if (total || oldHl.length) {
+        html += '<div class="nv-points">';
+        POINT_DEFS.forEach(function (d) {
+          var items = p[d.key] || [];
+          if (!items.length) return;
+          html += '<section class="nv-pk ' + d.key + '">' +
+            '<h4>' + d.icon + ' ' + d.label + '<span>' + items.length + '</span></h4><ul>' +
+            items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>';
+        });
+        if (!total && oldHl.length) {
+          html += '<section class="nv-pk tips"><h4>📌 重点<span>' + oldHl.length + '</span></h4><ul>' +
+            oldHl.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>';
+        }
+        html += '</div>';
       }
+      if (n.summary) html += '<div class="nv-sec"><b>内容概括</b><p class="nv-sum">' + esc(n.summary) + '</p></div>';
+      /* 转写原文收进折叠区，需要核对时再点开 */
+      if (n.text) {
+        html += '<div class="nv-raw"><button class="nv-more" id="nvMore" type="button">' +
+          '查看课堂转写原文（' + n.text.length + ' 字）▼</button>' +
+          '<pre class="nv-text" id="nvTextFold" hidden>' + esc(n.text) + '</pre></div>';
+      }
+      if (!html) html = '<p class="nv-empty">这篇笔记没有重点内容。</p>';
     } else {
       if (n.analysis && n.analysis.length) {
         html += '<div class="nv-sec"><b>分析（语法 / 发音 / 中式英语）</b><div class="nv-an">' +
           n.analysis.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div></div>';
       }
+      if (n.text) {
+        html += '<div class="nv-raw"><button class="nv-more" id="nvMore" type="button">' +
+          '查看原文（' + n.text.length + ' 字）▼</button>' +
+          '<pre class="nv-text" id="nvTextFold" hidden>' + esc(n.text) + '</pre></div>';
+      }
+      if (!html) html = '<p class="nv-empty">这篇笔记没有额外内容。</p>';
     }
-    $('nvBody').innerHTML = html || '<p class="nv-empty">这篇笔记没有额外内容。</p>';
+
+    $('nvBody').innerHTML = html;
     $('viewMask').hidden = false;
 
     var more = $('nvMore');
@@ -403,16 +478,10 @@
       more.addEventListener('click', function () {
         var pre = $('nvTextFold');
         if (!pre) return;
-        var full = esc(n.text);
-        if (pre.getAttribute('data-full') === '1') {
-          pre.textContent = full.slice(0, 6000);
-          pre.setAttribute('data-full', '0');
-          more.textContent = '展开全文 ▼';
-        } else {
-          pre.textContent = full;
-          pre.setAttribute('data-full', '1');
-          more.textContent = '收起 ▲';
-        }
+        var open = !pre.hidden;
+        pre.hidden = open;
+        more.textContent = (open ? '查看' : '收起') +
+          '原文（' + n.text.length + ' 字）' + (open ? '▼' : '▲');
       });
     }
   }

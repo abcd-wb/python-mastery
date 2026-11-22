@@ -1,0 +1,55 @@
+/* ===== 作业及练习 ===== */
+.ex-hero{padding:22px 0 16px;border-bottom:1px solid var(--line)}
+.ex-hero h1{font-size:26px;margin:0 0 8px;color:var(--ink)}
+.ex-hero .desc{font-size:13.5px;color:var(--ink2);line-height:1.8;margin:0 0 6px}
+.ex-src{font-size:12px;color:var(--ink3);margin:0}
+
+.ex-nav{margin:18px 0 10px}
+.ex-nav>b{font-size:13px;color:var(--ink3);display:block;margin-bottom:9px}
+.ex-courses{display:flex;gap:10px;flex-wrap:wrap}
+.ex-course{flex:1 1 170px;border:1.5px solid var(--line2);border-radius:12px;background:#fff;
+  padding:10px 13px;text-decoration:none;color:var(--ink);transition:.14s;display:flex;flex-direction:column;gap:3px}
+.ex-course:hover{border-color:var(--c);transform:translateY(-1px)}
+.ex-course.on{border-color:var(--c);background:var(--tint);box-shadow:0 0 0 3px var(--tint2)}
+.ex-course span{font-size:14px;font-weight:700}
+.ex-course small{font-size:11.5px;color:var(--ink3)}
+
+.ex-section{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;color:var(--ink);margin:22px 0 10px}
+.ex-section .bar{width:4px;height:17px;border-radius:2px;background:var(--c)}
+
+.ex-list{display:flex;flex-direction:column;gap:9px}
+.ex-chap{background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.ex-chap summary{list-style:none;display:flex;align-items:center;gap:10px;padding:12px 15px;cursor:pointer;
+  background:#f9fbfe;user-select:none}
+.ex-chap summary::-webkit-details-marker{display:none}
+.ex-chap[open] summary{border-bottom:1px solid var(--line)}
+.ex-no{font-size:12px;font-weight:800;color:var(--c);background:var(--tint);border-radius:7px;padding:3px 8px;white-space:nowrap}
+.ex-name{font-size:14px;font-weight:700;color:var(--ink)}
+.ex-cnt{margin-left:auto;font-size:11.5px;color:#8b98ad;background:#eef3fb;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.ex-arrow{font-size:11px;color:#9aa7b8;transition:.15s}
+.ex-chap[open] .ex-arrow{transform:rotate(90deg)}
+
+.ex-tasks{padding:12px;display:flex;flex-direction:column;gap:11px;background:#fcfdff}
+.ex-task{border:1px solid var(--line);border-left:3px solid #94a3b8;border-radius:10px;padding:11px 13px;background:#fff}
+.ex-task.hw{border-left-color:var(--c)}
+.ex-task.pr{border-left-color:#0d9488}
+.ex-task-h{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.ex-kind{font-size:10.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:#eef3fb;color:#5b6b80}
+.ex-task.hw .ex-kind{background:var(--tint);color:var(--c)}
+.ex-task.pr .ex-kind{background:#e6f7f4;color:#0d9488}
+.ex-task-h b{font-size:13.5px;color:var(--ink)}
+.ex-q{font-size:13px;color:var(--ink2);line-height:1.75;margin:0 0 8px;white-space:pre-wrap}
+.ex-test{background:#f8fafc;border-radius:8px;padding:8px 10px;margin-bottom:8px}
+.ex-test b{font-size:11px;color:var(--ink3);display:block;margin-bottom:4px}
+.ex-test pre,.ex-ans pre{margin:0;font:12px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:#334155;white-space:pre-wrap;word-break:break-word}
+.ex-ans{background:#fffdf5;border:1px solid #f2e7c4;border-radius:8px;padding:7px 10px}
+.ex-ans summary{cursor:pointer;font-size:12px;color:#a16207;font-weight:600;list-style:none}
+.ex-ans summary::-webkit-details-marker{display:none}
+.ex-ans[open] summary{margin-bottom:7px}
+.ex-ans pre{color:#7c5a12}
+
+@media(max-width:700px){
+  .ex-course{flex:1 1 100%}
+  .ex-name{font-size:13px}
+  .ex-hero h1{font-size:22px}
+}

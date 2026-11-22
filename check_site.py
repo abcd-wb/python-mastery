@@ -103,6 +103,7 @@ def main():
         ('module.html#/javaweb',  'JavaWeb',    ('class="lno"', 'class="toc-item'), 80),
         ('module.html#/ai',       'AI 老师',    ('class="module-card',), 2),
         ('course.html#/stats/1',  '播放页',     ('class="toc-item',), 1),
+        ('exercises.html#/intro', '作业练习',   ('class="ex-chap', 'class="ex-task'), 20),
     ]
     for rel, name, markers, min_items in checks:
         dom, err = headless(BASE + '/' + rel)

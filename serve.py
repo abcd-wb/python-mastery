@@ -527,6 +527,52 @@ def ark_model(kind):
     return (db.get(kind) or '').strip()
 
 
+NOTE_POINT_KEYS = ('words', 'phrases', 'patterns', 'tips', 'mistakes')
+NOTE_POINT_TAGS = {'words': '词汇', 'phrases': '词组', 'patterns': '句型',
+                   'tips': '注意', 'mistakes': '易错'}
+
+
+def class_note_prompt(text):
+    """课堂转写 → 简洁分类重点笔记的提示词（新生成的笔记都用这一套）"""
+    return (
+        '下面是一段课堂录音转文字（口语化、有废话）。请整理成「简洁的重点笔记」，'
+        '只保留需要积累和复习的内容，严禁复述课堂对话。\n'
+        '严格按下面五类输出，每类一行标题，下面用 "- " 列条目；该类没有内容就写 "- 无"。\n'
+        '【词汇】需要背的英文单词：英文 + 中文释义\n'
+        '【词组】固定搭配 / 短语：英文 + 中文\n'
+        '【句型】值得模仿的英文句式：英文例句 + 一句话用法说明\n'
+        '【注意事项】老师提醒的做题方法、课堂安排、需要做的事\n'
+        '【易错点】学生做错或老师纠正的地方：写清错在哪 + 正确做法\n'
+        '要求：每条单独一行，不要写「老师说 / 学生说 / 嗯 / 好 / 然后」等口语词，'
+        '不要输出大段原话，不要客套话。\n\n课堂记录：\n' + text[:3000]
+    )
+
+
+def parse_note_points(result):
+    """把 AI 输出按【词汇】【词组】等标题切成五类，供前后端共用一套格式"""
+    p = {k: [] for k in NOTE_POINT_KEYS}
+    cur = ''
+    for raw in str(result or '').splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        m = re.match(r'^《?【([^】]+)】》?\s*(.*)$', line)
+        if m:
+            cur = ''
+            for k, tag in NOTE_POINT_TAGS.items():
+                if tag in m.group(1):
+                    cur = k
+                    break
+            rest = re.sub(r'^[-•*]\s*', '', m.group(2)).strip()
+            if rest and rest != '无' and cur and len(p[cur]) < 40:
+                p[cur].append(rest)
+            continue
+        item = re.sub(r'^[-•*]\s*', '', line).strip()
+        if item and item != '无' and cur and len(p[cur]) < 40:
+            p[cur].append(item)
+    return p
+
+
 def doubao_chat(messages, model=None, max_tokens=2000):
     """调火山方舟 chat/completions，返回文本或空串。"""
     key = ark_api_key()
@@ -539,7 +585,7 @@ def doubao_chat(messages, model=None, max_tokens=2000):
         data=json.dumps(payload).encode('utf-8'),
         headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'})
     try:
-        with urllib.request.urlopen(req, timeout=120) as r:
+        with urllib.request.urlopen(req, timeout=240) as r:
             d = json.loads(r.read().decode('utf-8', 'replace'))
         return (d.get('choices') or [{}])[0].get('message', {}).get('content', '').strip()
     except Exception:
@@ -885,7 +931,8 @@ def guard_loop():
 # 这里做成启动自检 + 定时复查 + /api/health 接口三重检测，问题一出现就报红。
 _REF_RE = re.compile(r'(?:src|href)\s*=\s*"([^"]+?\.(?:js|css))(?:\?[^"]*)?"')
 _DATA_FILES = ('data/videos.js', 'data/math.js', 'data/modules.js',
-               'data/ai.js', 'assets/core.js')
+               'data/ai.js', 'data/exercises.js', 'assets/core.js',
+               'assets/exercises.js')
 
 
 def scan_broken_refs():
@@ -1918,6 +1965,11 @@ class Handler(SimpleHTTPRequestHandler):
                 'summary': (payload.get('summary') or '')[:4000],
                 'highlights': (payload.get('highlights') or [])[:50],
                 'analysis': (payload.get('analysis') or [])[:100],
+                # 分类重点笔记：词汇 / 词组 / 句型 / 注意事项 / 易错点
+                'points': ({k: (list(v)[:40] if isinstance(v, list) else [])
+                            for k, v in (payload.get('points') or {}).items()
+                            if k in ('words', 'phrases', 'patterns', 'tips', 'mistakes')}
+                           if isinstance(payload.get('points'), dict) else {}),
             }
             items = load_notes()
             items.append(note)
@@ -1963,10 +2015,8 @@ class Handler(SimpleHTTPRequestHandler):
             if not text:
                 return self._json({'ok': False, 'err': '没有内容可分析'}, 400)
             if kind == 'class':
-                # 课堂笔记：提炼重点
-                prompt = ('下面是一段课堂记录。请帮我：1) 用 2-3 句话概括核心内容；'
-                          '2) 挑出最重要的 3-6 个要点，每条一行，用「【重点】」开头。'
-                          '直接输出，不要多余说明。\n\n课堂记录：\n' + text[:6000])
+                # 课堂笔记：只留需要积累的重点，按五类结构化输出，不记口语原话
+                prompt = class_note_prompt(text)
             else:
                 # 口语/听力：语法、发音、中式英语、地道表达
                 prompt = ('下面是我说的一段英语（口语/听力答案）。请帮我逐条指出问题，'
