@@ -106,6 +106,8 @@ def main():
         ('exercises.html#/intro', '作业练习',   ('class="ex-chap', 'class="ex-task'), 20),
         ('english.html#/',        '英文课程',   ('class="en-mod', 'class="en-course'), 6),
         ('english.html#/c/sc1003','英文课详情', ('class="en-ch', 'class="en-chip'), 10),
+        ('english.html#/c/sc2207','数据库英文课', ('class="en-ch', 'CMU 15-445'), 10),
+        ('english.html#/c/cc0003','哈佛公正课',   ('class="en-ch', 'Harvard'), 10),
     ]
     for rel, name, markers, min_items in checks:
         dom, err = headless(BASE + '/' + rel)
