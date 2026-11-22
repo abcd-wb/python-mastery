@@ -15,3 +15,6 @@ __pycache__/
 
 # 语音朗读缓存（运行时生成）
 data/tts-cache/
+
+# 用户导入的雅思大文件（只保留本地，不进 GitHub，超 100MB 会被拒收）
+data/ielts-files/*.pdf

@@ -5,46 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>纯英文课程 · Python 学习平台</title>
 <link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/english.css?v=1">
 </head>
 <body>
 
-<a class="home-back" href="index.html">← Python 平台</a>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="index.html">← Python 平台</a>
+    <div class="crumb"><b>纯英文课程</b><span class="crumb-sub">NTU 课程 ↔ MIT 英文原版课</span></div>
+    <div class="right"><a class="back" href="hub.html">总界面</a></div>
+  </div>
+</header>
 
-<main class="home">
-  <nav class="modules c1" aria-label="纯英文课程">
-
-    <a class="module-card soon" href="#" style="--c:#475569;--tint:#eef2f8;--tint2:#dbe3ee">
-      <span class="ico" aria-hidden="true">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 5.5h16v10.5H9.5L4.5 20.5V5.5Z"/>
-          <text x="12" y="13.6" font-size="6.6" font-weight="700" font-family="Helvetica,Arial" text-anchor="middle" fill="currentColor" stroke="none">EN</text>
-        </svg>
-      </span>
-      <span class="nm">纯英文课程</span>
-      <span class="ds">还没排课</span>
-      <span class="tagx">待开发</span>
-      <span class="go">进入 →</span>
-    </a>
-
-  </nav>
-
-  <p class="home-foot">
-    这块先占位：等你把中文课走完、能独立做项目了，再上纯英文课。<br>
-    到时候你告诉我选哪几门，我按同一套做法做——<b>左目录点进去直接播</b>、<b>中间讲义与练习</b>、<b>右栏英文术语带美音</b>、<b>听完自动标绿</b>。
-  </p>
-</main>
-
+<main class="wrap" id="app"></main>
 <div class="toast" id="toast"></div>
 
-<script src="assets/core.js"></script>
+<!-- 防白屏守卫：英文课程数据引用失效时给出明确提示 + 一键重试 -->
 <script>
 (function () {
-  var c = document.querySelector('.module-card.soon');
-  if (c) c.addEventListener('click', function (e) {
-    e.preventDefault();
-    PY.toast('这块还没排课，等你中文课走完再开');
-  });
+  function show(msg) {
+    if (document.getElementById('failsafeBox')) return;
+    var box = document.createElement('div');
+    box.id = 'failsafeBox';
+    box.style.cssText = 'position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:99999;max-width:min(680px,92vw);background:#fff7ed;border:2px solid #f97316;border-radius:14px;padding:16px 20px;box-shadow:0 12px 40px rgba(0,0,0,.25);color:#7c2d12;font:14px/1.7 -apple-system,system-ui,sans-serif';
+    box.innerHTML = '<b style="font-size:15px">⚠️ 英文课程数据没加载出来</b><br>' + msg +
+      '<div style="margin-top:6px;color:#9a3412">这不是你的操作问题，是课程数据文件的引用失效了。</div>' +
+      '<button id="failsafeRetry" style="margin-top:10px;padding:7px 16px;border:0;border-radius:8px;background:#ea580c;color:#fff;font-weight:600;cursor:pointer">清缓存重试</button>';
+    document.body.appendChild(box);
+    document.getElementById('failsafeRetry').onclick = function () {
+      location.href = location.pathname + '?fresh=' + Date.now() + location.hash;
+    };
+  }
+  window.addEventListener('error', function (e) {
+    if (e.target && e.target.tagName === 'SCRIPT') {
+      show('脚本加载失败：<code>' + (e.target.src || '').split('/').pop() + '</code>');
+    }
+  }, true);
+  setTimeout(function () {
+    var app = document.getElementById('app');
+    if (app && !app.innerHTML.trim()) show('页面内容为空，英文课程数据可能没读到。');
+    if (!window.EN_COURSES || Object.keys(window.EN_COURSES).length < 2) show('英文课程数据是空的。');
+  }, 1500);
 })();
 </script>
+
+<script src="data/english-courses.js?v=1"></script>
+<script src="assets/core.js?v=56"></script>
+<script src="assets/english.js?v=1"></script>
 </body>
 </html>

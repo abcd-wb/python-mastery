@@ -104,6 +104,8 @@ def main():
         ('module.html#/ai',       'AI 老师',    ('class="module-card',), 2),
         ('course.html#/stats/1',  '播放页',     ('class="toc-item',), 1),
         ('exercises.html#/intro', '作业练习',   ('class="ex-chap', 'class="ex-task'), 20),
+        ('english.html#/',        '英文课程',   ('class="en-mod', 'class="en-course'), 6),
+        ('english.html#/c/sc1003','英文课详情', ('class="en-ch', 'class="en-chip'), 10),
     ]
     for rel, name, markers, min_items in checks:
         dom, err = headless(BASE + '/' + rel)

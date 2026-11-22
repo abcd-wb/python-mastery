@@ -931,8 +931,8 @@ def guard_loop():
 # 这里做成启动自检 + 定时复查 + /api/health 接口三重检测，问题一出现就报红。
 _REF_RE = re.compile(r'(?:src|href)\s*=\s*"([^"]+?\.(?:js|css))(?:\?[^"]*)?"')
 _DATA_FILES = ('data/videos.js', 'data/math.js', 'data/modules.js',
-               'data/ai.js', 'data/exercises.js', 'assets/core.js',
-               'assets/exercises.js')
+               'data/ai.js', 'data/exercises.js', 'data/english-courses.js',
+               'assets/core.js', 'assets/exercises.js', 'assets/english.js')
 
 
 def scan_broken_refs():
